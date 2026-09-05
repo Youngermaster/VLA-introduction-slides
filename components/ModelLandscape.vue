@@ -7,21 +7,24 @@
   table, so this shows what the paper does report instead.
 -->
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useTx } from '../lib/tx'
 const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
+const { t } = useTx()
 
-const MODELS = [
-  { at: 1, name: 'RT-2',      year: '2023', params: '12B / 55B', open: 'no',       vram: '—',              note: 'La idea fundacional: el conocimiento de internet transfiere al control.' },
-  { at: 2, name: 'OpenVLA',   year: '2024', params: '7B',        open: 'sí',       vram: '~15 GB LoRA',    note: 'El primer VLA abierto serio. Llama 2 + DINOv2 + SigLIP, 256 bins.' },
-  { at: 3, name: 'π₀ / π₀.₅', year: '2024–25', params: '3.3B',   open: 'sí',       vram: '22.5 GB LoRA · >70 GB completo', note: 'PaliGemma + action expert por flow matching. π₀.₇ ya existe, pero cerrado.' },
-  { at: 4, name: 'GR00T N1.7', year: '2026', params: '3B',       open: 'sí',       vram: '16 GB inferencia · ~35 GB fine-tune', note: 'Backbone Cosmos-Reason2. 8.9 Hz en un AGX Thor montado en el robot.' },
-  { at: 5, name: 'SmolVLA',   year: '2025', params: '450M',      open: 'sí',       vram: 'una sola GPU',   note: 'Supera a π₀ (3.3B) en tareas reales de SO-100. Este es el que corre en tu mesa.' },
-] as const
+const MODELS = computed(() => [
+  { at: 1, name: 'RT-2',        year: '2023',    params: '12B / 55B', open: false, vram: '—',                note: t('c.landscape.n1') },
+  { at: 2, name: 'OpenVLA',     year: '2024',    params: '7B',        open: true,  vram: '~15 GB LoRA',      note: t('c.landscape.n2') },
+  { at: 3, name: 'π₀ / π₀.₅',   year: '2024–25', params: '3.3B',      open: true,  vram: t('c.landscape.v3'), note: t('c.landscape.n3') },
+  { at: 4, name: 'GR00T N1.7',  year: '2026',    params: '3B',        open: true,  vram: t('c.landscape.v4'), note: t('c.landscape.n4') },
+  { at: 5, name: 'SmolVLA',     year: '2025',    params: '450M',      open: true,  vram: t('c.landscape.v5'), note: t('c.landscape.n5') },
+])
 </script>
 
 <template>
   <div class="ml">
     <div class="ml__head">
-      <span>Modelo</span><span>Params</span><span>Abierto</span><span>Memoria</span>
+      <span>{{ t('c.landscape.hModel') }}</span><span>{{ t('c.landscape.hParams') }}</span><span>{{ t('c.landscape.hOpen') }}</span><span>{{ t('c.landscape.hMem') }}</span>
     </div>
 
     <div
@@ -34,7 +37,7 @@ const MODELS = [
         <span class="ml__yr t-mono">{{ m.year }}</span>
       </div>
       <span class="ml__params t-mono">{{ m.params }}</span>
-      <span class="ml__open t-mono" :class="m.open === 'sí' ? 'c-lang' : 'c-muted'">{{ m.open }}</span>
+      <span class="ml__open t-mono" :class="m.open ? 'c-lang' : 'c-muted'">{{ m.open ? t('c.landscape.yes') : t('c.landscape.no') }}</span>
       <span class="ml__vram t-mono">{{ m.vram }}</span>
       <p class="ml__note" :class="{ 'is-on': props.stage === m.at }">{{ m.note }}</p>
     </div>

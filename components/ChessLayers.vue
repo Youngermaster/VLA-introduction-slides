@@ -12,46 +12,20 @@
   layers, and at the boundary its LETTERS fade out while only numbers survive.
 -->
 <script setup lang="ts">
+import { useTx } from '../lib/tx'
 import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
+const { t } = useTx()
 
-const LAYERS = [
-  {
-    at: 1,
-    name: 'Stockfish',
-    role: 'razona sobre ajedrez',
-    payload: 'Nxe5',
-    kind: 'lang',
-    note: 'Evalúa millones de posiciones. No sabe que existe un brazo.',
-  },
-  {
-    at: 2,
-    name: 'python-chess + orquestador',
-    role: 'traduce',
-    payload: '2 operaciones atómicas',
-    kind: 'lang',
-    note: 'Una captura son DOS operaciones: retirar la pieza comida, luego mover el caballo. El enroque también. Una promoción, tres.',
-  },
-  {
-    at: 3,
-    name: 'Visión del tablero',
-    role: 'ancla al mundo',
-    payload: 'e5 → (0.21, −0.08, 0.03)',
-    kind: 'bridge',
-    note: 'Aquí muere el ajedrez. Lo único que cruza la frontera son coordenadas.',
-  },
-  {
-    at: 4,
-    name: 'Política ACT',
-    role: 'agarra y suelta',
-    payload: '[0.21, −0.08, 0.03, …]',
-    kind: 'action',
-    note: 'ACT no sabe qué es un caballo, ni qué es una captura, ni que hay una partida. Aprendió a agarrar cosas en coordenadas.',
-  },
-] as const
+const LAYERS = computed(() => [
+  { at: 1, name: t('c.chess.l1n'), role: t('c.chess.l1r'), payload: 'Nxe5', kind: 'lang', note: t('c.chess.l1note') },
+  { at: 2, name: t('c.chess.l2n'), role: t('c.chess.l2r'), payload: t('c.chess.l2p'), kind: 'lang', note: t('c.chess.l2note') },
+  { at: 3, name: t('c.chess.l3n'), role: t('c.chess.l3r'), payload: 'e5 → (0.21, −0.08, 0.03)', kind: 'bridge', note: t('c.chess.l3note') },
+  { at: 4, name: t('c.chess.l4n'), role: t('c.chess.l4r'), payload: '[0.21, −0.08, 0.03, …]', kind: 'action', note: t('c.chess.l4note') },
+])
 
-const active = computed(() => LAYERS.find((l) => l.at === props.stage))
+const active = computed(() => LAYERS.value.find((l) => l.at === props.stage))
 </script>
 
 <template>
@@ -75,7 +49,7 @@ const active = computed(() => LAYERS.find((l) => l.at === props.stage))
         <!-- the boundary marker sits between the bridge layer and the policy -->
         <div v-if="i === 2" class="cl__frontier" :class="{ 'is-on': props.stage >= 3 }">
           <span class="cl__frontierline" />
-          <span class="cl__frontiertext t-mono">aquí muere el lenguaje de ajedrez</span>
+          <span class="cl__frontiertext t-mono">{{ t('c.chess.frontier') }}</span>
           <span class="cl__frontierline" />
         </div>
       </li>

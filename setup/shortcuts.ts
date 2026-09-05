@@ -13,9 +13,13 @@ import { toggleSlideLocale } from '../lib/locale'
  * The target is resolved by ROUTE ALIAS, not a hardcoded slide number, so
  * inserting or reordering slides can never silently break it.
  */
+interface SlideMeta {
+  slide?: { frontmatter?: { routeAlias?: string } }
+}
+
 function slideNoByAlias(alias: string): number | undefined {
   const index = slides.value.findIndex(
-    (s) => s.meta?.slide?.frontmatter?.routeAlias === alias,
+    (s) => (s.meta as SlideMeta)?.slide?.frontmatter?.routeAlias === alias,
   )
   return index >= 0 ? index + 1 : undefined
 }

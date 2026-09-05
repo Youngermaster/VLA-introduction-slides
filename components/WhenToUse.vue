@@ -8,28 +8,24 @@
   when you need language conditioning or generalization.
 -->
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useTx } from '../lib/tx'
 const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
+const { t, md } = useTx()
 
-const COLS = [
-  {
-    at: 1, k: 'act', tone: 'action', title: 'ACT / Diffusion Policy',
-    when: 'Una tarea fija. Un objeto. Un entorno.',
-    pros: ['Más preciso en su tarea', 'Inferencia rápida y barata', 'Entrena en una GPU modesta'],
-    cons: ['No entiende lenguaje', 'Cambias el objeto y falla', 'Una política por tarea'],
-  },
-  {
-    at: 2, k: 'vla', tone: 'lang', title: 'VLA (SmolVLA, π₀, GR00T)',
-    when: 'Varias tareas. Instrucciones en lenguaje. Objetos que cambian.',
-    pros: ['Condicionado por lenguaje', 'Generaliza algo a objetos nuevos', 'Una política, muchas tareas'],
-    cons: ['Más lento y más pesado', 'Suele perder en precisión pura', 'Necesita más VRAM'],
-  },
-  {
-    at: 3, k: 'gen', tone: 'muted', title: 'Modelos generalistas',
-    when: 'Todavía no, salvo que tengas la flota y el presupuesto.',
-    pros: ['El techo más alto', 'Transferencia entre robots'],
-    cons: ['Los mejores son cerrados', 'Cómputo fuera de alcance', 'La brecha sim → real sigue enorme'],
-  },
-] as const
+const COLS = computed(() =>
+  ([
+    { at: 1, k: 'c1', tone: 'action' },
+    { at: 2, k: 'c2', tone: 'lang' },
+    { at: 3, k: 'c3', tone: 'muted' },
+  ] as const).map((c) => ({
+    ...c,
+    title: t(`c.choose.${c.k}t`),
+    when: t(`c.choose.${c.k}w`),
+    pros: [1, 2, 3].map((n) => t(`c.choose.${c.k}p${n}`)).filter((v) => !v.startsWith('c.choose.')),
+    cons: [1, 2, 3].map((n) => t(`c.choose.${c.k}c${n}`)).filter((v) => !v.startsWith('c.choose.')),
+  })),
+)
 </script>
 
 <template>
@@ -50,10 +46,7 @@ const COLS = [
       </ul>
     </section>
 
-    <p class="wu__punch" :class="{ 'is-on': props.stage >= 4 }">
-      Para <strong>una</strong> tarea fija, ACT casi siempre gana. Un VLA se paga
-      solo cuando necesitas que el lenguaje cambie el comportamiento.
-    </p>
+    <p class="wu__punch" :class="{ 'is-on': props.stage >= 4 }" v-html="md('c.choose.punch')" />
   </div>
 </template>
 

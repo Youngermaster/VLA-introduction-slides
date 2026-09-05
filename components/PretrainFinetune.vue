@@ -6,45 +6,39 @@
   $150 arm can work at all.
 -->
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useTx } from '../lib/tx'
 const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
 const on = (n: number) => props.stage >= n
+const { t, md } = useTx()
 </script>
 
 <template>
   <div class="pf">
     <section class="pf__phase" :class="{ 'is-on': on(1) }">
-      <span class="pf__tag t-mono">fase 1 · lo hizo otro</span>
-      <h3 class="pf__h">Pre-entrenamiento</h3>
+      <span class="pf__tag t-mono">{{ t('c.pretrain.tag1') }}</span>
+      <h3 class="pf__h">{{ t('c.pretrain.h1') }}</h3>
       <div class="pf__bars">
         <span v-for="i in 22" :key="i" class="pf__bar" :style="{ transitionDelay: on(1) ? `${i * 14}ms` : '0ms' }" />
       </div>
-      <p class="pf__p">
-        SmolVLA: <strong>481 datasets de la comunidad</strong>, 22.9K episodios,
-        10.6M frames. Meses de GPU que tú no pagas.
-      </p>
+      <p class="pf__p" v-html="md('c.pretrain.p1')" />
     </section>
 
     <div class="pf__arrow" :class="{ 'is-on': on(2) }">
       <span class="pf__arrowline" />
-      <span class="pf__arrowtext t-mono">descargas los pesos</span>
+      <span class="pf__arrowtext t-mono">{{ t('c.pretrain.arrow') }}</span>
     </div>
 
     <section class="pf__phase" :class="{ 'is-on': on(2) }">
-      <span class="pf__tag t-mono">fase 2 · lo haces tú</span>
-      <h3 class="pf__h">Fine-tuning</h3>
+      <span class="pf__tag t-mono">{{ t('c.pretrain.tag2') }}</span>
+      <h3 class="pf__h">{{ t('c.pretrain.h2') }}</h3>
       <div class="pf__bars pf__bars--few">
         <span v-for="i in 3" :key="i" class="pf__bar pf__bar--action" :style="{ transitionDelay: on(2) ? `${i * 90}ms` : '0ms' }" />
       </div>
-      <p class="pf__p">
-        <strong>~50 episodios</strong> de tu tarea, en tu mesa, con tu luz.
-        Unas horas de GPU.
-      </p>
+      <p class="pf__p" v-html="md('c.pretrain.p2')" />
     </section>
 
-    <footer class="pf__punch" :class="{ 'is-on': on(3) }">
-      Sin la fase 1, 50 episodios no alcanzan ni de lejos. Con ella, alcanzan.
-      <strong>Eso es todo lo que significa «modelo fundacional» en robótica.</strong>
-    </footer>
+    <footer class="pf__punch" :class="{ 'is-on': on(3) }" v-html="md('c.pretrain.punch')" />
   </div>
 </template>
 

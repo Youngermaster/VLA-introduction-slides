@@ -7,56 +7,58 @@
   from the Hub. That separation is what makes a live robot demo portable at all.
 -->
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useTx } from '../lib/tx'
 const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
 const on = (n: number) => props.stage >= n
+const { t } = useTx()
+const cams = computed(() => [t('c.rig.camTop'), t('c.rig.camWrist'), t('c.rig.camBase')])
 </script>
 
 <template>
   <div class="rd">
     <!-- training, elsewhere -->
     <section class="rd__zone rd__zone--past" :class="{ 'is-on': on(1) }">
-      <span class="rd__ztag t-mono">en casa · antes</span>
+      <span class="rd__ztag t-mono">{{ t('c.rig.past') }}</span>
       <div class="rd__box">
-        <span class="rd__bname">PC torre</span>
-        <span class="rd__bsub t-mono">RTX 5060 Ti · 16 GB</span>
-        <span class="rd__bnote">Fine-tuning de SmolVLA sobre mi dataset</span>
+        <span class="rd__bname">{{ t('c.rig.tower') }}</span>
+        <span class="rd__bsub t-mono">{{ t('c.rig.towerSub') }}</span>
+        <span class="rd__bnote">{{ t('c.rig.towerNote') }}</span>
       </div>
       <div class="rd__box rd__box--hub">
-        <span class="rd__bname">Hugging Face Hub</span>
-        <span class="rd__bsub t-mono">push del modelo entrenado</span>
+        <span class="rd__bname">{{ t('c.rig.hub') }}</span>
+        <span class="rd__bsub t-mono">{{ t('c.rig.hubSub') }}</span>
       </div>
     </section>
 
     <div class="rd__link" :class="{ 'is-on': on(2) }">
       <span class="rd__linkline" />
-      <span class="rd__linktext t-mono">sólo se descargan los pesos</span>
+      <span class="rd__linktext t-mono">{{ t('c.rig.link') }}</span>
     </div>
 
     <!-- the stage -->
     <section class="rd__zone rd__zone--now" :class="{ 'is-on': on(2) }">
-      <span class="rd__ztag t-mono">aquí · ahora</span>
+      <span class="rd__ztag t-mono">{{ t('c.rig.now') }}</span>
       <div class="rd__box rd__box--live">
-        <span class="rd__bname">MacBook M3 · 16 GB</span>
-        <span class="rd__bsub t-mono">inferencia en MPS</span>
+        <span class="rd__bname">{{ t('c.rig.mac') }}</span>
+        <span class="rd__bsub t-mono">{{ t('c.rig.macSub') }}</span>
         <span class="rd__bnote">lerobot-rollout --device=mps</span>
       </div>
 
       <div class="rd__cams" :class="{ 'is-on': on(3) }">
-        <span v-for="c in ['cenital', 'muñeca', 'base']" :key="c" class="rd__cam t-mono">{{ c }}</span>
+        <span v-for="c in cams" :key="c" class="rd__cam t-mono">{{ c }}</span>
       </div>
 
       <div class="rd__box rd__box--arm" :class="{ 'is-on': on(3) }">
-        <span class="rd__bname">SO-101 follower</span>
-        <span class="rd__bsub t-mono">6× Feetech STS3215 · bus serie</span>
-        <span class="rd__bnote">impreso en una Ender 3 V3 KE</span>
+        <span class="rd__bname">{{ t('c.rig.arm') }}</span>
+        <span class="rd__bsub t-mono">{{ t('c.rig.armSub') }}</span>
+        <span class="rd__bnote">{{ t('c.rig.armNote') }}</span>
       </div>
     </section>
 
     <footer class="rd__foot" :class="{ 'is-on': on(4) }">
-      <span class="rd__foottag t-mono">si algo falla</span>
-      <span class="rd__foottext">
-        Tecla <kbd>B</kbd> → vídeo de respaldo. Tecla <kbd>V</kbd> → volver aquí.
-      </span>
+      <span class="rd__foottag t-mono">{{ t('c.rig.panicTag') }}</span>
+      <span class="rd__foottext">{{ t('c.rig.panicText') }}</span>
     </footer>
   </div>
 </template>

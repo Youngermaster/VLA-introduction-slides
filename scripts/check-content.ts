@@ -69,17 +69,44 @@ for (const l of LOCALES) {
 if (!errors) console.log(`  ✓ ${base.length} keys, identical across ${LOCALES.join(', ')}`)
 
 // ── 2 & 3. keys used vs keys defined ────────────────────────────────────────
-console.log('\ntranslation keys used in slides.md')
-const used = new Set<string>()
-for (const m of slidesMd.matchAll(/\$t\(\s*['"]([^'"]+)['"]\s*\)/g)) used.add(m[1])
-for (const m of slidesMd.matchAll(/<T\s+k="([^"]+)"/g)) used.add(m[1])
-
-for (const k of used) {
-  for (const l of LOCALES) {
-    if (!localeKeys.get(l)!.includes(k)) fail(`slides.md uses "${k}" but ${l}.yml has no such key`)
+// Keys are referenced from three places: slide markdown, the <T> component, and
+// the visualization components (which carry most of the deck's diagram labels).
+// Scanning only slides.md would report every component key as dead content.
+console.log('\ntranslation keys used in slides.md + components')
+const sources = [slidesMd]
+for (const dir of ['components', 'pages']) {
+  for (const f of readdirSync(join(ROOT, dir))) {
+    if (f.endsWith('.vue')) sources.push(readFileSync(join(ROOT, dir, f), 'utf8'))
   }
 }
-const unused = base.filter((k) => !used.has(k) && !k.startsWith('nav.') && !k.startsWith('deck.'))
+
+/** Comments explain the API using example keys; scanning them yields ghosts. */
+function stripComments(src: string): string {
+  return src
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/(^|\s)\/\/[^\n]*/g, '$1')
+}
+
+const used = new Set<string>()
+for (const raw of sources) {
+  const src = stripComments(raw)
+  for (const m of src.matchAll(/(?<![\w$.])(?:\$?t|md)\(\s*['"]([^'"]+)['"]\s*\)/g)) used.add(m[1])
+  for (const m of src.matchAll(/<T\s+k="([^"]+)"/g)) used.add(m[1])
+  // template-literal keys such as t(`c.chunking.s${n}k`) — record the prefix so
+  // the whole family is treated as used rather than reported dead
+  for (const m of src.matchAll(/(?<![\w$.])t\(\s*`([^`$]+)\$\{/g)) used.add(`${m[1]}*`)
+}
+
+for (const k of used) {
+  if (k.endsWith('*')) continue // template-literal family, checked by prefix
+  for (const l of LOCALES) {
+    if (!localeKeys.get(l)!.includes(k)) fail(`"${k}" is used but ${l}.yml has no such key`)
+  }
+}
+const prefixes = [...used].filter((k) => k.endsWith('*')).map((k) => k.slice(0, -1))
+const isUsed = (k: string) => used.has(k) || prefixes.some((p) => k.startsWith(p))
+const unused = base.filter((k) => !isUsed(k) && !k.startsWith('nav.') && !k.startsWith('deck.'))
 for (const k of unused) warn(`locale key "${k}" is defined but never used in slides.md`)
 if (used.size) console.log(`  ✓ ${used.size} keys referenced, all resolve`)
 

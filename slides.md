@@ -6,6 +6,7 @@ author: Juan Manuel Younes
 info: |
   Del Token al Torque — cómo la IA aprendió a mover cosas en el mundo físico.
   Charla sobre modelos Vision-Language-Action para AI Medellín.
+routeAlias: title
 colorSchema: dark
 aspectRatio: 16/9
 canvasWidth: 980
@@ -250,6 +251,31 @@ TRANSICIÓN — 10 s. "Esta es la parte técnica. Aguántenme diez minutos."
 
 ---
 layout: viz
+routeAlias: what-is-a-policy
+clicks: 4
+---
+
+# {{ $t('policy.title') }}
+
+<div class="viz-fill">
+  <PolicyDef :stage="$clicks" />
+</div>
+
+<!--
+QUÉ ES UNA POLÍTICA — 1 min 15 s. Define el término antes de usarlo veinte veces.
+
+Click 1: "Una política devuelve qué hacer." Señala el subíndice: no una acción,
+   un BLOQUE de acciones.
+Click 2: "…dado lo que ve."
+Click 3: "…y dado lo que le pediste. ACT no tiene este tercer término. Un VLA sí.
+   Toda la charla cabe en esa diferencia."
+Click 4 — importante, mucha gente lo asume mal: "esto NO es reinforcement
+   learning. No hay recompensa. Es aprendizaje supervisado, y la etiqueta es lo
+   que hizo el humano."
+-->
+
+---
+layout: viz
 routeAlias: vla-architecture
 clicks: 6
 transition: arrive
@@ -279,26 +305,57 @@ Si sólo se llevan una diapositiva de la charla, que sea ésta.
 
 ---
 layout: viz
-routeAlias: data-pipeline
+routeAlias: language-in
 clicks: 4
 ---
 
-# {{ $t('pipeline.title') }}
+# {{ $t('langin.title') }}
 
 <div class="viz-fill">
-  <DataPipeline :stage="$clicks" />
+  <LanguageIn :stage="$clicks" />
 </div>
 
-<div class="cite">{{ $t('pipeline.cite') }}</div>
+<div class="cite">{{ $t('langin.cite') }}</div>
 
 <!--
-DE DÓNDE SALEN LOS DATOS — 1 min 30 s.
+CÓMO ENTRA EL LENGUAJE — 1 min 30 s. Responde una pregunta que todos tienen.
 
-Cuatro pasos, ~20 s cada uno. Conéctalo con la diapositiva 3: "esto es
-exactamente lo que hacía que cada barra costara treinta segundos."
+Click 1: la frase, tal cual.
+Click 2 — la plantilla: "no le pasas la frase suelta. La envuelves en una
+   pregunta fija. Y eso es astuto, porque el modelo no está aprendiendo una
+   tarea nueva: sigue prediciendo el siguiente token."
+Click 3: "el tokenizador es el MISMO de texto. Fíjate que 'magnesio' se parte en
+   dos pedazos y no pasa absolutamente nada."
+Click 4: "y los vectores resultantes se pegan detrás de los de la imagen. Para
+   el transformer es una sola secuencia — no sabe cuáles son píxeles y cuáles
+   son palabras."
+-->
 
-Click 3, insiste: "cincuenta episodios, pero repartidos entre VARIACIONES.
-Cincuenta veces la misma posición no sirve de nada. Eso vuelve en el Acto 6."
+---
+layout: viz
+routeAlias: attention
+clicks: 4
+---
+
+# {{ $t('attention.title') }}
+
+<div class="viz-fill">
+  <AttentionExplained :stage="$clicks" />
+</div>
+
+<!--
+ATENCIÓN — 1 min 45 s. La pregunta que SIEMPRE sale en el Q&A. Adelántate.
+
+Click 1: "Sí. El backbone es un transformer decoder normal, con self-attention
+   idéntica a la de un modelo de texto. Mismas librerías, misma matemática."
+Click 2: "Lo que cambia está al final. El action expert usa CROSS-attention."
+Click 3: "Y la diferencia es sólo de dónde salen Q, K y V. En self-attention las
+   tres salen de la misma secuencia. En cross-attention, la Q sale de las
+   acciones y las K y V del VLM. Las acciones PREGUNTAN, el VLM RESPONDE."
+Click 4: "Por eso puedes entrenar el experto dejando el backbone congelado."
+
+Si alguien pregunta por π0: usa un esquema distinto, con los pesos del experto
+dentro de la misma operación de atención, tipo mixture-of-experts.
 -->
 
 ---
@@ -340,6 +397,33 @@ LLM; continuo para ir rápido y preciso."
 
 ---
 layout: viz
+routeAlias: detokenizer
+clicks: 5
+---
+
+# {{ $t('detok.title') }}
+
+<div class="viz-fill">
+  <ActionDetokenizer :stage="$clicks" />
+</div>
+
+<div class="cite">{{ $t('detok.cite') }}</div>
+
+<!--
+DE-TOKENIZADOR — 1 min 30 s. La mitad que nadie explica.
+
+Click 1: "El modelo escupe siete IDs de token. Un motor necesita grados."
+Click 2: "Le restas el offset y te queda un número del 0 al 255 — el cajón."
+Click 3: "Lo llevas al rango continuo."
+Click 4 — el detalle bonito: "y lo des-normalizas con los percentiles 1 y 99 del
+   dataset. No con el mínimo y el máximo, para que UNA demostración mala no te
+   estire toda la escala."
+Click 5: "Y fíjense: son DELTAS. No dice 've a esta coordenada', dice 'muévete
+   cuatro milímetros hacia allá'."
+-->
+
+---
+layout: viz
 routeAlias: action-chunking
 clicks: 4
 ---
@@ -364,6 +448,96 @@ Click 3: "Pero hay un problema del que casi nadie habla..." — los círculos ro
    en desacuerdo con dónde está el brazo de verdad."
 Click 4: "RTC rellena el solapamiento. Y el detalle bonito: eso es un paper de
    junio de 2025 que hoy es una bandera en la línea de comandos."
+-->
+
+---
+layout: viz
+routeAlias: closed-loop
+clicks: 6
+---
+
+# {{ $t('loop.title') }}
+
+<div class="viz-fill">
+  <ClosedLoop :stage="$clicks" />
+</div>
+
+<!--
+EL BUCLE COMPLETO — 1 min 30 s. Aquí se juntan todas las piezas del acto.
+
+Un click por etapa, rápido, siguiendo el punto que viaja por el anillo:
+observar → tokenizar → VLM → action expert → de-tokenizar → ejecutar.
+
+Al cerrar el círculo: "y esto se repite treinta veces por segundo mientras el
+brazo se mueve. El chunk es lo que permite que el bucle NO tenga que cerrarse
+en cada paso — por eso el movimiento se ve continuo y no a tirones."
+
+Es la diapositiva que convierte una lista de componentes en un mecanismo.
+-->
+
+---
+layout: act
+routeAlias: train-open
+transition: rise-up
+---
+
+# {{ $t('train.title') }}
+
+{{ $t('train.sub') }}
+
+<!-- TRANSICIÓN — 10 s. "Ya sabemos cómo piensa. Ahora, cómo aprende." -->
+
+---
+layout: viz
+routeAlias: data-pipeline
+clicks: 4
+---
+
+# {{ $t('pipeline.title') }}
+
+<div class="viz-fill">
+  <DataPipeline :stage="$clicks" />
+</div>
+
+<div class="cite">{{ $t('pipeline.cite') }}</div>
+
+<!--
+DE DÓNDE SALEN LOS DATOS — 1 min 30 s.
+
+Cuatro pasos, ~20 s cada uno. Conéctalo con la diapositiva 3: "esto es
+exactamente lo que hacía que cada barra costara treinta segundos."
+
+Click 3, insiste: "cincuenta episodios, pero repartidos entre VARIACIONES.
+Cincuenta veces la misma posición no sirve de nada. Eso vuelve en el Acto 6."
+-->
+
+---
+layout: viz
+routeAlias: recording
+clicks: 3
+---
+
+# {{ $t('recording.title') }}
+
+<div class="viz-fill">
+  <RecordingLoop :stage="$clicks" />
+</div>
+
+<div class="cite">{{ $t('recording.cite') }}</div>
+
+<!--
+GRABACIÓN — 1 min 30 s. El detalle que casi nadie explica y que lo aclara todo.
+
+Click 1: "Yo muevo el líder con la mano. El seguidor copia. Fíjense que el
+   seguidor va siempre un pelín por detrás."
+Click 2: "Y en cada timestep, a treinta hertz, se escribe un renglón con esto."
+Click 3 — EL PUNTO: "miren esas dos filas. NO son lo mismo.
+   `observation.state` es dónde ESTÁ el robot. `action` es dónde lo MANDÓ el
+   humano. Entrenar la política es aprender a predecir la segunda a partir de
+   la primera. Eso es todo el behavior cloning."
+
+Si alguien pregunta por qué no se graba sólo una: porque la diferencia entre
+las dos es exactamente la señal de control que quieres aprender.
 -->
 
 ---
@@ -448,6 +622,65 @@ transition: rise-up
 {{ $t('act4.sub') }}
 
 <!-- TRANSICIÓN — 10 s. -->
+
+---
+layout: viz
+routeAlias: openvla-anatomy
+clicks: 6
+---
+
+# {{ $t('openvla.title') }}
+
+<div class="viz-fill">
+  <OpenVlaAnatomy :stage="$clicks" />
+</div>
+
+<div class="cite">{{ $t('openvla.cite') }}</div>
+
+<!--
+OPENVLA POR DENTRO — 2 min. El primer VLA abierto, y el más fácil de enseñar
+porque cada caja es algo que ya conocen.
+
+1. "Dos encoders visuales, no uno: DINOv2 y SigLIP, y se concatenan sus features."
+2. "Un MLP los proyecta al espacio de embeddings de Llama."
+3. "La instrucción por el tokenizador de Llama, sin tocar nada."
+4. "Todo se vuelve UNA secuencia y entra a un Llama 2 de 7B. Que hace lo de
+   siempre: predecir el siguiente token."
+5. "Sólo que los tokens que predice son acciones."
+6. "Y el de-tokenizador los vuelve milímetros y grados."
+
+Remate: "no hay nada exótico aquí. Es un modelo de lenguaje al que le
+enseñaron un vocabulario nuevo."
+-->
+
+---
+layout: viz
+routeAlias: smolvla-anatomy
+clicks: 5
+---
+
+# {{ $t('smolvla.title') }}
+
+<div class="viz-fill">
+  <SmolVlaAnatomy :stage="$clicks" />
+</div>
+
+<div class="cite">{{ $t('smolvla.cite') }}</div>
+
+<!--
+SMOLVLA POR DENTRO — 2 min. El modelo del demo, así que vale la pena.
+
+Click 1: "Mismo esquema: un VLM que recibe cámaras, tarea y estado."
+Click 2 — LA TIJERA, es lo más memorable: "y aquí viene la idea que más me
+   gusta de todo el paper. Usa sólo la PRIMERA MITAD de las capas. Las últimas
+   capas de un modelo de lenguaje se especializan en producir lenguaje… y un
+   robot no necesita hablar. Las cortan y ya."
+Click 3: "El action expert alterna cross-attention, que lee el VLM, con
+   self-attention propia."
+Click 4: "Y parte de acciones con ruido que va limpiando — eso es flow matching."
+Click 5: "Cortar esas capas es lo que convierte un VLM de 500 millones en un VLA
+   de 450 que corre en un portátil."
+-->
 
 ---
 layout: viz

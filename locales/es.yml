@@ -102,6 +102,40 @@ rt2:
     es que **empieza sabiendo mucho más**.
   cite: RT-2 — Brohan et al. 2023 (arXiv:2307.15818) · versión CoRL citada como Zitkovich et al.
 
+# --- ACTO 3b · MECANISMO (nuevas) ------------------------------------------
+policy:
+  title: Primero, ¿qué es una «política»?
+
+langin:
+  title: Cómo entra la instrucción
+  cite: Plantilla de prompt de OpenVLA (arXiv:2406.09246)
+
+attention:
+  title: ¿Es la misma atención que ChatGPT?
+
+detok:
+  title: Y cómo se sale — el de-tokenizador
+  cite: OpenVLA (arXiv:2406.09246) · normalización por percentiles del dataset
+
+loop:
+  title: Todo junto, treinta veces por segundo
+
+train:
+  title: Cómo se entrena
+  sub: De un humano moviendo un brazo a unos pesos en el Hub.
+
+recording:
+  title: Qué pasa exactamente cuando grabas
+  cite: LeRobotDataset v3 · lerobot-record
+
+openvla:
+  title: Un VLA por dentro — OpenVLA
+  cite: OpenVLA — Kim, Pertsch, Karamcheti et al. 2024 (arXiv:2406.09246)
+
+smolvla:
+  title: Y el que corre en mi mesa — SmolVLA
+  cite: SmolVLA — Shukor et al. 2025 (arXiv:2506.01844)
+
 # --- ACTO 4 · EL PANORAMA ---------------------------------------------------
 act4:
   title: Qué hay disponible hoy
@@ -271,3 +305,459 @@ thanks:
   invite: |
     Si trabajas en robótica, manufactura o logística y esto te tocó alguna
     fibra — hablemos. Estoy aquí toda la noche.
+
+# ---------------------------------------------------------------------------
+# Texto dentro de los componentes de visualización.
+# Vive aquí y no dentro de los .vue para que el deck sea realmente bilingüe:
+# los títulos ya se traducían, pero las etiquetas de los diagramas no.
+# Prosa siempre en `>-` — un escalar plano con ": " rompe el YAML.
+# ---------------------------------------------------------------------------
+c:
+  asymmetry:
+    textLabel: TEXTO
+    textSub: se recolecta
+    actionLabel: ACCIÓN
+    actionSub: hay que actuarla
+    textUnit: >-
+      tokens de texto — el corpus de entrenamiento de Llama 3
+    actionUnit: >-
+      episodios en Open X-Embodiment — 34 laboratorios, años de trabajo
+    punch: >-
+      El texto ya estaba escrito. **Cada episodio de robot hay que vivirlo en
+      tiempo real.**
+
+  policy:
+    legendA: >-
+      qué hacer ahora y durante el próximo segundo — un bloque, no un paso
+    legendO: >-
+      imágenes de las cámaras + estado de las articulaciones
+    legendL: >-
+      la instrucción en texto
+    read: >-
+      Una **política** es sólo eso: una función que, dado lo que el robot ve y
+      lo que le pediste, devuelve qué hacer.
+    readHi: >-
+      ACT no tiene el tercer término. Un VLA sí.
+    noteTag: >-
+      y algo que confunde a todo el mundo
+    noteBody: >-
+      Esto **no** es reinforcement learning. No hay recompensa, no hay
+      exploración, no hay ensayo y error. Es **behavior cloning**: aprendizaje
+      supervisado puro, donde la etiqueta es lo que hizo el humano.
+
+  attention:
+    selfTag: self-attention
+    selfWho: >-
+      el backbone · igual que en ChatGPT
+    selfSeq: >-
+      una sola secuencia: imagen + texto
+    selfFrom: >-
+      las tres salen de la misma secuencia
+    selfP: >-
+      El mismo mecanismo, la misma matemática y las mismas librerías que un
+      modelo de texto.
+    crossTag: cross-attention
+    crossWho: >-
+      el action expert · aquí sí cambia
+    crossKv: VLM → K, V
+    crossQ: acciones → Q
+    crossFrom: >-
+      Q viene de las acciones, K y V del VLM
+    crossP: >-
+      Las acciones **preguntan**, el VLM **responde**. Y como el prefijo se
+      cachea, el VLM corre **una vez** por ciclo y el experto diez.
+    maskTag: >-
+      y una diferencia más, en la máscara
+    maskPrefix: imágenes + texto
+    maskPrefixSub: bidireccional
+    maskState: estado
+    maskStateSub: su propio bloque
+    maskAct: 50 acciones
+    maskActSub: >-
+      causal en SmolVLA · bidireccional en π₀
+    maskNote: >-
+      No es el triángulo causal de un LLM de texto: es **prefix-LM por
+      bloques**. Tiene sentido — un parche de imagen no tiene «antes» ni
+      «después».
+    punch: >-
+      Entonces sí: el 90% de un VLA es el transformer que ya conoces. **Lo
+      nuevo son las últimas capas y la máscara**.
+
+  chunking:
+    s1k: un paso a la vez
+    s1v: >-
+      El brazo se detiene en cada inferencia. Cada predicción ignora la anterior.
+    s2k: action chunking
+    s2v: >-
+      Una inferencia devuelve ~50 acciones futuras. Entre decisiones, el
+      movimiento es continuo.
+    s3k: el problema de la costura
+    s3v: >-
+      Mientras se ejecuta un chunk, el siguiente ya se está calculando — y
+      vuelve en desacuerdo con dónde está el brazo.
+    s4k: real-time chunking
+    s4v: >-
+      El solapamiento se rellena (inpainting) para que los chunks concuerden.
+      En LeRobot, --inference.type=rtc
+    chunk: chunk
+
+  loop:
+    obs: observar
+    obsSub: 3 cámaras + estado
+    enc: tokenizar
+    encSub: parches + instrucción
+    vlm: VLM
+    vlmSub: self-attention
+    head: action expert
+    headSub: cross-attention
+    dec: de-tokenizar
+    decSub: a grados y milímetros
+    exec: ejecutar
+    execSub: el chunk, a 30 Hz
+    hzSub: todo el ciclo
+    note: >-
+      **El chunk es lo que permite que el bucle no tenga que cerrarse en cada
+      paso** — por eso el movimiento se ve continuo y no a tirones.
+
+  pipeline:
+    s1t: Teleoperación
+    s1b: >-
+      Mueves el brazo líder; el seguidor copia. 30 s por episodio, en tiempo real.
+    s2t: Episodio
+    s2b: >-
+      3 vídeos sincronizados + estado de las 6 articulaciones a 30 Hz + la
+      instrucción en texto.
+    s3t: Dataset
+    s3b: >-
+      ~50 episodios por tarea, repartidos entre variaciones — posición del
+      objeto, iluminación, distractores.
+    s4t: Entrenamiento
+    s4b: >-
+      La política aprende a predecir la acción que tomó el humano, dadas las
+      mismas observaciones.
+
+  reflex:
+    images: Imágenes
+    imagesSub: 3 cámaras · 30 Hz
+    state: Estado
+    stateSub: 6 articulaciones
+    core: ACT
+    coreSub: CVAE + transformer
+    out: Chunk de acciones
+    outSub: ~90–100 pasos
+    lang: «agarra el frasco de magnesio»
+    langX: no hay dónde conectarlo
+    punch: >-
+      ACT es un **reflejo**. Extraordinariamente bueno en la tarea que vio, y
+      completamente sordo. Cambias el objeto y falla; le hablas y no pasa nada.
+
+  timeline:
+    e1y: hasta ~2020
+    e1t: Control programado
+    e1b: >-
+      Cinemática inversa y trayectorias escritas a mano. Funciona perfecto —
+      hasta que algo se mueve un centímetro.
+    e2y: '2023'
+    e2t: Imitation learning
+    e2b: >-
+      ACT y Diffusion Policy. Aprende de demostraciones humanas. Sin lenguaje,
+      sin razonamiento: un reflejo muy bueno.
+    e3y: 2023–24
+    e3t: Los primeros VLA
+    e3b: >-
+      RT-2 muestra que el conocimiento de internet transfiere al control
+      físico. OpenVLA lo abre.
+    e4y: 2025–26
+    e4t: Al alcance
+    e4b: >-
+      SmolVLA (450M), π₀.₅, GR00T N1.7. Entrenables en una GPU de consumo.
+      164 papers de VLA en ICLR 2026.
+
+  tokenizer:
+    trajTitle: trayectoria — 1 articulación
+    specTitle: espectro (DCT)
+    footRaw: 7 articulaciones · 50 Hz · números reales
+    footBin: >-
+      la escalera es el error de cuantización: precisión perdida para siempre
+    footSpec: >-
+      casi toda la energía vive en las frecuencias bajas — por eso comprime tan bien
+    tokensUnit: tokens / chunk
+    f1n: Binning por dimensión
+    f1note: >-
+      256 bins por dimensión. 7 DoF × 50 pasos = 350 tokens autoregresivos por chunk.
+    f2n: FAST
+    f2note: >-
+      DCT + cuantización + BPE. El mismo truco que JPEG — decorrelar, tirar lo
+      agudo, comprimir motivos.
+    f3n: Action expert continuo
+    f3note: >-
+      Sin tokens. Flow matching genera el chunk completo en unos pocos pasos de
+      denoising.
+
+  detok:
+    hId: token id
+    hBin: bin 0–255
+    hNorm: normalizado
+    hReal: unidades reales
+    grip: cerrar
+    step1: >-
+      el vocabulario se reutiliza — los 256 tokens menos usados se sobrescriben
+      con acciones
+    step2: >-
+      256 tokens, pero 255 cajones reales — el clásico off-by-one
+    step3: >-
+      se des-normaliza con los percentiles del dataset, no con min y max, para
+      que una demostración mala no estire la escala
+    punch: >-
+      Las seis primeras son **deltas** — el modelo no dice «ve a esta
+      coordenada», dice «muévete cuatro milímetros hacia allá». La séptima, la
+      pinza, es la excepción: es absoluta y no se des-normaliza.
+
+  langin:
+    s1: 1 · lo que dices
+    s2: 2 · se envuelve en una plantilla fija
+    s3: 3 · el tokenizador de siempre
+    s4: 4 · y se concatena con la imagen
+    sentence: «agarra el frasco de magnesio»
+    promptVar: agarra el frasco de magnesio
+    note2: >-
+      El modelo no aprende una tarea nueva: sigue haciendo predicción del
+      siguiente token, sobre una pregunta que ya sabe contestar.
+    note3: >-
+      Sub-palabras, exactamente el mismo BPE que usa el modelo de texto.
+      «magnesio» se parte en dos, y no pasa nada.
+    legVis: tokens de imagen
+    legLang: tokens de texto
+    legNote: >-
+      una sola secuencia — el transformer no distingue
+
+  recording:
+    leader: brazo líder · lo mueve el humano
+    follower: brazo seguidor · el que graba
+    copies: el seguidor copia
+    rowTag: un renglón por timestep, a 30 Hz
+    noteState: dónde ESTÁ el seguidor
+    noteAction: dónde lo MANDÓ el humano
+    noteTask: la instrucción
+    punch: >-
+      Fíjate en esas dos filas: **no son lo mismo**. `observation.state` es
+      dónde está el robot; `action` es dónde lo mandó el humano. Entrenar la
+      política es aprender a predecir la segunda a partir de la primera.
+
+  arch:
+    cams: cámaras
+    camTop: cenital
+    camWrist: muñeca
+    camBase: base
+    instruction: instrucción
+    visionName: Vision encoder
+    coreName: VLM preentrenado
+    coreNote: >-
+      Aquí vive el conocimiento de internet. Es la razón de que un VLA
+      generalice donde ACT no.
+    headName: Action expert
+    headWho: flow matching · ~100M
+    outTag: chunk de acciones
+    outNote: 50 pasos futuros, ~1 s de movimiento
+
+  inside:
+    hIn: Entrada
+    hRep: Representación
+    hHead: Cabeza de acción
+    hOut: Salida
+    hLang: Entiende lenguaje
+    hGen: Generaliza a objetos nuevos
+    aIn: imágenes + estado del robot
+    vIn: imágenes + estado + instrucción
+    aRep: ResNet entrenado desde cero
+    vRep: VLM preentrenado en internet
+    aHead: transformer CVAE → chunk
+    vHead: action expert → chunk
+    aOut: ~100 acciones futuras
+    vOut: ~50 acciones futuras
+    no: 'no'
+    yes: sí
+    some: algo
+    punch: >-
+      La cabeza de acción de un VLA **es** una política de chunking. Lo que
+      cambió no es el músculo — es lo que le habla al músculo.
+
+  chess:
+    l1n: Stockfish
+    l1r: razona sobre ajedrez
+    l1note: >-
+      Evalúa millones de posiciones. No sabe que existe un brazo.
+    l2n: python-chess + orquestador
+    l2r: traduce
+    l2p: 2 operaciones atómicas
+    l2note: >-
+      Una captura son DOS operaciones: retirar la pieza comida, luego mover el
+      caballo. El enroque también. Una promoción, tres.
+    l3n: Visión del tablero
+    l3r: ancla al mundo
+    l3note: >-
+      Aquí muere el ajedrez. Lo único que cruza la frontera son coordenadas.
+    l4n: Política ACT
+    l4r: agarra y suelta
+    l4note: >-
+      ACT no sabe qué es un caballo, ni qué es una captura, ni que hay una
+      partida. Aprendió a agarrar cosas en coordenadas.
+    frontier: aquí muere el lenguaje de ajedrez
+
+  econ:
+    tag1: lo que cuesta un dataset
+    tag2: y lo que compras con ellos
+    d1: trayectorias
+    d2: horas de interacción
+    d3: escenas
+    d4: personas recolectando
+    d5: instituciones
+    d6: meses
+    p1: >-
+      Eso es **DROID**, uno solo. Tres continentes, hardware idéntico, un año.
+      La unidad real no son dólares por hora — son **años-institución**.
+    lead2: >-
+      La generalización escala con la **diversidad** de escenas y objetos,
+      siguiendo una ley de potencias. Las demostraciones adicionales *por
+      escena* se saturan rápido.
+    p2: >-
+      Es decir: no estás pagando por volumen. Estás pagando por variedad — y
+      ahí es donde casi todo el mundo gasta mal su presupuesto.
+
+  landscape:
+    hModel: Modelo
+    hParams: Params
+    hOpen: Abierto
+    hMem: Memoria
+    yes: sí
+    no: 'no'
+    n1: >-
+      La idea fundacional: el conocimiento de internet transfiere al control.
+    n2: >-
+      El primer VLA abierto serio. Llama 2 + DINOv2 + SigLIP, 256 bins.
+    n3: >-
+      PaliGemma + action expert por flow matching. π₀.₇ ya existe, pero cerrado.
+    n4: >-
+      Backbone Cosmos-Reason2. 8.9 Hz en un AGX Thor montado en el robot.
+    n5: >-
+      Supera a π₀ (3.3B) en tareas reales de SO-100. Este es el que corre en tu mesa.
+    v3: 22.5 GB LoRA · >70 GB completo
+    v4: 16 GB inferencia · ~35 GB fine-tune
+    v5: una sola GPU
+
+  openvla:
+    imgTag: imagen
+    instrTag: instrucción
+    instr: «put eggplant in bowl»
+    b1: DINOv2 + SigLIP
+    b1s: 256 parches · concatenados por canal → 2176
+    b2: MLP projector
+    b3: Llama tokenizer
+    b3s: el de texto, sin cambios
+    seqTag: una sola secuencia
+    coreS: predice el siguiente token · ~6 Hz en una RTX 4090
+    actsTag: 7 tokens de acción
+    detok: Action de-tokenizer
+    detokS: tokens 31744–31999 → milímetros y grados
+    vecNote: 7 DoF · deltas, salvo la pinza
+
+  smolvla:
+    vlmTitle: Vision-Language Model
+    vlmSub: SmolVLM2-500M · 64 tokens visuales por frame · d=960
+    expertTitle: Action Expert
+    expertSub: ~100M · 16 capas · d=720 (75% del VLM)
+    cut: se queda con 16 de 32 capas
+    dropped: descartada
+    layer: capa
+    chipCams: 3 cámaras
+    chipTask: 'task: «agarra el frasco»'
+    chipState: state
+    noisy: ruido gaussiano · 50×32
+    out: 10 pasos de Euler → chunk
+    punch: >-
+      Las últimas capas de un LLM se especializan en **producir lenguaje**, y un
+      robot no necesita hablar. Cortarlas es lo que hace que esto quepa en un portátil.
+
+  pretrain:
+    tag1: fase 1 · lo hizo otro
+    h1: Pre-entrenamiento
+    p1: >-
+      SmolVLA: **481 datasets de la comunidad**, 22.9K episodios, 10.6M frames.
+      Meses de GPU que tú no pagas.
+    arrow: descargas los pesos
+    tag2: fase 2 · lo haces tú
+    h2: Fine-tuning
+    p2: >-
+      **~50 episodios** de tu tarea, en tu mesa, con tu luz. Unas horas de GPU.
+    punch: >-
+      Sin la fase 1, 50 episodios no alcanzan ni de lejos. Con ella, alcanzan.
+      **Eso es todo lo que significa «modelo fundacional» en robótica.**
+
+  world:
+    h1: 'Hoy: reactivo'
+    h2: 'Siguiente: predictivo'
+    obs: observa
+    pol: política
+    act: actúa
+    now: ahora
+    futures: futuros imaginados
+    p1: >-
+      Ve y actúa. No tiene ninguna noción de lo que *va a pasar* — sólo responde
+      a lo que hay delante.
+    p2: >-
+      Antes de mover, simula varios futuros y elige. El modelo del mundo es lo
+      que le permite *equivocarse en su cabeza* en vez de en la mesa.
+    anchorTag: ya está en LeRobot
+    anchor: >-
+      **VLA-JEPA** — backbone Qwen3-VL + modelo del mundo V-JEPA2 + cabeza de
+      acción flow-matching. El detalle revelador: el modelo del mundo se usa
+      **sólo durante el entrenamiento**. Hoy sirve para aprender, todavía no
+      para planear.
+
+  rig:
+    past: en casa · antes
+    now: aquí · ahora
+    tower: PC torre
+    towerSub: RTX 5060 Ti · 16 GB
+    towerNote: Fine-tuning de SmolVLA sobre mi dataset
+    hub: Hugging Face Hub
+    hubSub: push del modelo entrenado
+    link: sólo se descargan los pesos
+    mac: MacBook M3 · 16 GB
+    macSub: inferencia en MPS
+    arm: SO-101 follower
+    armSub: 6× Feetech STS3215 · bus serie
+    armNote: impreso en una Ender 3 V3 KE
+    camTop: cenital
+    camWrist: muñeca
+    camBase: base
+    panicTag: si algo falla
+    panicText: 'Tecla B → vídeo de respaldo. Tecla V → volver aquí.'
+
+  choose:
+    c1t: ACT / Diffusion Policy
+    c1w: Una tarea fija. Un objeto. Un entorno.
+    c1p1: Más preciso en su tarea
+    c1p2: Inferencia rápida y barata
+    c1p3: Entrena en una GPU modesta
+    c1c1: No entiende lenguaje
+    c1c2: Cambias el objeto y falla
+    c1c3: Una política por tarea
+    c2t: VLA (SmolVLA, π₀, GR00T)
+    c2w: Varias tareas. Instrucciones en lenguaje. Objetos que cambian.
+    c2p1: Condicionado por lenguaje
+    c2p2: Generaliza algo a objetos nuevos
+    c2p3: Una política, muchas tareas
+    c2c1: Más lento y más pesado
+    c2c2: Suele perder en precisión pura
+    c2c3: Necesita más VRAM
+    c3t: Modelos generalistas
+    c3w: Todavía no, salvo que tengas la flota y el presupuesto.
+    c3p1: El techo más alto
+    c3p2: Transferencia entre robots
+    c3c1: Los mejores son cerrados
+    c3c2: Cómputo fuera de alcance
+    c3c3: La brecha sim → real sigue enorme
+    punch: >-
+      Para **una** tarea fija, ACT casi siempre gana. Un VLA se paga solo cuando
+      necesitas que el lenguaje cambie el comportamiento.

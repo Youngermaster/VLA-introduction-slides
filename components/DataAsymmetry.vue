@@ -18,8 +18,10 @@
 -->
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useTx } from '../lib/tx'
 
 const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
+const { t, md } = useTx()
 
 const COLS = 44
 const ROWS = 13
@@ -52,8 +54,8 @@ const episodes = computed(() =>
     <!-- LANGUAGE side ------------------------------------------------------->
     <section class="da__col">
       <header class="da__head">
-        <span class="da__label c-lang t-mono">TEXTO</span>
-        <span class="da__sub">se recolecta</span>
+        <span class="da__label c-lang t-mono">{{ t('c.asymmetry.textLabel') }}</span>
+        <span class="da__sub">{{ t('c.asymmetry.textSub') }}</span>
       </header>
 
       <div class="da__grid" :style="{ '--cols': COLS }">
@@ -70,15 +72,15 @@ const episodes = computed(() =>
 
       <footer class="da__foot" :class="{ 'is-on': props.stage >= 3 }">
         <div class="da__stat t-mono c-lang">~15 000 000 000 000</div>
-        <div class="da__unit">tokens de texto — el corpus de entrenamiento de Llama&nbsp;3</div>
+        <div class="da__unit">{{ t('c.asymmetry.textUnit') }}</div>
       </footer>
     </section>
 
     <!-- ACTION side --------------------------------------------------------->
     <section class="da__col">
       <header class="da__head">
-        <span class="da__label c-action t-mono">ACCIÓN</span>
-        <span class="da__sub">hay que actuarla</span>
+        <span class="da__label c-action t-mono">{{ t('c.asymmetry.actionLabel') }}</span>
+        <span class="da__sub">{{ t('c.asymmetry.actionSub') }}</span>
       </header>
 
       <div class="da__episodes">
@@ -102,15 +104,12 @@ const episodes = computed(() =>
 
       <footer class="da__foot" :class="{ 'is-on': props.stage >= 3 }">
         <div class="da__stat t-mono c-action">~1 000 000</div>
-        <div class="da__unit">episodios en Open&nbsp;X-Embodiment — 34 laboratorios, años de trabajo</div>
+        <div class="da__unit">{{ t('c.asymmetry.actionUnit') }}</div>
       </footer>
     </section>
 
     <!-- The punchline ------------------------------------------------------->
-    <p class="da__punch" :class="{ 'is-on': props.stage >= 4 }">
-      El texto ya estaba escrito.
-      <strong>Cada episodio de robot hay que vivirlo en tiempo real.</strong>
-    </p>
+    <p class="da__punch" :class="{ 'is-on': props.stage >= 4 }" v-html="md('c.asymmetry.punch')" />
   </div>
 </template>
 

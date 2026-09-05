@@ -32,10 +32,12 @@ const slideLang = ref<Locale>('es')
 const current = ref(1)
 
 /** routeAlias for each slide number, taken from the deck itself. */
+interface SlideMeta {
+  slide?: { frontmatter?: { routeAlias?: string } }
+}
+
 const aliases = computed(() =>
-  slides.value.map(
-    (s) => (s.meta?.slide?.frontmatter?.routeAlias as string | undefined) ?? '',
-  ),
+  slides.value.map((s) => (s.meta as SlideMeta)?.slide?.frontmatter?.routeAlias ?? ''),
 )
 
 const total = computed(() => slides.value.length)
@@ -107,9 +109,8 @@ function onKey(e: KeyboardEvent) {
   else if (e.key === ' ') { toggleTimer(); e.preventDefault() }
 }
 
-const slideSrc = computed(
-  () => `${import.meta.env.BASE_URL}#/${current.value}?lang=${slideLang.value}`,
-)
+const base = import.meta.env.BASE_URL ?? '/'
+const slideSrc = computed(() => `${base}#/${current.value}?lang=${slideLang.value}`)
 
 /** Pace: how the timer is tracking against this section's estimate. */
 const pace = computed(() => {

@@ -14,9 +14,11 @@
     4  continuous flow-matching expert (pi-0, SmolVLA, GR00T): no tokens at all.
 -->
 <script setup lang="ts">
+import { useTx } from '../lib/tx'
 import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
+const { t } = useTx()
 
 const W = 300
 const H = 78
@@ -59,34 +61,13 @@ const spectrum = computed(() =>
   })),
 )
 
-const FAMILIES = [
-  {
-    at: 2,
-    key: 'binning',
-    name: 'Binning por dimensión',
-    who: 'RT-2 · OpenVLA',
-    tokens: '350',
-    note: '256 bins por dimensión. 7 DoF × 50 pasos = 350 tokens autoregresivos por chunk.',
-  },
-  {
-    at: 3,
-    key: 'fast',
-    name: 'FAST',
-    who: 'π₀-FAST',
-    tokens: '30–60',
-    note: 'DCT + cuantización + BPE. El mismo truco que JPEG: decorrelar, tirar lo agudo, comprimir motivos.',
-  },
-  {
-    at: 4,
-    key: 'flow',
-    name: 'Action expert continuo',
-    who: 'π₀ · SmolVLA · GR00T',
-    tokens: '0',
-    note: 'Sin tokens. Flow matching genera el chunk completo en unos pocos pasos de denoising.',
-  },
-] as const
+const FAMILIES = computed(() => [
+  { at: 2, key: 'binning', name: t('c.tokenizer.f1n'), who: 'RT-2 · OpenVLA', tokens: '350', note: t('c.tokenizer.f1note') },
+  { at: 3, key: 'fast', name: t('c.tokenizer.f2n'), who: 'π₀-FAST', tokens: '30–60', note: t('c.tokenizer.f2note') },
+  { at: 4, key: 'flow', name: t('c.tokenizer.f3n'), who: 'π₀ · SmolVLA · GR00T', tokens: '0', note: t('c.tokenizer.f3note') },
+])
 
-const active = computed(() => FAMILIES.find((f) => f.at === props.stage))
+const active = computed(() => FAMILIES.value.find((f) => f.at === props.stage))
 </script>
 
 <template>
@@ -94,7 +75,7 @@ const active = computed(() => FAMILIES.find((f) => f.at === props.stage))
     <!-- the signal panel morphs with the stage -->
     <div class="at__panel">
       <span class="at__ptitle t-mono">
-        {{ props.stage >= 3 ? 'espectro (DCT)' : 'trayectoria — 1 articulación' }}
+        {{ props.stage >= 3 ? t('c.tokenizer.specTitle') : t('c.tokenizer.trajTitle') }}
       </span>
 
       <svg v-if="props.stage < 3" :viewBox="`0 0 ${W} ${H}`" class="at__svg">
@@ -119,11 +100,7 @@ const active = computed(() => FAMILIES.find((f) => f.at === props.stage))
       </svg>
 
       <span class="at__pfoot t-caption">
-        {{ props.stage >= 3
-          ? 'casi toda la energía vive en las frecuencias bajas — por eso comprime tan bien'
-          : props.stage >= 2
-            ? 'la escalera es el error de cuantización: precisión perdida para siempre'
-            : '7 articulaciones · 50 Hz · números reales' }}
+        {{ props.stage >= 3 ? t('c.tokenizer.footSpec') : props.stage >= 2 ? t('c.tokenizer.footBin') : t('c.tokenizer.footRaw') }}
       </span>
     </div>
 
@@ -140,7 +117,7 @@ const active = computed(() => FAMILIES.find((f) => f.at === props.stage))
         </div>
         <div class="at__famtok">
           <span class="at__tokn t-mono">{{ f.tokens }}</span>
-          <span class="at__toku">tokens / chunk</span>
+          <span class="at__toku">{{ t('c.tokenizer.tokensUnit') }}</span>
         </div>
       </li>
     </ol>

@@ -9,22 +9,25 @@
   institution-years.
 -->
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useTx } from '../lib/tx'
 const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
+const { t, md } = useTx()
 
-const DROID = [
-  { k: '76 000', v: 'trayectorias' },
-  { k: '350', v: 'horas de interacción' },
-  { k: '564', v: 'escenas' },
-  { k: '50', v: 'personas recolectando' },
-  { k: '13', v: 'instituciones' },
-  { k: '12', v: 'meses' },
-]
+const DROID = computed(() => [
+  { k: '76 000', v: t('c.econ.d1') },
+  { k: '350', v: t('c.econ.d2') },
+  { k: '564', v: t('c.econ.d3') },
+  { k: '50', v: t('c.econ.d4') },
+  { k: '13', v: t('c.econ.d5') },
+  { k: '12', v: t('c.econ.d6') },
+])
 </script>
 
 <template>
   <div class="de">
     <section class="de__block" :class="{ 'is-on': props.stage >= 1 }">
-      <span class="de__tag t-mono">lo que cuesta un dataset</span>
+      <span class="de__tag t-mono">{{ t('c.econ.tag1') }}</span>
       <div class="de__stats">
         <div
           v-for="(d, i) in DROID" :key="d.k"
@@ -35,23 +38,13 @@ const DROID = [
           <span class="de__v">{{ d.v }}</span>
         </div>
       </div>
-      <p class="de__p">
-        Eso es <strong>DROID</strong>, uno solo. Tres continentes, hardware idéntico,
-        un año. La unidad real no son dólares por hora — son <strong>años-institución</strong>.
-      </p>
+      <p class="de__p" v-html="md('c.econ.p1')" />
     </section>
 
     <section class="de__block" :class="{ 'is-on': props.stage >= 2 }">
-      <span class="de__tag t-mono">y lo que compras con ellos</span>
-      <p class="de__lead">
-        La generalización escala con la <strong>diversidad</strong> de escenas y
-        objetos, siguiendo una ley de potencias. Las demostraciones adicionales
-        <em>por escena</em> se saturan rápido.
-      </p>
-      <p class="de__p">
-        Es decir: no estás pagando por volumen. Estás pagando por variedad —
-        y ahí es donde casi todo el mundo gasta mal su presupuesto.
-      </p>
+      <span class="de__tag t-mono">{{ t('c.econ.tag2') }}</span>
+      <p class="de__lead" v-html="md('c.econ.lead2')" />
+      <p class="de__p" v-html="md('c.econ.p2')" />
     </section>
   </div>
 </template>

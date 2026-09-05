@@ -14,21 +14,23 @@
     6  the chunk executes and the loop closes
 -->
 <script setup lang="ts">
+import { useTx } from '../lib/tx'
 import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
 
-const CAMS = [
-  { k: 'top', label: 'cenital' },
-  { k: 'wrist', label: 'muñeca' },
-  { k: 'base', label: 'base' },
-]
+const CAMS = computed(() => [
+  { k: 'top', label: t('c.arch.camTop') },
+  { k: 'wrist', label: t('c.arch.camWrist') },
+  { k: 'base', label: t('c.arch.camBase') },
+])
 
 const visionTokens = computed(() => Array.from({ length: 12 }, (_, i) => i))
-const langTokens = ['agarra', 'el', 'frasco', 'de', 'magnesio']
+const langTokens = computed(() => t('demo.instr2').split(' '))
 const joints = ['θ1', 'θ2', 'θ3', 'θ4', 'θ5', 'grip']
 
 const on = (n: number) => props.stage >= n
+const { t } = useTx()
 </script>
 
 <template>
@@ -36,7 +38,7 @@ const on = (n: number) => props.stage >= n
     <!-- INPUTS ------------------------------------------------------------->
     <div class="va__col va__col--in">
       <div class="va__group" :class="{ 'is-on': on(1) }">
-        <span class="va__gtitle t-mono">cámaras</span>
+        <span class="va__gtitle t-mono">{{ t('c.arch.cams') }}</span>
         <div class="va__cams">
           <div
             v-for="(c, i) in CAMS" :key="c.k"
@@ -49,7 +51,7 @@ const on = (n: number) => props.stage >= n
       </div>
 
       <div class="va__group" :class="{ 'is-on': on(3) }">
-        <span class="va__gtitle t-mono">instrucción</span>
+        <span class="va__gtitle t-mono">{{ t('c.arch.instruction') }}</span>
         <div class="va__lang">
           <span
             v-for="(t, i) in langTokens" :key="t"
@@ -63,7 +65,7 @@ const on = (n: number) => props.stage >= n
     <!-- ENCODERS ----------------------------------------------------------->
     <div class="va__col va__col--enc">
       <div class="va__box va__box--action" :class="{ 'is-on': on(2) }">
-        <span class="va__bname">Vision encoder</span>
+        <span class="va__bname">{{ t('c.arch.visionName') }}</span>
         <span class="va__bwho t-mono">SigLIP · DINOv2</span>
         <div class="va__vtok">
           <i v-for="t in visionTokens" :key="t" :style="{ transitionDelay: on(2) ? `${t * 22}ms` : '0ms' }" />
@@ -74,24 +76,21 @@ const on = (n: number) => props.stage >= n
     <!-- BACKBONE ----------------------------------------------------------->
     <div class="va__col va__col--core">
       <div class="va__box va__box--lang va__box--tall" :class="{ 'is-on': on(4) }">
-        <span class="va__bname">VLM preentrenado</span>
+        <span class="va__bname">{{ t('c.arch.coreName') }}</span>
         <span class="va__bwho t-mono">PaliGemma · SmolVLM2 · Qwen-VL</span>
-        <p class="va__bnote">
-          Aquí vive el conocimiento de internet.<br />Es la razón de que un VLA
-          generalice donde ACT no.
-        </p>
+        <p class="va__bnote">{{ t('c.arch.coreNote') }}</p>
       </div>
     </div>
 
     <!-- ACTION HEAD -------------------------------------------------------->
     <div class="va__col va__col--head">
       <div class="va__box va__box--action" :class="{ 'is-on': on(5) }">
-        <span class="va__bname">Action expert</span>
-        <span class="va__bwho t-mono">flow matching · ~100M</span>
+        <span class="va__bname">{{ t('c.arch.headName') }}</span>
+        <span class="va__bwho t-mono">{{ t('c.arch.headWho') }}</span>
       </div>
 
       <div class="va__out" :class="{ 'is-on': on(6) }">
-        <span class="va__gtitle t-mono">chunk de acciones</span>
+        <span class="va__gtitle t-mono">{{ t('c.arch.outTag') }}</span>
         <div class="va__joints">
           <span
             v-for="(j, i) in joints" :key="j"
@@ -99,7 +98,7 @@ const on = (n: number) => props.stage >= n
             :style="{ transitionDelay: on(6) ? `${i * 40}ms` : '0ms' }"
           >{{ j }}</span>
         </div>
-        <span class="va__outnote t-caption">50 pasos futuros, ~1&nbsp;s de movimiento</span>
+        <span class="va__outnote t-caption">{{ t('c.arch.outNote') }}</span>
       </div>
     </div>
   </div>

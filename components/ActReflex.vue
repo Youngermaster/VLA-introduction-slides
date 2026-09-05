@@ -6,47 +6,47 @@
   text, so the sentence changes nothing about what the arm does.
 -->
 <script setup lang="ts">
+import { useTx } from '../lib/tx'
+
 const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
 const on = (n: number) => props.stage >= n
+const { t, md } = useTx()
 </script>
 
 <template>
   <div class="ar">
     <div class="ar__flow">
       <div class="ar__node ar__node--in" :class="{ 'is-on': on(1) }">
-        <span class="ar__ntitle">Imágenes</span>
-        <span class="ar__nsub t-mono">3 cámaras · 30 Hz</span>
+        <span class="ar__ntitle">{{ t('c.reflex.images') }}</span>
+        <span class="ar__nsub t-mono">{{ t('c.reflex.imagesSub') }}</span>
       </div>
       <div class="ar__node ar__node--in" :class="{ 'is-on': on(1) }">
-        <span class="ar__ntitle">Estado</span>
-        <span class="ar__nsub t-mono">6 articulaciones</span>
+        <span class="ar__ntitle">{{ t('c.reflex.state') }}</span>
+        <span class="ar__nsub t-mono">{{ t('c.reflex.stateSub') }}</span>
       </div>
 
       <div class="ar__arrow" :class="{ 'is-on': on(2) }" />
 
       <div class="ar__node ar__node--core" :class="{ 'is-on': on(2) }">
-        <span class="ar__ntitle">ACT</span>
-        <span class="ar__nsub t-mono">CVAE + transformer</span>
+        <span class="ar__ntitle">{{ t('c.reflex.core') }}</span>
+        <span class="ar__nsub t-mono">{{ t('c.reflex.coreSub') }}</span>
       </div>
 
       <div class="ar__arrow" :class="{ 'is-on': on(2) }" />
 
       <div class="ar__node ar__node--out" :class="{ 'is-on': on(2) }">
-        <span class="ar__ntitle">Chunk de acciones</span>
-        <span class="ar__nsub t-mono">~90–100 pasos</span>
+        <span class="ar__ntitle">{{ t('c.reflex.out') }}</span>
+        <span class="ar__nsub t-mono">{{ t('c.reflex.outSub') }}</span>
       </div>
     </div>
 
     <!-- the missing input -->
     <div class="ar__lang" :class="{ 'is-on': on(3) }">
-      <span class="ar__langbox t-mono">«agarra el frasco de magnesio»</span>
-      <span class="ar__langx">no hay dónde conectarlo</span>
+      <span class="ar__langbox t-mono">{{ t('c.reflex.lang') }}</span>
+      <span class="ar__langx">{{ t('c.reflex.langX') }}</span>
     </div>
 
-    <p class="ar__punch" :class="{ 'is-on': on(4) }">
-      ACT es un <strong>reflejo</strong>. Extraordinariamente bueno en la tarea que
-      vio, y completamente sordo. Cambias el objeto y falla; le hablas y no pasa nada.
-    </p>
+    <p class="ar__punch" :class="{ 'is-on': on(4) }" v-html="md('c.reflex.punch')" />
   </div>
 </template>
 

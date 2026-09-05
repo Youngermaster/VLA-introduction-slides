@@ -13,15 +13,17 @@
   to PLAN, which is exactly where the frontier sits.
 -->
 <script setup lang="ts">
+import { useTx } from '../lib/tx'
 import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
+const { t, md } = useTx()
 
-const LOOP = [
-  { k: 'obs', label: 'observa' },
-  { k: 'pol', label: 'política' },
-  { k: 'act', label: 'actúa' },
-]
+const LOOP = computed(() => [
+  { k: 'obs', label: t('c.world.obs') },
+  { k: 'pol', label: t('c.world.pol') },
+  { k: 'act', label: t('c.world.act') },
+])
 
 /** Imagined rollouts: same origin, diverging futures, one of them chosen. */
 const branches = computed(() =>
@@ -42,7 +44,7 @@ const branches = computed(() =>
   <div class="rp">
     <!-- REACTIVE ---------------------------------------------------------->
     <section class="rp__side" :class="{ 'is-on': props.stage >= 1 }">
-      <h3 class="rp__h">Hoy: reactivo</h3>
+      <h3 class="rp__h">{{ t('c.world.h1') }}</h3>
       <svg viewBox="0 0 280 140" class="rp__svg">
         <g class="rp__loop">
           <circle cx="140" cy="70" r="46" class="rp__ring" />
@@ -61,15 +63,12 @@ const branches = computed(() =>
           </g>
         </g>
       </svg>
-      <p class="rp__p">
-        Ve y actúa. No tiene ninguna noción de lo que <em>va a pasar</em> —
-        sólo responde a lo que hay delante.
-      </p>
+      <p class="rp__p" v-html="md('c.world.p1')" />
     </section>
 
     <!-- PREDICTIVE -------------------------------------------------------->
     <section class="rp__side" :class="{ 'is-on': props.stage >= 2 }">
-      <h3 class="rp__h">Siguiente: predictivo</h3>
+      <h3 class="rp__h">{{ t('c.world.h2') }}</h3>
       <svg viewBox="0 0 280 140" class="rp__svg">
         <circle cx="40" cy="70" r="6" class="rp__node rp__node--lang" />
         <path
@@ -79,23 +78,16 @@ const branches = computed(() =>
           :class="{ 'is-chosen': br.chosen && props.stage >= 3 }"
           :style="{ transitionDelay: props.stage >= 2 ? `${br.b * 70}ms` : '0ms' }"
         />
-        <text x="40" y="52" class="rp__label" text-anchor="middle">ahora</text>
-        <text x="248" y="34" class="rp__label" text-anchor="end">futuros imaginados</text>
+        <text x="40" y="52" class="rp__label" text-anchor="middle">{{ t('c.world.now') }}</text>
+        <text x="248" y="34" class="rp__label" text-anchor="end">{{ t('c.world.futures') }}</text>
       </svg>
-      <p class="rp__p">
-        Antes de mover, simula varios futuros y elige. El modelo del mundo es
-        lo que le permite <em>equivocarse en su cabeza</em> en vez de en la mesa.
-      </p>
+      <p class="rp__p" v-html="md('c.world.p2')" />
     </section>
 
     <!-- the concrete anchor ------------------------------------------------>
     <footer class="rp__anchor" :class="{ 'is-on': props.stage >= 4 }">
-      <span class="rp__anchork t-mono">ya está en LeRobot</span>
-      <span class="rp__anchorv">
-        <strong>VLA-JEPA</strong> — backbone Qwen3-VL + modelo del mundo V-JEPA2 + cabeza
-        de acción flow-matching. El detalle revelador: el modelo del mundo se usa
-        <strong>sólo durante el entrenamiento</strong>. Hoy sirve para aprender, todavía no para planear.
-      </span>
+      <span class="rp__anchork t-mono">{{ t('c.world.anchorTag') }}</span>
+      <span class="rp__anchorv" v-html="md('c.world.anchor')" />
     </footer>
   </div>
 </template>
@@ -141,7 +133,7 @@ const branches = computed(() =>
 }
 
 .rp__p { margin: 0; font-size: var(--fs-body); color: var(--text-secondary); max-width: 42ch; }
-.rp__p em { color: var(--text-primary); font-style: normal; font-variation-settings: 'wght' 600; }
+.rp__p :deep(em), .rp__p :deep(strong) { color: var(--text-primary); font-style: normal; font-weight: 400; font-variation-settings: 'wght' 600; }
 
 .rp__anchor {
   grid-column: 1 / -1;
@@ -162,5 +154,5 @@ const branches = computed(() =>
   color: var(--accent-lang);
 }
 .rp__anchorv { font-size: var(--fs-body); color: var(--text-secondary); max-width: 92ch; }
-.rp__anchorv strong { color: var(--text-primary); }
+.rp__anchorv :deep(strong) { color: var(--text-primary); font-weight: 400; font-variation-settings: 'wght' 600; }
 </style>

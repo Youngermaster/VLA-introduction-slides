@@ -63,22 +63,43 @@ transitions and Q&A.
 |---|---|---|
 | 1 · Hook | title → data-asymmetry | 4 min |
 | 2 · How we got here | act2-open → act-limitation | 6 min |
-| 3 · How VLAs work | act3-open → rt2-insight | 12 min |
-| 4 · Landscape | act4-open → when-to-use | 6 min |
-| 5 · **Live demo** | act5-open → backup-demo | 9 min |
-| 6 · Reality | act6-open → data-economics | 5 min |
-| 7 · Architecture lesson | act7-open → chess-lesson | 4 min |
-| 8 · Future | act8-open → open-question | 5 min |
+| 3 · **The forward pass** | act3-open → closed-loop | 12 min |
+| 4 · How it's trained | train-open → rt2-insight | 6 min |
+| 5 · Landscape | act4-open → when-to-use | 8 min |
+| 6 · **Live demo** | act5-open → backup-demo | 9 min |
+| 7 · Reality | act6-open → data-economics | 5 min |
+| 8 · Architecture lesson | act7-open → chess-lesson | 4 min |
+| 9 · Future | act8-open → open-question | 5 min |
 | Closing | resources → thanks | 2 min |
 
-**If you're running late**, cut in this order:
-1. `demo-act-video` (the ACT comparison) — down to 30 s or skip
-2. `generalist-models`
-3. `model-landscape` — do two rows instead of five
-4. `adoption`
+47 slides. The script is **~34 minutes of speaking** — check the live number in
+`/practice`, which measures it from the actual text.
 
-**Never cut** `data-asymmetry`, `vla-architecture`, the demo, or `chess-lesson`.
-Those four are the talk.
+**If you're running late**, cut in this order. The deck is built so each of
+these can go without breaking the argument:
+
+1. `demo-act-video` (the ACT comparison) — down to 30 s, or skip
+2. `openvla-anatomy` — SmolVLA alone carries the point
+3. `generalist-models`
+4. `data-pipeline` — `recording` covers the same ground more concretely
+5. `model-landscape` — do two rows instead of five
+6. `adoption`
+7. `detokenizer` — only if desperate; it's the half nobody else explains
+
+**Never cut** `data-asymmetry`, `vla-architecture`, `action-chunking`, the demo,
+or `chess-lesson`. Those five are the talk.
+
+### The deep-mechanism run (Act 3)
+
+This is the densest stretch and the one most likely to lose people. Pacing that
+works: define the policy fast, spend real time on `vla-architecture`, then treat
+`language-in` → `attention` → `action-tokenization` → `detokenizer` as one
+continuous story about *getting in and getting back out*. `closed-loop` is the
+payoff — it's the slide where the parts become a mechanism. Don't rush it.
+
+If the room looks lost during tokenization, the rescue line is:
+*"discrete to reuse the language model's machinery; continuous to be fast and
+precise."* Then move on.
 
 ---
 
@@ -110,6 +131,12 @@ objects near what it saw. It does not handle a new task.
 **"How long did training take?"**
 SmolVLA fine-tune, ~20k steps: a few hours on the 5060 Ti. The dataset recording
 was the slow part.
+
+**"Is the attention the same as in an LLM?"**
+Yes for the operator — same scaled dot-product, same RoPE, same GQA. The
+difference is the *mask*: images and text form one bidirectionally-attending
+prefix block rather than a causal triangle, and the action tokens are their own
+block (causal in SmolVLA, bidirectional in π₀). Slide `attention` covers it.
 
 **"Why not just use an LLM with a robot API?"**
 Good question, and it's the `chess-lesson` answer: you can, and for structured

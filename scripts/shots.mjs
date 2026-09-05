@@ -32,8 +32,10 @@ for (let i = 0; i < blocks.length; i++) {
   if (!('routeAlias' in meta) && !('layout' in meta)) continue
   slides.push({ alias: meta.routeAlias ?? `slide`, clicks: meta.clicks ?? 0 })
 }
-// the title slide has no frontmatter block of its own
-slides.unshift({ alias: 'title', clicks: 0 })
+// The headmatter block doubles as slide 1's frontmatter. Once the title slide
+// gained a routeAlias it started matching the filter above, so unshifting a
+// synthetic entry would double-count it and shift every URL by one.
+if (slides[0]?.alias !== 'title') slides.unshift({ alias: 'title', clicks: 0 })
 
 await rm(outDir, { recursive: true, force: true })
 await mkdir(outDir, { recursive: true })

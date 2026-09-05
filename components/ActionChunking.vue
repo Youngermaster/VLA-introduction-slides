@@ -21,8 +21,10 @@
 -->
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useTx } from '../lib/tx'
 
 const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
+const { t, md } = useTx()
 
 const W = 820
 const H = 150
@@ -108,13 +110,9 @@ const showSeams = computed(() => props.stage === 3)
 const showRtc = computed(() => props.stage >= 4)
 
 const caption = computed(() => {
-  switch (props.stage) {
-    case 1: return { k: 'un paso a la vez', v: 'El brazo se detiene en cada inferencia. Cada predicción ignora la anterior.' }
-    case 2: return { k: 'action chunking', v: 'Una inferencia devuelve ~50 acciones futuras. Entre decisiones, el movimiento es continuo.' }
-    case 3: return { k: 'el problema de la costura', v: 'Mientras se ejecuta un chunk, el siguiente ya se está calculando — y vuelve en desacuerdo con dónde está el brazo.' }
-    case 4: return { k: 'real-time chunking', v: 'El solapamiento se rellena (inpainting) para que los chunks concuerden. En LeRobot: --inference.type=rtc' }
-    default: return { k: '', v: '' }
-  }
+  const n = props.stage
+  if (n < 1 || n > 4) return { k: '', v: '' }
+  return { k: t(`c.chunking.s${n}k`), v: t(`c.chunking.s${n}v`) }
 })
 </script>
 
@@ -158,7 +156,7 @@ const caption = computed(() => {
     <!-- chunk boundaries as a legend under the plot -->
     <div class="ac__ticks" :class="{ 'is-on': showChunked }">
       <span v-for="c in chunks" :key="c.c" class="ac__tick">
-        <em class="t-mono">chunk {{ c.c + 1 }}</em>
+        <em class="t-mono">{{ t('c.chunking.chunk') }} {{ c.c + 1 }}</em>
       </span>
     </div>
 

@@ -6,14 +6,18 @@
   source of truth, and it is why the data is expensive.
 -->
 <script setup lang="ts">
-const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
+import { computed } from 'vue'
+import { useTx } from '../lib/tx'
 
-const STEPS = [
-  { at: 1, k: 'teleop', title: 'Teleoperación', body: 'Mueves el brazo líder; el seguidor copia. 30 s por episodio, en tiempo real.', mono: 'lerobot-record' },
-  { at: 2, k: 'episode', title: 'Episodio', body: '3 vídeos sincronizados + estado de las 6 articulaciones a 30 Hz + la instrucción en texto.', mono: 'observation.images.top · observation.state · action' },
-  { at: 3, k: 'dataset', title: 'Dataset', body: '~50 episodios por tarea, repartidos entre variaciones: posición del objeto, iluminación, distractores.', mono: 'LeRobotDataset v3' },
-  { at: 4, k: 'train', title: 'Entrenamiento', body: 'La política aprende a predecir la acción que tomó el humano, dadas las mismas observaciones.', mono: 'lerobot-train' },
-] as const
+const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
+const { t, md } = useTx()
+
+const STEPS = computed(() => [
+  { at: 1, k: 'pipeline1', title: t('c.pipeline.s1t'), body: t('c.pipeline.s1b'), mono: 'lerobot-record' },
+  { at: 2, k: 'pipeline2', title: t('c.pipeline.s2t'), body: t('c.pipeline.s2b'), mono: 'observation.images.top · observation.state · action' },
+  { at: 3, k: 'pipeline3', title: t('c.pipeline.s3t'), body: t('c.pipeline.s3b'), mono: 'LeRobotDataset v3' },
+  { at: 4, k: 'pipeline4', title: t('c.pipeline.s4t'), body: t('c.pipeline.s4b'), mono: 'lerobot-train' },
+])
 </script>
 
 <template>

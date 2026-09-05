@@ -8,16 +8,19 @@
   difference is only what feeds it.
 -->
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useTx } from '../lib/tx'
 const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
+const { t, md } = useTx()
 
-const ROWS = [
-  { k: 'in',    label: 'Entrada',                 act: 'imágenes + estado del robot',        vla: 'imágenes + estado + instrucción' },
-  { k: 'enc',   label: 'Representación',          act: 'ResNet entrenado desde cero',        vla: 'VLM preentrenado en internet' },
-  { k: 'head',  label: 'Cabeza de acción',        act: 'transformer CVAE → chunk',           vla: 'action expert → chunk' },
-  { k: 'out',   label: 'Salida',                  act: '~100 acciones futuras',              vla: '~50 acciones futuras' },
-  { k: 'lang',  label: 'Entiende lenguaje',       act: 'no',                                 vla: 'sí' },
-  { k: 'gen',   label: 'Generaliza a objetos nuevos', act: 'no',                             vla: 'algo' },
-] as const
+const ROWS = computed(() => [
+  { k: 'in',   label: t('c.inside.hIn'),   act: t('c.inside.aIn'),   vla: t('c.inside.vIn') },
+  { k: 'enc',  label: t('c.inside.hRep'),  act: t('c.inside.aRep'),  vla: t('c.inside.vRep') },
+  { k: 'head', label: t('c.inside.hHead'), act: t('c.inside.aHead'), vla: t('c.inside.vHead') },
+  { k: 'out',  label: t('c.inside.hOut'),  act: t('c.inside.aOut'),  vla: t('c.inside.vOut') },
+  { k: 'lang', label: t('c.inside.hLang'), act: t('c.inside.no'),    vla: t('c.inside.yes') },
+  { k: 'gen',  label: t('c.inside.hGen'),  act: t('c.inside.no'),    vla: t('c.inside.some') },
+])
 </script>
 
 <template>
@@ -39,10 +42,7 @@ const ROWS = [
       <span class="iv__vla">{{ r.vla }}</span>
     </div>
 
-    <p class="iv__punch" :class="{ 'is-on': props.stage >= 3 }">
-      La cabeza de acción de un VLA <strong>es</strong> una política de chunking.
-      Lo que cambió no es el músculo — es lo que le habla al músculo.
-    </p>
+    <p class="iv__punch" :class="{ 'is-on': props.stage >= 3 }" v-html="md('c.inside.punch')" />
   </div>
 </template>
 

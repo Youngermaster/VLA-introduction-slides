@@ -290,6 +290,191 @@ enseñarle al robot qué es un objeto. Sólo hay que enseñarle cómo moverse ha
 Por eso un VLA generaliza donde ACT no. No es que aprenda mejor. Es que empieza
 sabiendo muchísimo más.
 
+## what-is-a-policy
+<!-- target: 75 -->
+
+Antes de seguir, una palabra que voy a usar veinte veces: **política**.
+
+Suena raro en español, pero es simplemente una función. Le entra lo que el robot
+ve, y devuelve qué hacer. Nada más.
+
+Fíjense en el primer término: no devuelve *una* acción, devuelve un bloque —
+qué hacer ahora y durante el próximo segundo. Ya volveremos a eso.
+
+El segundo término es lo que ve: imágenes y el estado de las articulaciones.
+
+Y el tercero es la instrucción. **ACT no tiene el tercer término. Un VLA sí.**
+Toda esta charla cabe en esa diferencia.
+
+Y una aclaración que confunde a mucha gente: esto **no** es reinforcement
+learning. No hay recompensa, no hay exploración, no hay ensayo y error. Es
+aprendizaje supervisado normal, donde la etiqueta es lo que hizo el humano.
+
+## language-in
+<!-- target: 90 -->
+
+Bien, ¿cómo entra exactamente la instrucción?
+
+Y aquí la respuesta es tranquilizadora, porque todo el mundo asume que tiene que
+haber algo raro. No lo hay.
+
+Primero, tu frase. Segundo — y esto sí es propio de los VLA — no se la pasas
+suelta: la envuelven en una plantilla fija. "¿Qué acción debería tomar el robot
+para {tu instrucción}?" Y eso es astuto, porque así el modelo no está aprendiendo
+una tarea nueva. Sigue haciendo lo único que sabe hacer: predecir el siguiente
+token de una pregunta.
+
+Tercero, el tokenizador. **El mismo de texto.** Fíjense que "magnesio" se parte
+en dos pedazos, y no pasa absolutamente nada.
+
+Y cuarto: esos vectores se pegan detrás de los de la imagen. Para el transformer
+es una sola secuencia. No sabe cuáles son píxeles y cuáles son palabras — y esa
+es justamente la idea.
+
+## attention
+<!-- target: 105 -->
+
+Y aquí la pregunta que siempre sale, así que me adelanto: ¿es la misma atención
+que ChatGPT?
+
+Sí. El backbone es un transformer decoder normal, con self-attention idéntica a
+la de un modelo de texto. Mismas librerías, misma matemática, mismos kernels.
+
+Lo que cambia está al final, y vale la pena entenderlo bien porque es la única
+diferencia real. El action expert usa **cross-attention**.
+
+¿Y cuál es la diferencia? Sólo de dónde salen las tres matrices. En
+self-attention, la query, la key y el value salen de la **misma** secuencia:
+cada token mira a todos los demás.
+
+En cross-attention, la query sale de las acciones, y la key y el value salen del
+VLM. Dicho en cristiano: **las acciones preguntan, y el modelo de visión y
+lenguaje responde.**
+
+Y eso tiene una consecuencia práctica muy concreta: puedes entrenar el experto
+de acción dejando el backbone completamente congelado.
+
+Así que sí — el noventa por ciento de un VLA es el transformer que ya conocen.
+Lo nuevo son las últimas capas.
+
+## detokenizer
+<!-- target: 90 -->
+
+Ya vimos cómo se entra al mundo discreto. ¿Cómo se sale?
+
+Porque el modelo escupe siete IDs de token, y un motor necesita grados.
+
+Le restas el offset, y te queda un número del cero al doscientos cincuenta y
+cinco: el cajón. Lo llevas al rango continuo. Y después lo des-normalizas con
+las estadísticas del dataset.
+
+Y aquí un detalle que me parece precioso de ingeniería: se des-normaliza con los
+percentiles uno y noventa y nueve, **no** con el mínimo y el máximo. ¿Por qué?
+Porque si una sola demostración salió mal y el brazo pegó un tirón, ese valor
+extremo te estiraría toda la escala y arruinaría la precisión de las otras
+cuarenta y nueve.
+
+Y miren el resultado: son **deltas**. El modelo no dice "ve a esta coordenada",
+dice "muévete cuatro milímetros hacia allá". Y eso se repite treinta veces por
+segundo.
+
+## closed-loop
+<!-- target: 75 -->
+
+Juntemos todo.
+
+Observar: tres cámaras y el estado. Tokenizar: parches de imagen más la
+instrucción. El VLM: self-attention sobre esa secuencia. El action expert:
+cross-attention, preguntándole al VLM. De-tokenizar: a milímetros y grados.
+Y ejecutar.
+
+Y vuelta a empezar. Treinta veces por segundo, mientras el brazo se está
+moviendo.
+
+El chunk es lo que permite que este bucle **no** tenga que cerrarse en cada
+paso. Por eso el movimiento se ve continuo y no a tirones.
+
+Eso es un VLA completo. Todo lo que sigue son variaciones sobre este dibujo.
+
+## train-open
+<!-- target: 12 -->
+
+Ya sabemos cómo piensa. Ahora, cómo aprende.
+
+## recording
+<!-- target: 90 -->
+
+Esto es lo que pasa exactamente cuando grabas un dataset, y tiene un detalle que
+aclara todo lo demás.
+
+Yo muevo el brazo líder con la mano. El seguidor copia. Fíjense que el seguidor
+va siempre un pelín por detrás — no es un defecto, es física.
+
+Y en cada timestep, treinta veces por segundo, se escribe un renglón en disco:
+las tres imágenes, el estado, la acción, la instrucción, y los índices.
+
+Ahora miren esas dos filas del medio, porque **no son lo mismo**.
+
+`observation.state` es dónde **está** el seguidor. `action` es dónde lo **mandó**
+el humano con el líder.
+
+Y entrenar la política es exactamente esto: aprender a predecir la segunda a
+partir de la primera. Aprender a ser la mano del humano.
+
+Eso es todo el behavior cloning. No hay más.
+
+## openvla-anatomy
+<!-- target: 120 -->
+
+Veamos uno de verdad por dentro. OpenVLA, que fue el primer VLA abierto serio y
+es el más fácil de enseñar, porque cada caja es algo que ya conocen.
+
+Uno: dos encoders visuales, no uno. DINOv2 y SigLIP, y se concatenan sus
+features. Uno es bueno en geometría, el otro en semántica.
+
+Dos: un MLP los proyecta al espacio de embeddings de Llama.
+
+Tres: la instrucción entra por el tokenizador de Llama, sin tocar nada.
+
+Cuatro: todo se convierte en una sola secuencia y entra a un Llama 2 de siete mil
+millones de parámetros. Que hace exactamente lo de siempre: predecir el siguiente
+token.
+
+Sólo que los tokens que predice son acciones — porque le sobrescribieron los
+doscientos cincuenta y seis tokens menos usados del vocabulario.
+
+Y seis: el de-tokenizador los vuelve milímetros y grados.
+
+No hay nada exótico aquí. Es un modelo de lenguaje al que le enseñaron un
+vocabulario nuevo.
+
+## smolvla-anatomy
+<!-- target: 120 -->
+
+Y ahora el que está corriendo en esta mesa.
+
+Mismo esquema general: un modelo de visión y lenguaje que recibe las cámaras, la
+tarea y el estado del robot.
+
+Pero aquí viene la idea que más me gusta de todo el paper.
+
+Usa sólo la **primera mitad** de las capas del VLM. Las corta.
+
+¿Por qué se puede hacer eso? Porque las últimas capas de un modelo de lenguaje se
+especializan en **producir lenguaje** — en elegir la palabra siguiente. Y un robot
+no necesita hablar. Necesita entender la escena, y eso ya está resuelto a media
+altura de la red.
+
+Después, el action expert alterna cross-attention, que lee el VLM, con
+self-attention propia.
+
+Y parte de acciones con ruido que va limpiando paso a paso — eso es flow
+matching, la misma familia de ideas que los modelos de imágenes.
+
+Cortar esas capas es lo que convierte un modelo de quinientos millones en un VLA
+de cuatrocientos cincuenta que corre en un portátil. Esa decisión es la razón de
+que este demo sea posible.
+
 ## act4-open
 <!-- target: 10 -->
 

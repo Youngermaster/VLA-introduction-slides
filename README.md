@@ -25,6 +25,11 @@ pnpm dev          # → http://localhost:3030
 | `pnpm check:content` | Locale parity, key resolution, monologue coverage |
 | `node scripts/shots.mjs --lang es [--clicks]` | Screenshot every slide (dev server must be running) |
 
+> **Do not add `--per-slide` to the export.** It renders each slide in its own
+> pass and silently drops the click steps — the PDF comes out at one page per
+> slide, which means every build-up visualization exports as a blank canvas.
+> The correct export is 177 pages (47 slides + their click steps).
+
 > **Frontmatter changes need a server restart.** Slidev's HMR does not reliably
 > pick up `clicks:` or `layout:` edits — the slide will silently register zero
 > click steps. If a build-up stops advancing, restart `pnpm dev` before debugging
@@ -43,7 +48,7 @@ one on the day. The two keys that matter:
 | **V** | Return to the slide you jumped from. |
 | **L** | Switch the deck's language live. |
 
-Presenter mode with speaker notes: `http://localhost:3030/presenter`.
+Presenter mode with speaker notes: `http://localhost:3030/#/presenter`.
 
 ---
 
@@ -82,7 +87,7 @@ Language resolution order: `?lang=` → `localStorage` → `VITE_DECK_LOCALE` en
 ## Practice mode
 
 ```
-http://localhost:3030/practice
+http://localhost:3030/#/practice
 ```
 
 The spoken script on the left, the live slide on the right, **each with its own
@@ -152,8 +157,9 @@ In DevTools → Network, confirm **zero requests to `fonts.googleapis.com`**.
 slides.md                deck structure
 locales/{es,en}.yml      all slide prose
 monologue/{es,en}.md     the spoken script
-components/              17 custom visualizations
+components/              25 custom visualizations
 layouts/                 claim · act · viz · split
+scripts/reorder.mjs      reorder slides by routeAlias (narrative order changes often)
 pages/practice.vue       rehearsal route
 setup/                   main (i18n) · routes · shortcuts · unocss
 styles/                  tokens · base · slides · motion

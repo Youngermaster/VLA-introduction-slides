@@ -285,6 +285,187 @@ toward one.
 That's why a VLA generalizes where ACT doesn't. It isn't that it learns better.
 It's that it starts out knowing vastly more.
 
+## what-is-a-policy
+<!-- target: 75 -->
+
+Before we go further, a word I'm going to use twenty times: **policy**.
+
+It sounds like jargon, but it's just a function. What the robot sees goes in,
+what to do comes out. That's all.
+
+Look at the first term: it doesn't return *an* action, it returns a block — what
+to do now and over the next second. We'll come back to that.
+
+The second term is what it sees: images and joint state.
+
+And the third is the instruction. **ACT doesn't have the third term. A VLA
+does.** This entire talk fits in that difference.
+
+And one clarification that trips a lot of people up: this is **not**
+reinforcement learning. No reward, no exploration, no trial and error. It's
+ordinary supervised learning, where the label is what the human did.
+
+## language-in
+<!-- target: 90 -->
+
+So how does the instruction actually get in?
+
+The answer is reassuring, because everyone assumes there must be something
+exotic. There isn't.
+
+First, your sentence. Second — and this part *is* VLA-specific — you don't pass
+it raw: it's wrapped in a fixed template. "What action should the robot take to
+{your instruction}?" That's clever, because now the model isn't learning a new
+task. It's still doing the only thing it knows: predicting the next token of a
+question.
+
+Third, the tokenizer. **The same text tokenizer.** Notice "magnesium" gets split
+into pieces, and absolutely nothing bad happens.
+
+And fourth: those vectors get concatenated behind the image ones. To the
+transformer it's a single sequence. It doesn't know which are pixels and which
+are words — and that's exactly the point.
+
+## attention
+<!-- target: 105 -->
+
+Now the question that always comes up, so let me get ahead of it: is this the
+same attention as ChatGPT?
+
+Yes. The backbone is a normal decoder transformer, with self-attention identical
+to a text model's. Same libraries, same maths, same kernels.
+
+What changes is at the end, and it's worth understanding properly because it's
+the only real difference. The action expert uses **cross-attention**.
+
+And what is the difference? Only where the three matrices come from. In
+self-attention, query, key and value all come from the **same** sequence: every
+token looks at every other one.
+
+In cross-attention, the query comes from the actions, and the key and value come
+from the VLM. In plain terms: **the actions ask, and the vision-language model
+answers.**
+
+That has a very concrete practical consequence: you can train the action expert
+while leaving the backbone completely frozen.
+
+So yes — ninety percent of a VLA is the transformer you already know. What's new
+is the last few layers.
+
+## detokenizer
+<!-- target: 90 -->
+
+We've seen how you get into the discrete world. How do you get out?
+
+Because the model emits seven token IDs, and a motor needs degrees.
+
+Subtract the offset and you have a number from zero to two hundred and
+fifty-five: the bin. Map it to the continuous range. Then de-normalize with the
+dataset's statistics.
+
+And here's a lovely piece of engineering: it de-normalizes with the first and
+ninety-ninth percentiles, **not** min and max. Why? Because if a single
+demonstration went wrong and the arm jerked, that one extreme value would stretch
+the entire scale and ruin the precision of the other forty-nine.
+
+And look at the result: they're **deltas**. The model doesn't say "go to this
+coordinate", it says "move four millimetres that way". Thirty times a second.
+
+## closed-loop
+<!-- target: 75 -->
+
+Let's put it all together.
+
+Observe: three cameras and the state. Tokenize: image patches plus the
+instruction. The VLM: self-attention over that sequence. The action expert:
+cross-attention, asking the VLM. De-tokenize: to millimetres and degrees. And
+execute.
+
+Then round again. Thirty times a second, while the arm is moving.
+
+The chunk is what lets this loop **not** have to close on every step. That's why
+the motion looks continuous instead of stuttering.
+
+That's a complete VLA. Everything that follows is a variation on this drawing.
+
+## train-open
+<!-- target: 12 -->
+
+We know how it thinks. Now, how it learns.
+
+## recording
+<!-- target: 90 -->
+
+Here's exactly what happens when you record a dataset, and there's one detail
+that clarifies everything else.
+
+I move the leader arm by hand. The follower copies. Notice the follower always
+lags slightly — that isn't a defect, that's physics.
+
+And at every timestep, thirty times a second, a row gets written to disk: the
+three images, the state, the action, the instruction, and the indices.
+
+Now look at those two middle rows, because **they are not the same thing**.
+
+`observation.state` is where the follower **is**. `action` is where the human
+**commanded** it with the leader.
+
+And training the policy is exactly this: learning to predict the second from the
+first. Learning to be the human's hand.
+
+That's all behaviour cloning is. There's nothing more to it.
+
+## openvla-anatomy
+<!-- target: 120 -->
+
+Let's look at a real one from the inside. OpenVLA, the first serious open VLA,
+and the easiest to teach because every box is something you already know.
+
+One: two vision encoders, not one. DINOv2 and SigLIP, with their features
+concatenated. One is good at geometry, the other at semantics.
+
+Two: an MLP projects them into Llama's embedding space.
+
+Three: the instruction goes through Llama's tokenizer, untouched.
+
+Four: it all becomes a single sequence and goes into a Llama 2 with seven billion
+parameters. Which does exactly what it always does: predict the next token.
+
+Except the tokens it predicts are actions — because they overwrote the two
+hundred and fifty-six least-used tokens in the vocabulary.
+
+And six: the de-tokenizer turns those into millimetres and degrees.
+
+There's nothing exotic here. It's a language model that was taught a new
+vocabulary.
+
+## smolvla-anatomy
+<!-- target: 120 -->
+
+And now the one running on this table.
+
+Same general shape: a vision-language model receiving the cameras, the task and
+the robot state.
+
+But here comes the idea I like most in the whole paper.
+
+It uses only the **first half** of the VLM's layers. It cuts them.
+
+Why can you get away with that? Because the last layers of a language model
+specialise in **producing language** — in picking the next word. And a robot
+doesn't need to talk. It needs to understand the scene, and that's already
+resolved halfway up the network.
+
+Then the action expert alternates cross-attention, reading the VLM, with its own
+self-attention.
+
+And it starts from noisy actions that it cleans up step by step — that's flow
+matching, the same family of ideas as image models.
+
+Cutting those layers is what turns a five-hundred-million model into a
+four-hundred-and-fifty-million VLA that runs on a laptop. That decision is the
+reason this demo is possible at all.
+
 ## act4-open
 <!-- target: 10 -->
 

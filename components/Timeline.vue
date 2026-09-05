@@ -1,13 +1,20 @@
 <!-- ACT 2 — how we got here. Revealed step by step, left to right, matching the deck's current. -->
 <script setup lang="ts">
-const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
+import { computed } from 'vue'
+import { useTx } from '../lib/tx'
 
-const ERAS = [
-  { at: 1, year: 'hasta ~2020', title: 'Control programado', body: 'Cinemática inversa y trayectorias escritas a mano. Funciona perfecto — hasta que algo se mueve un centímetro.', tone: 'muted' },
-  { at: 2, year: '2023', title: 'Imitation learning', body: 'ACT y Diffusion Policy. Aprende de demostraciones humanas. Sin lenguaje, sin razonamiento: un reflejo muy bueno.', tone: 'action' },
-  { at: 3, year: '2023–24', title: 'Los primeros VLA', body: 'RT-2 muestra que el conocimiento de internet transfiere al control físico. OpenVLA lo abre.', tone: 'lang' },
-  { at: 4, year: '2025–26', title: 'Al alcance', body: 'SmolVLA (450M), π₀.₅, GR00T N1.7. Entrenables en una GPU de consumo. 164 papers de VLA en ICLR 2026.', tone: 'lang' },
-] as const
+const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
+const { t, md } = useTx()
+
+const ERAS = computed(() =>
+  ([1, 2, 3, 4] as const).map((n, i) => ({
+    at: n,
+    year: t(`c.timeline.e${n}y`),
+    title: t(`c.timeline.e${n}t`),
+    body: t(`c.timeline.e${n}b`),
+    tone: (['muted', 'action', 'lang', 'lang'] as const)[i],
+  })),
+)
 </script>
 
 <template>
