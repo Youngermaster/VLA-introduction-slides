@@ -1,0 +1,158 @@
+/* ==========================================================================
+   Motion
+   --------------------------------------------------------------------------
+   Slidev's default click animation is `transition: all 0.1s ease`. 100ms is
+   below the threshold where an ease is perceivable at all — it reads as a
+   hard flicker, not motion. Its default slide transition is `slide-left`:
+   100% travel with symmetric easing, i.e. zero velocity on BOTH sides of the
+   cut, which is what makes most decks feel like shuffled cards.
+
+   Everything below replaces those two defaults.
+
+   THE RULE THAT GOVERNS ALL OF IT: between keypresses, everything is at rest.
+   Motion is punctuation tied to a key, never an ambient state. No pulsing
+   glows, no floating cards, no breathing logos, no shimmer.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. rise-in — the atomic entry, replacing Slidev's default v-click
+   Opacity is linear and short; the displacement is longer and eased out.
+   Y-from-below only: scale-up entries fight the sign of a Z-style seam.
+   -------------------------------------------------------------------------- */
+.slidev-vclick-target {
+  transition:
+    opacity   var(--d-step)  var(--e-linear),
+    translate var(--d-entry) var(--e-out-quart),
+    filter    var(--d-step)  var(--e-linear);
+}
+.slidev-vclick-hidden {
+  opacity: 0;
+  translate: 0 18px;
+}
+
+/* Custom preset: v-click.rise — a heavier arrival for an anchor element */
+.slidev-vclick-anim-rise { transition-duration: var(--d-entry); }
+.slidev-vclick-hidden.slidev-vclick-anim-rise {
+  translate: 0 26px;
+  filter: blur(4px);
+}
+
+/* Custom preset: v-click.snap — binary opacity, for cascade members.
+   Seam cuts fade; arrivals do not. Fading an arrival fights the snap. */
+.slidev-vclick-anim-snap {
+  transition:
+    opacity 0ms var(--e-linear),
+    translate var(--d-step) var(--e-out-quint);
+}
+.slidev-vclick-hidden.slidev-vclick-anim-snap { translate: 0 30px; }
+
+/* --------------------------------------------------------------------------
+   2. cut-left / cut-right — the house seam
+   Differences from Slidev's `slide-left`:
+     - 12% travel, not 100%. Partial travel is what reads as a camera move.
+     - MIRRORED ease pair, so velocity is continuous at the cut.
+     - exit fade completes at ~55% of the exit, so nothing is still smearing
+       when the cut lands, and there is no dead frame either.
+     - entry opacity IGNITES AT 0.35 mid-path rather than from 0.
+     - entry (380ms) runs longer than exit (300ms).
+     - the incoming slide composites ON TOP of the outgoing one.
+   Used as `transition: cut-left | cut-right` so pressing <- genuinely
+   reverses the current instead of repeating it.
+   -------------------------------------------------------------------------- */
+.cut-left-leave-active,
+.cut-right-leave-active {
+  transition:
+    translate var(--d-exit) var(--e-in-quint),
+    opacity   180ms         var(--e-linear);
+  z-index: 1;
+}
+.cut-left-enter-active,
+.cut-right-enter-active {
+  transition:
+    translate var(--d-enter) var(--e-out-quint),
+    opacity   200ms          var(--e-linear);
+  z-index: 2;
+}
+
+.cut-left-leave-to    { translate: -12% 0; opacity: 0; }
+.cut-left-enter-from  { translate:  12% 0; opacity: 0.35; }
+
+.cut-right-leave-to   { translate:  12% 0; opacity: 0; }
+.cut-right-enter-from { translate: -12% 0; opacity: 0.35; }
+
+/* --------------------------------------------------------------------------
+   3. rise-up / rise-down — the RESERVED vertical vector.
+   UP means elevation: a conclusion rising above what came before. Spend it on
+   the one or two slides where the thesis lands, never as variety.
+   -------------------------------------------------------------------------- */
+.rise-up-leave-active,
+.rise-down-leave-active {
+  transition: translate var(--d-exit) var(--e-in-quint), opacity 180ms var(--e-linear);
+  z-index: 1;
+}
+.rise-up-enter-active,
+.rise-down-enter-active {
+  transition: translate var(--d-enter) var(--e-out-quint), opacity 200ms var(--e-linear);
+  z-index: 2;
+}
+.rise-up-leave-to     { translate: 0 -9%; opacity: 0; }
+.rise-up-enter-from   { translate: 0  9%; opacity: 0.35; }
+.rise-down-leave-to   { translate: 0  9%; opacity: 0; }
+.rise-down-enter-from { translate: 0 -9%; opacity: 0.35; }
+
+/* --------------------------------------------------------------------------
+   4. arrive / depart — the inverse-zoom ARRIVAL. Payoff beats only.
+   Everything SHRINKS: the outgoing recedes (1 -> 0.8) and the incoming lands
+   oversized (1.25 -> 1) and retracts into the focal plane. 30/70 split.
+   The incoming slide must arrive COMPOSED — give such slides `clicks: 0` for
+   their opening state, or a scale-up child will fight the wrapper's sign.
+   -------------------------------------------------------------------------- */
+.arrive-leave-active {
+  transition: scale 200ms var(--e-in-cubic),
+              filter 200ms var(--e-linear),
+              opacity 200ms var(--e-linear);
+  z-index: 1;
+}
+.arrive-leave-to { scale: 0.8; filter: blur(18px); opacity: 0; }
+
+.arrive-enter-active {
+  transition: scale 500ms var(--e-out-expo),
+              filter 500ms var(--e-out-expo),
+              opacity 500ms var(--e-linear);
+  z-index: 2;
+}
+.arrive-enter-from { scale: 1.25; filter: blur(18px); opacity: 0.15; }
+
+/* The backward twin, so reversing out of a payoff is not a mirror violation */
+.depart-leave-active { transition: scale 200ms var(--e-in-cubic), filter 200ms var(--e-linear), opacity 200ms var(--e-linear); z-index: 1; }
+.depart-leave-to     { scale: 1.2; filter: blur(18px); opacity: 0; }
+.depart-enter-active { transition: scale 500ms var(--e-out-expo), filter 500ms var(--e-out-expo), opacity 500ms var(--e-linear); z-index: 2; }
+.depart-enter-from   { scale: 0.8; filter: blur(18px); opacity: 0.15; }
+
+/* --------------------------------------------------------------------------
+   5. view-transition carriers
+   Spent on the 3-4 boundaries where the SAME OBJECT genuinely persists. That
+   is what "one continuous camera" means — an object crossing the cut, not a
+   nicer fade. Chromium-only, applied per-slide with cut-left as the fallback.
+   -------------------------------------------------------------------------- */
+::view-transition-old(*),
+::view-transition-new(*),
+::view-transition-group(*) {
+  animation-duration: 520ms;
+  animation-timing-function: var(--e-out-quart);
+}
+
+/* --------------------------------------------------------------------------
+   6. Reduced motion — ship the fade-only path.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .slidev-vclick-hidden { translate: none; filter: none; }
+}

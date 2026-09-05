@@ -1,0 +1,119 @@
+/* ==========================================================================
+   Deck-level component styles — the small pieces used directly in slides.md.
+   Anything reused across three or more slides earns a class here rather than
+   an inline style.
+   ========================================================================== */
+
+/* --- Asset placeholders ---------------------------------------------------
+   Deliberately loud. A placeholder that looks like a design decision is one
+   that survives to the talk; this one cannot be mistaken for finished work.
+   See docs/ASSETS.md for what goes where. */
+.ph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--sp-5);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--hairline-strong);
+  background: var(--surface-1);
+  color: var(--text-muted);
+  font-size: var(--fs-caption);
+  min-height: 130px;
+}
+.ph--tall { min-height: 300px; }
+.ph--video { min-height: 240px; aspect-ratio: 16 / 9; }
+.ph--wide { width: 100%; min-height: 300px; }
+
+/* --- The live-demo instruction pair ---------------------------------------
+   The whole payoff of the talk is that ONLY this string changes, so the two
+   are shown stacked and identically styled apart from the accent. */
+.instrs { display: flex; flex-direction: column; gap: 7px; margin: var(--sp-4) 0; }
+.instr {
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  font-size: var(--fs-body);
+  border-left: 2px solid;
+}
+.instr--a { background: var(--accent-action-tint); color: var(--accent-action); border-left-color: var(--accent-action); }
+.instr--b { background: var(--accent-lang-tint); color: var(--accent-lang); border-left-color: var(--accent-lang); }
+
+/* --- ICLR growth figures --------------------------------------------------- */
+.growth { display: flex; flex-direction: column; gap: 9px; margin-top: var(--sp-4); }
+.growth__row { display: flex; align-items: baseline; gap: var(--sp-3); }
+.growth__n {
+  font-size: 30px;
+  color: var(--text-secondary);
+  font-variation-settings: 'wght' 500;
+  font-variant-numeric: tabular-nums;
+  min-width: 3.2ch;
+  text-align: right;
+}
+.growth__row--hero .growth__n { font-size: 52px; color: var(--accent-action); }
+.growth__l { font-size: var(--fs-small); color: var(--text-muted); }
+
+/* Limitations list needs the full width, not the 26ch statement measure */
+.limits-wide :deep(li) { max-width: 88ch; }
+.limits-wide :deep(ul) { margin-top: 0; }
+
+/* --- The three-way open question ------------------------------------------ */
+.q3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-6); }
+.q3__c {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-left: 14px;
+  border-left: 2px solid var(--accent-action);
+  opacity: 0;
+  translate: 0 16px;
+  transition: opacity var(--d-step) var(--e-linear), translate var(--d-entry) var(--e-out-quart);
+}
+.q3__c.is-on { opacity: 1; translate: 0 0; }
+.q3__k { font-size: var(--fs-h2); color: var(--text-primary); font-variation-settings: 'wght' 500; letter-spacing: var(--tr-h2); }
+.q3__d { font-size: var(--fs-small); color: var(--text-secondary); }
+
+.q3__punch {
+  margin: var(--sp-7) 0 0;
+  max-width: 76ch;
+  font-size: var(--fs-lead);
+  line-height: 1.4;
+  color: var(--text-secondary);
+  opacity: 0;
+  translate: 0 10px;
+  transition: opacity var(--d-step) var(--e-linear), translate var(--d-entry) var(--e-out-quart);
+}
+.q3__punch.is-on { opacity: 1; translate: 0 0; }
+
+/* --- Resources / QR row ---------------------------------------------------- */
+.res { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-6); align-items: start; }
+.res__col { display: flex; flex-direction: column; gap: 9px; }
+.res__h {
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-micro);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* --- Contact --------------------------------------------------------------- */
+.contact {
+  position: absolute;
+  left: 64px;
+  bottom: 34px;
+  display: flex;
+  gap: var(--sp-5);
+  font-size: var(--fs-small);
+  color: var(--accent-lang);
+}
+
+/* --- Section-break kicker is intentionally absent --------------------------
+   No "ACT 03" meta-label above the heading. A section number that carries no
+   information is the cheapest-looking thing a deck can do; the coloured rule in
+   layouts/section.vue does the same job without pretending to be content. */
+
+/* Supplied photography — see docs/ASSETS.md */
+.fig {
+  width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--hairline);
+  display: block;
+}

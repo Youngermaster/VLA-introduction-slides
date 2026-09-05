@@ -1,0 +1,273 @@
+# ---------------------------------------------------------------------------
+# English — for giving the same talk outside Medellín.
+# Must mirror es.yml key for key; scripts/check-content.ts enforces that.
+# ---------------------------------------------------------------------------
+
+deck:
+  title: From Tokens to Torque
+  subtitle: How AI learned to move things in the physical world
+  author: Juan Manuel Younes
+  venue: AI Medellín
+
+nav:
+  act: Act
+
+# --- ACT 1 · THE HOOK -------------------------------------------------------
+hook:
+  title: Why did ChatGPT explode and robots didn't?
+  body: |
+    In three years we went from "AI writes strange sentences" to half the world
+    using it every day.
+
+    Robots have been promising the same thing for just as long. They still
+    haven't arrived.
+  aside: The answer isn't that robots are harder. It's that the data is a different kind of thing.
+
+asymmetry:
+  title: The asymmetry that explains everything
+  cite: Open X-Embodiment (arXiv:2310.08864) · Llama 3 (arXiv:2407.21783)
+
+# --- ACT 2 · HOW WE GOT HERE ------------------------------------------------
+act2:
+  title: How we got here
+  sub: From hand-written trajectories to policies that learn on their own.
+
+timeline:
+  title: Three eras in five years
+
+reflex:
+  title: What ACT actually is
+  cite: ACT / ALOHA — Zhao, Kumar, Levine and Finn 2023 (arXiv:2304.13705)
+
+build:
+  title: I built one to understand it
+  lead: |
+    A complete SO-101 — leader and follower — printed on a Creality Ender 3 V3 KE.
+  points: |
+    - Tuned print tolerances until the holes stopped eating the screws (X-Y compensation).
+    - Six Feetech STS3215 servos on a shared serial bus, driven by a Waveshare board.
+    - Three USB cameras: overhead, wrist and base.
+    - ACT policies trained with LeRobot on an RTX 5060 Ti.
+  aside: |
+    None of this is biography. It is the reason I know exactly **where** each
+    thing I am about to describe breaks.
+
+limitation:
+  title: Where ACT runs out
+  body: |
+    My policy picked up a red cube perfectly.
+
+    I put a blue cube next to it and it still went for the red one. I moved the
+    red one ten centimetres and it failed. I spoke to it, and of course,
+    nothing happened.
+  punch: One policy, one task. Every new task means recording and training all over again.
+
+# --- ACT 3 · HOW VLAs WORK --------------------------------------------------
+act3:
+  title: How a VLA works
+  sub: The technical part. Three components, two key ideas, and one compression trick.
+
+architecture:
+  title: Three components
+  cite: RT-2 — Brohan et al. 2023 (arXiv:2307.15818) · SmolVLA — Shukor et al. 2025 (arXiv:2506.01844)
+
+pipeline:
+  title: Where the data comes from
+  cite: LeRobot · lerobot-record → LeRobotDataset v3 → lerobot-train
+
+tokenizer:
+  title: From continuous motion to tokens
+  cite: FAST — Pertsch et al. 2025 (arXiv:2501.09747) · π₀ (arXiv:2410.24164)
+
+chunking:
+  title: Predict a block, not a step
+  cite: ACT — Zhao et al. 2023 (arXiv:2304.13705) · Real-Time Chunking — Black, Galliker and Levine 2025 (arXiv:2506.07339)
+
+pretrain:
+  title: What pretraining buys
+  cite: SmolVLA — Shukor et al. 2025 (arXiv:2506.01844)
+
+inside:
+  title: So where did ACT go in all this?
+
+rt2:
+  title: The RT-2 insight
+  body: |
+    A VLM that has never seen a robot already knows what a bottle is, what
+    "red" means, and that fragile things are handled carefully.
+
+    RT-2 showed that this knowledge **transfers to physical control**: you don't
+    have to teach the robot what an object is, only how to move toward it.
+  punch: |
+    That is why a VLA generalizes where ACT does not. It isn't that it learns
+    better — it **starts out knowing far more**.
+  cite: RT-2 — Brohan et al. 2023 (arXiv:2307.15818) · the CoRL version is cited as Zitkovich et al.
+
+# --- ACT 4 · THE LANDSCAPE --------------------------------------------------
+act4:
+  title: What's available today
+  sub: And which of it actually runs on your hardware.
+
+landscape:
+  title: The landscape, with real numbers
+  cite: |
+    Figures verified against primary sources in September 2026.
+    openpi · NVIDIA Isaac GR00T · LeRobot
+
+access:
+  title: This is already within reach
+  lead: |
+    In 2023 this needed a TPU pod. Today it fits on a desk.
+  points: |
+    - **SmolVLA: 450M parameters.** 350M of VLM (half the SmolVLM2 stack) + 100M action expert. 64 visual tokens per frame.
+    - Trained on **10.6M frames from 481 community datasets** — not from a frontier lab.
+    - **Beats π₀ (3.3B)** on real SO-100 tasks: 78.3% against 61.7%.
+    - Async inference: 9.7 s against 13.75 s per task, and twice the completed cycles.
+  punch: |
+    The arm costs about 150 dollars. The model is open. You record the dataset
+    yourself in an afternoon. **That is the actual shift.**
+  cite: SmolVLA — Shukor et al. 2025 (arXiv:2506.01844) · lerobot/smolvla_base
+
+choose:
+  title: When to use which
+
+# --- ACT 5 · LIVE DEMO ------------------------------------------------------
+act5:
+  title: Live demo
+  sub: Placed mid-talk on purpose — if it fails, I still have half a talk to recover in.
+
+rig:
+  title: What's set up here
+
+demo:
+  title: The moment that matters
+  lead: |
+    Same robot. Same model. Same weights. The only thing that changes is the sentence.
+  instr1: pick up the vitamin B pack
+  instr2: pick up the magnesium bottle
+  body: |
+    There is no `if` anywhere. There is no object detector I wrote. The
+    instruction enters through the same door as the images, and the behaviour
+    changes.
+  punch: That is a VLA. Everything else in this talk is an explanation of how it gets there.
+
+demoact:
+  title: And for comparison — the same task with ACT
+  body: |
+    ACT does its task very well. But it does it **the same way** no matter what I say.
+  placeholder: VIDEO — ACT policy running the recorded task
+
+backup:
+  title: Recorded demo
+  sub: In case the robot decides not to cooperate.
+  placeholder: VIDEO — full demo, recorded in advance
+  note: Press B to get here from any slide. Press V to go back.
+
+# --- ACT 6 · REALITY AND LIMITS ---------------------------------------------
+act6:
+  title: The honest part
+  sub: Where we actually are, and what still doesn't work.
+
+adoption:
+  title: The field moved very fast
+  lead: |
+    VLA papers submitted to ICLR:
+  n2024: '1'
+  n2025: '9'
+  n2026: '164'
+  l2024: in 2024 — and it was rejected
+  l2025: in 2025
+  l2026: in 2026
+  body: |
+    18× in a single year. That analysis projects more than a thousand for 2027.
+  aside: |
+    There are figures circulating about industrial adoption — that VLAs already
+    back 40% of new deployments — but they come from a private market report with
+    no published methodology. I mention them as direction, not as fact.
+  cite: ICLR 2026 analysis — Moritz Reuss, 164 submissions analyzed
+
+limits:
+  title: What still doesn't work
+  points: |
+    - **The benchmarks are saturated.** LIBERO sits between 95% and 99%. It no longer separates anything.
+    - **And they hide the real gap.** On RoboArena — blind, cross-lab evaluation on physical robots — only one model that isn't Physical Intelligence's comes close.
+    - **Latency.** The model takes longer to think a chunk than the robot takes to execute it. That is why RTC exists.
+    - **Fragile generalization.** Change the light, the table, or where the camera sits, and performance collapses.
+  punch: |
+    If someone shows you 98% on LIBERO, they have told you almost nothing about
+    what happens on a real table.
+  cite: RoboArena — Atreya, Pertsch et al. 2025 (arXiv:2506.18123, CoRL 2025) · LIBERO (arXiv:2306.03310)
+
+economics:
+  title: Why the data costs what it costs
+  cite: DROID — Khazatsky, Pertsch et al. 2024 (arXiv:2403.12945, RSS 2024) · Data Scaling Laws — Lin et al. 2024 (arXiv:2410.18647, ICLR 2025 Oral)
+
+# --- ACT 7 · ARCHITECTURE LESSON --------------------------------------------
+act7:
+  title: An architecture lesson
+  sub: A chess-playing robot — and why the policy cannot play chess.
+
+chess:
+  title: Chess robot — the layers
+
+lesson:
+  title: Chess language dies before it reaches the policy
+  body: |
+    One chess move expands into several atomic pick-and-place operations. A
+    capture is two. Castling is two. A promotion is three.
+
+    The policy executes all of them identically, because to it they are all the
+    same thing: it sees coordinates and it grasps.
+  punch: |
+    **The lesson is about systems, not models.** Put the reasoning where the
+    reasoning is and the muscle where the muscle is, and let them meet at the
+    narrowest possible point — here, a pair of coordinates.
+  aside: |
+    Designed, not yet built. I tell it because the mistake I nearly made —
+    pushing chess down into the policy — is the default mistake.
+
+# --- ACT 8 · THE FUTURE -----------------------------------------------------
+act8:
+  title: Where this is going
+  sub: From reacting to imagining.
+
+world:
+  title: World models
+  cite: V-JEPA 2 — Assran et al. 2025 (arXiv:2506.09985) · Cosmos 3 (arXiv:2606.02800) · VLA-JEPA in LeRobot
+
+generalist:
+  title: So how is this different from the generalist models?
+  lead: |
+    The models everyone is talking about are generalists of **text and images**.
+    A VLA is a generalist of **action**. The difference isn't size.
+  points: |
+    - An LLM gets it wrong and you rewrite the prompt. A VLA gets it wrong and **knocks a bottle onto the floor**.
+    - An LLM is evaluated with reproducible benchmarks. A VLA is only really evaluated **on a physical table**, and every table is different.
+    - An LLM learns from data that already existed. A VLA needs data that **has to be generated by moving a robot**.
+  punch: |
+    The bottleneck for LLMs was compute. For VLAs it is **the physical world** —
+    and that does not scale by buying more GPUs.
+
+question:
+  title: So what is the bottleneck?
+  a: Data
+  adesc: It doesn't exist at web scale, and generating it costs institution-years.
+  b: Architecture
+  bdesc: Nobody has yet demonstrated the recipe that clearly wins.
+  cc: Hardware
+  cdesc: Cheap, reliable hands still don't exist.
+  punch: My bet is data. But the question is genuinely open, and that is why the field is fun right now.
+
+# --- CLOSING ----------------------------------------------------------------
+resources:
+  title: To go further
+  papers: Papers and surveys
+  code: Code and documentation
+  mine: Mine
+
+thanks:
+  title: Thank you
+  sub: Questions?
+  invite: |
+    If you work in robotics, manufacturing or logistics and any of this landed —
+    let's talk. I'm here all evening.

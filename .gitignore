@@ -1,0 +1,7 @@
+node_modules/
+dist/
+export/
+.shots/
+.slidev/
+*.log
+.DS_Store

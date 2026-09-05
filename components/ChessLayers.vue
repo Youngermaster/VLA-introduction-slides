@@ -1,0 +1,152 @@
+<!--
+  ACT 7 — the architecture lesson, using the chess robot as the case study.
+
+  The thing worth teaching is not "here are four boxes". It is that the CHESS
+  LANGUAGE DIES before it ever reaches the policy. Stockfish thinks in moves;
+  the orchestrator expands one move into several atomic pick-and-place
+  operations (a capture is two, castling is two, a promotion is three); and what
+  finally crosses into ACT is a pair of coordinates. The muscle never knows a
+  game is happening.
+
+  So the animation is a literal descent: the token "Nxe5" travels down the
+  layers, and at the boundary its LETTERS fade out while only numbers survive.
+-->
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = withDefaults(defineProps<{ stage?: number }>(), { stage: 0 })
+
+const LAYERS = [
+  {
+    at: 1,
+    name: 'Stockfish',
+    role: 'razona sobre ajedrez',
+    payload: 'Nxe5',
+    kind: 'lang',
+    note: 'Evalúa millones de posiciones. No sabe que existe un brazo.',
+  },
+  {
+    at: 2,
+    name: 'python-chess + orquestador',
+    role: 'traduce',
+    payload: '2 operaciones atómicas',
+    kind: 'lang',
+    note: 'Una captura son DOS operaciones: retirar la pieza comida, luego mover el caballo. El enroque también. Una promoción, tres.',
+  },
+  {
+    at: 3,
+    name: 'Visión del tablero',
+    role: 'ancla al mundo',
+    payload: 'e5 → (0.21, −0.08, 0.03)',
+    kind: 'bridge',
+    note: 'Aquí muere el ajedrez. Lo único que cruza la frontera son coordenadas.',
+  },
+  {
+    at: 4,
+    name: 'Política ACT',
+    role: 'agarra y suelta',
+    payload: '[0.21, −0.08, 0.03, …]',
+    kind: 'action',
+    note: 'ACT no sabe qué es un caballo, ni qué es una captura, ni que hay una partida. Aprendió a agarrar cosas en coordenadas.',
+  },
+] as const
+
+const active = computed(() => LAYERS.find((l) => l.at === props.stage))
+</script>
+
+<template>
+  <div class="cl">
+    <ol class="cl__stack">
+      <li
+        v-for="(l, i) in LAYERS" :key="l.name"
+        class="cl__layer"
+        :class="[`cl__layer--${l.kind}`, { 'is-on': props.stage >= l.at, 'is-active': props.stage === l.at }]"
+        :style="{ transitionDelay: props.stage >= l.at ? '0ms' : '0ms' }"
+      >
+        <div class="cl__meta">
+          <span class="cl__name">{{ l.name }}</span>
+          <span class="cl__role">{{ l.role }}</span>
+        </div>
+
+        <div class="cl__payload t-mono" :class="`cl__payload--${l.kind}`">
+          {{ l.payload }}
+        </div>
+
+        <!-- the boundary marker sits between the bridge layer and the policy -->
+        <div v-if="i === 2" class="cl__frontier" :class="{ 'is-on': props.stage >= 3 }">
+          <span class="cl__frontierline" />
+          <span class="cl__frontiertext t-mono">aquí muere el lenguaje de ajedrez</span>
+          <span class="cl__frontierline" />
+        </div>
+      </li>
+    </ol>
+
+    <p class="cl__note" :class="{ 'is-on': !!active }">{{ active?.note ?? '' }}</p>
+  </div>
+</template>
+
+<style scoped>
+.cl { display: flex; flex-direction: column; gap: var(--sp-4); }
+.cl__stack { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+
+.cl__layer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: var(--sp-5);
+  padding: 7px 0 7px 14px;
+  border-left: 2px solid var(--hairline);
+  opacity: 0;
+  translate: 0 14px;
+  transition:
+    opacity var(--d-step) var(--e-linear),
+    translate var(--d-entry) var(--e-out-quart),
+    border-color var(--d-step) var(--e-linear);
+}
+.cl__layer.is-on { opacity: 0.4; translate: 0 0; }
+.cl__layer.is-active { opacity: 1; }
+.cl__layer--lang.is-active { border-left-color: var(--accent-lang); }
+.cl__layer--bridge.is-active { border-left-color: var(--text-secondary); }
+.cl__layer--action.is-active { border-left-color: var(--accent-action); }
+
+.cl__meta { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.cl__name { font-size: var(--fs-lead); color: var(--text-primary); font-variation-settings: 'wght' 500; }
+.cl__role { font-size: var(--fs-caption); color: var(--text-muted); }
+
+.cl__payload { font-size: var(--fs-body); white-space: nowrap; }
+.cl__payload--lang { color: var(--accent-lang); }
+.cl__payload--bridge { color: var(--text-secondary); }
+.cl__payload--action { color: var(--accent-action); }
+
+.cl__frontier {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin: 10px 0 2px;
+  opacity: 0;
+  transition: opacity var(--d-entry) var(--e-linear);
+}
+.cl__frontier.is-on { opacity: 1; }
+.cl__frontierline { flex: 1; height: 1px; background: var(--accent-action-dim); }
+.cl__frontiertext {
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-micro);
+  text-transform: uppercase;
+  color: var(--accent-action);
+  white-space: nowrap;
+}
+
+.cl__note {
+  margin: 0;
+  max-width: 84ch;
+  min-height: 2.7em;
+  font-size: var(--fs-lead);
+  line-height: 1.4;
+  color: var(--text-primary);
+  opacity: 0;
+  translate: 0 10px;
+  transition: opacity var(--d-step) var(--e-linear), translate var(--d-entry) var(--e-out-quart);
+}
+.cl__note.is-on { opacity: 1; translate: 0 0; }
+</style>

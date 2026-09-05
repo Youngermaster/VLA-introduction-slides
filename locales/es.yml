@@ -1,0 +1,273 @@
+# ---------------------------------------------------------------------------
+# Español — el idioma en el que se da la charla.
+# Todo el texto de las diapositivas vive aquí. La estructura vive en slides.md.
+# Los bloques `|` admiten markdown (se renderizan con el componente <T>).
+# ---------------------------------------------------------------------------
+
+deck:
+  title: Del Token al Torque
+  subtitle: Cómo la IA aprendió a mover cosas en el mundo físico
+  author: Juan Manuel Younes
+  venue: AI Medellín
+
+nav:
+  act: Acto
+
+# --- ACTO 1 · EL GANCHO -----------------------------------------------------
+hook:
+  title: ¿Por qué ChatGPT explotó y los robots no?
+  body: |
+    En tres años pasamos de "la IA escribe frases raras" a que medio mundo
+    la use todos los días.
+
+    Los robots llevan el mismo tiempo prometiendo lo mismo. Y siguen sin llegar.
+  aside: La respuesta no es que los robots sean más difíciles. Es que los datos son distintos.
+
+asymmetry:
+  title: La asimetría que lo explica todo
+  cite: Open X-Embodiment (arXiv:2310.08864) · Llama 3 (arXiv:2407.21783)
+
+# --- ACTO 2 · CÓMO LLEGAMOS AQUÍ -------------------------------------------
+act2:
+  title: Cómo llegamos aquí
+  sub: De trayectorias escritas a mano a políticas que aprenden solas.
+
+timeline:
+  title: Tres eras en cinco años
+
+reflex:
+  title: Qué es ACT, exactamente
+  cite: ACT / ALOHA — Zhao, Kumar, Levine y Finn 2023 (arXiv:2304.13705)
+
+build:
+  title: Lo construí para entenderlo
+  lead: |
+    Un SO-101 completo — líder y seguidor — impreso en una Ender 3 V3 KE.
+  points: |
+    - Ajusté las tolerancias de impresión hasta que los agujeros dejaron de comerse los tornillos (compensación X-Y).
+    - Seis servos Feetech STS3215 en un bus serie compartido, con una placa Waveshare.
+    - Tres cámaras USB: cenital, muñeca y base.
+    - Políticas ACT entrenadas con LeRobot en una RTX 5060 Ti.
+  aside: |
+    Nada de esto es un detalle biográfico. Es el motivo por el que sé
+    exactamente **dónde** se rompe cada cosa que voy a contar.
+
+limitation:
+  title: Donde ACT se queda corto
+  body: |
+    Mi política agarraba un cubo rojo perfectamente.
+
+    Le puse un cubo azul al lado y siguió yendo por el rojo. Le puse el rojo
+    diez centímetros más allá y falló. Le hablé, y por supuesto, no pasó nada.
+  punch: Una política, una tarea. Para cada tarea nueva, vuelves a grabar y a entrenar.
+
+# --- ACTO 3 · CÓMO FUNCIONAN LOS VLA ---------------------------------------
+act3:
+  title: Cómo funciona un VLA
+  sub: La parte técnica. Tres componentes, dos ideas clave y un truco de compresión.
+
+architecture:
+  title: Tres componentes
+  cite: RT-2 — Brohan et al. 2023 (arXiv:2307.15818) · SmolVLA — Shukor et al. 2025 (arXiv:2506.01844)
+
+pipeline:
+  title: De dónde salen los datos
+  cite: LeRobot · lerobot-record → LeRobotDataset v3 → lerobot-train
+
+tokenizer:
+  title: De movimiento continuo a tokens
+  cite: FAST — Pertsch et al. 2025 (arXiv:2501.09747) · π₀ (arXiv:2410.24164)
+
+chunking:
+  title: Predecir un bloque, no un paso
+  cite: ACT — Zhao et al. 2023 (arXiv:2304.13705) · Real-Time Chunking — Black, Galliker y Levine 2025 (arXiv:2506.07339)
+
+pretrain:
+  title: Qué compra el pre-entrenamiento
+  cite: SmolVLA — Shukor et al. 2025 (arXiv:2506.01844)
+
+inside:
+  title: ¿Y dónde quedó ACT dentro de todo esto?
+
+rt2:
+  title: La intuición de RT-2
+  body: |
+    Un VLM que nunca vio un robot ya sabe qué es un frasco, qué significa
+    "rojo" y que las cosas frágiles se agarran con cuidado.
+
+    RT-2 mostró que ese conocimiento **transfiere al control físico**: no hay
+    que enseñarle al robot qué es un objeto, sólo cómo moverse hacia él.
+  punch: |
+    Por eso un VLA generaliza donde ACT no. No es que aprenda mejor —
+    es que **empieza sabiendo mucho más**.
+  cite: RT-2 — Brohan et al. 2023 (arXiv:2307.15818) · versión CoRL citada como Zitkovich et al.
+
+# --- ACTO 4 · EL PANORAMA ---------------------------------------------------
+act4:
+  title: Qué hay disponible hoy
+  sub: Y qué de eso corre de verdad en tu hardware.
+
+landscape:
+  title: El panorama, con números reales
+  cite: |
+    Cifras verificadas contra las fuentes primarias en septiembre de 2026.
+    openpi · NVIDIA Isaac GR00T · LeRobot
+
+access:
+  title: Esto ya está a tu alcance
+  lead: |
+    En 2023 esto necesitaba un TPU pod. Hoy cabe en un escritorio.
+  points: |
+    - **SmolVLA: 450M parámetros.** 350M de VLM (media pila de SmolVLM2) + 100M de action expert. 64 tokens visuales por frame.
+    - Entrenado con **10.6M frames de 481 datasets** de la comunidad — no de un laboratorio frontera.
+    - **Supera a π₀ (3.3B)** en tareas reales de SO-100: 78.3% frente a 61.7%.
+    - Inferencia asíncrona: 9.7 s frente a 13.75 s por tarea, y el doble de ciclos completados.
+  punch: |
+    El brazo cuesta unos 150 dólares. El modelo es abierto. El dataset lo grabas tú
+    en una tarde. **Ese es el cambio real.**
+  cite: SmolVLA — Shukor et al. 2025 (arXiv:2506.01844) · lerobot/smolvla_base
+
+choose:
+  title: Cuándo usar cuál
+
+# --- ACTO 5 · DEMO EN VIVO --------------------------------------------------
+act5:
+  title: Demo en vivo
+  sub: A mitad de charla, a propósito — si falla, todavía me queda media charla para recuperarme.
+
+rig:
+  title: Qué hay montado aquí
+
+demo:
+  title: El momento que importa
+  lead: |
+    Mismo robot. Mismo modelo. Mismos pesos. Lo único que cambia es la frase.
+  instr1: agarra el Complejo B
+  instr2: agarra el frasco de magnesio
+  body: |
+    No hay un `if` en ninguna parte. No hay un detector de objetos que yo haya
+    programado. La instrucción entra por el mismo sitio que las imágenes, y el
+    comportamiento cambia.
+  punch: Eso es un VLA. Todo lo demás de esta charla es explicar cómo llega hasta ahí.
+
+demoact:
+  title: Y para comparar — la misma tarea con ACT
+  body: |
+    ACT hace su tarea muy bien. Pero la hace **igual** sin importar lo que yo diga.
+  placeholder: VÍDEO — política ACT ejecutando la tarea grabada
+
+backup:
+  title: Demo grabado
+  sub: Por si el robot decide no colaborar.
+  placeholder: VÍDEO — demo completo grabado con antelación
+  note: Tecla B para llegar aquí desde cualquier diapositiva. Tecla V para volver.
+
+# --- ACTO 6 · REALIDAD Y LÍMITES -------------------------------------------
+act6:
+  title: La parte honesta
+  sub: Dónde estamos de verdad, y qué todavía no funciona.
+
+adoption:
+  title: El campo se movió muy rápido
+  lead: |
+    Papers de VLA enviados a ICLR:
+  n2024: '1'
+  n2025: '9'
+  n2026: '164'
+  l2024: en 2024 — y fue rechazado
+  l2025: en 2025
+  l2026: en 2026
+  body: |
+    18× en un año. La proyección del autor de ese análisis para 2027 es de más
+    de mil.
+  aside: |
+    Hay cifras circulando sobre adopción industrial — que los VLA respaldan ya
+    el 40% de los despliegues nuevos — pero vienen de un informe de mercado
+    privado sin metodología publicada. Las menciono como dirección, no como dato.
+  cite: Análisis de ICLR 2026 — Moritz Reuss, 164 envíos analizados
+
+limits:
+  title: Lo que todavía no funciona
+  points: |
+    - **Los benchmarks están saturados.** LIBERO vive entre 95% y 99%. Ya no distingue nada.
+    - **Y esconden la brecha real.** En RoboArena — evaluación en robots físicos, a ciegas, entre laboratorios — sólo un modelo que no sea de Physical Intelligence se acerca.
+    - **Latencia.** El modelo tarda más en pensar un chunk de lo que el robot tarda en ejecutarlo. Por eso existe RTC.
+    - **Generalización frágil.** Cambia la luz, la mesa o la cámara de sitio y el rendimiento se cae.
+  punch: |
+    Si alguien te enseña un 98% en LIBERO, no te está diciendo casi nada
+    sobre lo que pasa en una mesa real.
+  cite: RoboArena — Atreya, Pertsch et al. 2025 (arXiv:2506.18123, CoRL 2025) · LIBERO (arXiv:2306.03310)
+
+economics:
+  title: Por qué los datos cuestan lo que cuestan
+  cite: DROID — Khazatsky, Pertsch et al. 2024 (arXiv:2403.12945, RSS 2024) · Data Scaling Laws — Lin et al. 2024 (arXiv:2410.18647, ICLR 2025 Oral)
+
+# --- ACTO 7 · LECCIÓN DE ARQUITECTURA --------------------------------------
+act7:
+  title: Una lección de arquitectura
+  sub: Un robot que juega ajedrez — y por qué la política no sabe jugar.
+
+chess:
+  title: Robot ajedrecista — las capas
+
+lesson:
+  title: El lenguaje del ajedrez muere antes de llegar a la política
+  body: |
+    Una jugada de ajedrez se expande en varias operaciones atómicas de agarrar
+    y soltar. Una captura son dos. El enroque son dos. Una promoción, tres.
+
+    La política ejecuta todas exactamente igual, porque para ella son todas
+    lo mismo: ve unas coordenadas y agarra.
+  punch: |
+    **La lección no es de modelos, es de sistemas.** Pon el razonamiento donde
+    hay razonamiento y el músculo donde hay músculo, y que se encuentren en el
+    punto más estrecho posible — aquí, un par de coordenadas.
+  aside: |
+    Diseñado, todavía no construido. Lo cuento porque el error que casi cometo
+    — meter el ajedrez dentro de la política — es el error por defecto.
+
+# --- ACTO 8 · FUTURO --------------------------------------------------------
+act8:
+  title: Hacia dónde va esto
+  sub: De reaccionar a imaginar.
+
+world:
+  title: Modelos del mundo
+  cite: V-JEPA 2 — Assran et al. 2025 (arXiv:2506.09985) · Cosmos 3 (arXiv:2606.02800) · VLA-JEPA en LeRobot
+
+generalist:
+  title: ¿Y en qué se diferencia esto de los modelos generalistas?
+  lead: |
+    Los modelos que están de moda son generalistas de **texto e imagen**.
+    Un VLA es un generalista de **acción**. La diferencia no es de tamaño.
+  points: |
+    - Un LLM se equivoca y reescribes el prompt. Un VLA se equivoca y **tira un frasco al suelo**.
+    - Un LLM se evalúa con benchmarks reproducibles. Un VLA sólo se evalúa de verdad **en una mesa física**, y cada mesa es distinta.
+    - Un LLM aprende de datos que ya existían. Un VLA necesita datos que **hay que generar moviendo un robot**.
+  punch: |
+    El cuello de botella de los LLM era el cómputo. El de los VLA es
+    **el mundo físico** — y ese no escala con comprar más GPUs.
+
+question:
+  title: Entonces, ¿cuál es el cuello de botella?
+  a: Datos
+  adesc: No existen a escala web, y generarlos cuesta años-institución.
+  b: Arquitectura
+  bdesc: Nadie ha demostrado todavía la receta que claramente gana.
+  cc: Hardware
+  cdesc: Manos baratas y fiables siguen sin existir.
+  punch: Mi apuesta es que son los datos. Pero la pregunta sigue abierta, y por eso el campo está tan divertido.
+
+# --- CIERRE -----------------------------------------------------------------
+resources:
+  title: Para seguir
+  papers: Papers y surveys
+  code: Código y documentación
+  mine: Lo mío
+
+thanks:
+  title: Gracias
+  sub: ¿Preguntas?
+  invite: |
+    Si trabajas en robótica, manufactura o logística y esto te tocó alguna
+    fibra — hablemos. Estoy aquí toda la noche.

@@ -1,0 +1,214 @@
+/* ==========================================================================
+   Base typography and the projector-safe layout frame
+   ========================================================================== */
+
+/* THE STAGE GROUND — non-negotiable on a dark deck.
+   During a seam the two slides' summed opacity dips below 1. Without an
+   opaque ground the browser composites that dip over its default WHITE page
+   background, producing a white flash at EVERY slide change. */
+html,
+html body,
+#slidev-app,
+.slidev-page,
+.slidev-layout.slidev-layout {
+  background: var(--bg-base);
+}
+
+html {
+  color-scheme: dark;
+}
+
+html body {
+  color: var(--text-primary);
+  font-family: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
+  font-variation-settings: 'wght' var(--wght-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Theme the browser surfaces. This is the cheapest signal that a page was
+   built rather than assembled, and the one most reliably skipped. */
+::selection {
+  background: var(--accent-lang-tint);
+  color: var(--accent-lang);
+}
+:focus-visible {
+  outline: 2px solid var(--accent-lang);
+  outline-offset: 3px;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--hairline-strong) transparent;
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb {
+  background: var(--hairline-strong);
+  border-radius: 99px;
+}
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* --------------------------------------------------------------------------
+   The slide frame
+   80px inset. Nothing critical in the bottom 12% — projectors overscan and
+   the front row's heads eat it.
+   -------------------------------------------------------------------------- */
+.slidev-layout.slidev-layout {
+  /* The canvas is 980x551. An 80px inset all round would leave only ~390px of
+     vertical room, which is not enough for a diagram plus a title. These values
+     keep the generous side margins while respecting the one hard rule: nothing
+     critical in the bottom ~12% (projector overscan, and the front row's heads). */
+  padding: 46px 64px 62px;
+  overflow: hidden;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   Type
+   Note the asymmetry: MORE space above a heading than below it. This single
+   decision does more for perceived quality than any other spacing choice.
+   -------------------------------------------------------------------------- */
+.slidev-layout.slidev-layout :is(h1, h2, h3, h4) {
+  color: var(--text-primary);
+  font-variation-settings: 'wght' var(--wght-display);
+  text-wrap: balance;
+}
+
+.slidev-layout.slidev-layout h1 {
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--tr-h1);
+  max-width: 22ch;          /* the 2-line rule: widen and shrink, never wrap to 4 */
+  margin-bottom: var(--sp-6);
+}
+.slidev-layout.slidev-layout h2 {
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+  letter-spacing: var(--tr-h2);
+  margin-top: var(--sp-7);
+  margin-bottom: var(--sp-4);
+}
+.slidev-layout.slidev-layout h3 {
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--tr-h3);
+  font-variation-settings: 'wght' var(--wght-medium);
+  margin-top: var(--sp-6);
+  margin-bottom: var(--sp-3);
+}
+
+.slidev-layout.slidev-layout p { margin-bottom: var(--sp-3); max-width: 62ch; }
+.slidev-layout.slidev-layout p + p { margin-top: var(--sp-3); }
+
+.slidev-layout.slidev-layout :is(ul, ol) { margin: var(--sp-3) 0; padding-left: 0; list-style: none; }
+.slidev-layout.slidev-layout li {
+  position: relative;
+  padding-left: var(--sp-5);
+  margin-bottom: var(--sp-3);
+  max-width: 62ch;
+}
+/* A drawn marker at a consistent weight, not a unicode glyph standing in for an icon */
+.slidev-layout.slidev-layout ul > li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 7px;
+  height: 2px;
+  background: var(--accent-action);
+  border-radius: 1px;
+}
+.slidev-layout.slidev-layout ol { counter-reset: li; }
+.slidev-layout.slidev-layout ol > li { counter-increment: li; }
+.slidev-layout.slidev-layout ol > li::before {
+  content: counter(li);
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  font-family: 'Geist Mono Variable', ui-monospace, monospace;
+  font-size: var(--fs-caption);
+  font-variation-settings: 'wght' 500;
+  color: var(--accent-action);
+}
+
+.slidev-layout.slidev-layout strong {
+  color: var(--text-primary);
+  font-variation-settings: 'wght' 600;
+}
+.slidev-layout.slidev-layout em { font-style: italic; color: var(--text-primary); }
+
+.slidev-layout.slidev-layout a {
+  color: var(--accent-lang);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--accent-lang-dim);
+}
+
+/* Mono is for code, tensor shapes, token IDs, model names, measurements.
+   Never for titles, never for body, never as a costume for "technical". */
+.slidev-layout.slidev-layout :is(code, kbd, .mono) {
+  font-family: 'Geist Mono Variable', ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.94em;   /* Geist Mono runs large at equal em */
+  font-variation-settings: 'wght' 500;
+}
+.slidev-layout.slidev-layout :not(pre) > code {
+  color: var(--accent-lang);
+  background: var(--accent-lang-tint);
+  padding: 0.12em 0.36em;
+  border-radius: var(--radius-sm);
+}
+
+.slidev-layout.slidev-layout pre {
+  background: var(--surface-1) !important;
+  border-radius: var(--radius-md);
+  padding: var(--sp-4) !important;
+  font-size: var(--fs-small);
+  line-height: 1.6;
+}
+
+/* Tabular numerals everywhere numbers are compared */
+.slidev-layout.slidev-layout :is(table, .tabular) { font-variant-numeric: tabular-nums; }
+.slidev-layout.slidev-layout table { width: 100%; border-collapse: collapse; font-size: var(--fs-small); }
+.slidev-layout.slidev-layout :is(th, td) {
+  text-align: left;
+  padding: var(--sp-2) var(--sp-3);
+  border-bottom: 1px solid var(--hairline);
+}
+.slidev-layout.slidev-layout th {
+  color: var(--text-muted);
+  font-size: var(--fs-caption);
+  font-variation-settings: 'wght' 500;
+  letter-spacing: var(--tr-caption);
+  text-transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   Utilities
+   -------------------------------------------------------------------------- */
+.t-lead    { font-size: var(--fs-lead); line-height: var(--lh-lead); letter-spacing: var(--tr-lead); color: var(--text-primary); }
+.t-caption { font-size: var(--fs-caption); line-height: 1.4; letter-spacing: var(--tr-caption); color: var(--text-muted); }
+.t-micro   { font-size: var(--fs-micro); letter-spacing: var(--tr-micro); color: var(--text-muted); }
+.t-mono    { font-family: 'Geist Mono Variable', ui-monospace, monospace; font-variation-settings: 'wght' 500; }
+
+.c-action { color: var(--accent-action); }
+.c-lang   { color: var(--accent-lang); }
+.c-muted  { color: var(--text-muted); }
+.c-dim    { color: var(--text-secondary); }
+
+/* Source citation — the persistent bottom-left layer.
+   Muted is legal HERE and nowhere else: nobody reads it in real time. */
+.cite {
+  position: absolute;
+  left: 64px;
+  bottom: 24px;
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-micro);
+  color: var(--text-muted);
+  font-family: 'Geist Mono Variable', ui-monospace, monospace;
+  max-width: 70ch;
+}
+
+/* Overflow escape hatch for the rare dense slide */
+.fit-scroll { max-height: 74vh; overflow: auto; }

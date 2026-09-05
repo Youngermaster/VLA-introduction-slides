@@ -1,0 +1,146 @@
+/* ==========================================================================
+   Del Token al Torque — design tokens
+   --------------------------------------------------------------------------
+   Every value here is engineered for a WASHED-OUT PROJECTOR in a lit room.
+   The contrast ratios in comments are given twice:
+     ideal  = on a good display
+     washed = after a modeled projector veil (65% signal + 9% ambient glare)
+
+   THE LOAD-BEARING CONSTRAINT
+   Surface elevations land at 1.04:1 and hairlines at 1.18:1 under the veil.
+   They are INVISIBLE from row three. Structure is therefore carried by type
+   scale, weight, accent colour and whitespace — never by cards or borders.
+   Surfaces exist for the laptop presenter view only. Treat them as a bonus.
+   ========================================================================== */
+
+:root {
+  /* ---- Surfaces ---------------------------------------------------------
+     Not #000: pure black leaves no room to recess an element, and on a
+     projector it is not black anyway — it is the room's black, chosen by the
+     lamp rather than by us. The slight cool tint (B > R by 3) keeps the amber
+     accent from reading as if it floats on a hole. */
+  --bg-base:         #0A0B0D;   /* ideal 1.00  washed 1.00 */
+  --surface-1:       #121417;   /* ideal 1.07  washed 1.02 */
+  --surface-2:       #191C20;   /* ideal 1.15  washed 1.04  <- invisible on projector */
+  --surface-3:       #23262B;   /* ideal 1.30  washed 1.07  <- invisible on projector */
+  --hairline:        #363B44;   /* ideal 1.75  washed 1.18 */
+  --hairline-strong: #454B56;   /* ideal 2.24  washed 1.30 */
+
+  /* ---- Text -------------------------------------------------------------
+     Deliberately 2-3 steps brighter than a conventional dark UI. The usual
+     values (#AEB6C2 / #767E8B) fall to 3.10 and 1.93 under the veil, and a
+     1.93 muted grey is not "subtle", it is gone. We trade a little delicacy
+     on the laptop for a full contrast step in the room. The room is the client. */
+  --text-primary:   #F4F6F8;    /* ideal 18.17  washed 5.19 */
+  --text-secondary: #C6CDD8;    /* ideal 12.31  washed 3.76 */
+  --text-muted:     #98A0AD;    /* ideal  7.47  washed 2.58 — footers/citations ONLY */
+
+  /* ---- The two thematic accents -----------------------------------------
+     Blue <-> orange is the one axis fully preserved under deuteranopia and
+     protanopia (simulated dE actually RISES to 102). They also separate on
+     luminance alone (0.585 vs 0.480), so they survive a grayscale projector,
+     a dying colour wheel, or a photo of the screen.
+
+     ACTION  = the world and the body: robot, gripper, trajectory, torque.
+     LANG    = the model and the symbol: tokens, attention, language head.
+     Never swapped. Never a third. */
+  --accent-action:      #FFB65C;  /* ideal 11.34  washed 3.52 */
+  --accent-action-dim:  #C98A3C;  /* amber at body size */
+  --accent-action-tint: #1A1409;  /* explicit hex, not rgba() — alpha chains make
+                                     contrast context-dependent and unverifiable */
+  --accent-lang:        #5CC8FF;  /* ideal 10.46  washed 3.31 */
+  --accent-lang-dim:    #3E93C4;
+  --accent-lang-tint:   #0A151C;
+
+  /* Semantic, used sparingly */
+  --signal-warn: #FF8A6B;
+  --signal-ok:   #6FDCA8;
+
+  /* ---- Type scale -------------------------------------------------------
+     Base 18px (not 16 — you want the extra step on a projector).
+     Major Third 1.25. Slidev canvas is 980x552 and scales to fill, so these
+     px values are canvas-relative.
+     Tracking floor is -0.035em; nothing goes tighter. */
+  --fs-hero:    69px;   /* section-break title, one per act */
+  --fs-display: 55px;   /* opening title slide */
+  --fs-h1:      44px;   /* slide title */
+  --fs-h2:      35px;   /* slide subtitle */
+  --fs-h3:      28px;   /* block heading, big stat */
+  --fs-lead:    22px;   /* lead paragraph, key bullet */
+  --fs-body:    18px;   /* body, bullets */
+  --fs-small:   15px;   /* dense lists, table cells */
+  --fs-caption: 13px;   /* captions, axis labels */
+  --fs-micro:   11px;   /* slide number, source citation */
+
+  --lh-hero: 0.95;  --lh-display: 1.0;  --lh-h1: 1.05;  --lh-h2: 1.15;
+  --lh-h3: 1.2;     --lh-lead: 1.45;    --lh-body: 1.55; --lh-small: 1.45;
+
+  --tr-hero: -0.035em; --tr-display: -0.03em; --tr-h1: -0.025em;
+  --tr-h2: -0.02em;    --tr-h3: -0.015em;     --tr-lead: -0.005em;
+  --tr-body: 0;        --tr-caption: 0.01em;  --tr-micro: 0.02em;
+
+  /* Light-on-dark compensation: one step MORE weight than you would use on
+     white. The variable axis lets body sit between 400 and 500. */
+  --wght-body: 460;
+  --wght-display: 600;
+  --wght-medium: 500;
+
+  /* ---- Spacing ----------------------------------------------------------
+     Derived: body 18px x 1.55 line-height = 27.9px line box -> 14px minimum
+     step, rounded to a 4px grid and extended geometrically. */
+  --sp-1: 4px;    --sp-2: 8px;    --sp-3: 14px;   /* base rhythm step */
+  --sp-4: 20px;   --sp-5: 28px;   --sp-6: 40px;   /* title -> body */
+  --sp-7: 56px;   /* ABOVE a heading — 2x the space below it */
+  --sp-8: 80px;   /* slide gutter / content inset */
+  --sp-9: 112px;  /* section-break vertical inset */
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;   /* hard cap on containers */
+
+  /* ---- Easing -----------------------------------------------------------
+     The in/out pairs are EXACT mirrors: (x1,y1,x2,y2) -> (1-x2,1-y2,1-x1,1-y1).
+     That reflection is what makes velocity continuous across a seam cut.
+     .out for entrances. .in for exits. .inOut NEVER at a seam. */
+
+  /* OUT family — entries, arrivals, settles */
+  --e-out-quad:  cubic-bezier(0.50, 1, 0.89, 1);
+  --e-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
+  --e-out-quart: cubic-bezier(0.25, 1, 0.50, 1);   /* HOUSE WORKHORSE */
+  --e-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --e-out-expo:  cubic-bezier(0.16, 1, 0.30, 1);
+
+  /* IN family — exits only */
+  --e-in-cubic: cubic-bezier(0.32, 0, 0.67, 0);
+  --e-in-quart: cubic-bezier(0.50, 0, 0.75, 0);    /* mirror of --e-out-quart */
+  --e-in-quint: cubic-bezier(0.64, 0, 0.78, 0);    /* mirror of --e-out-quint */
+
+  /* Symmetric in-slide moves only, never either side of a cut */
+  --e-inout-quint: cubic-bezier(0.83, 0, 0.17, 1);
+
+  --e-linear: linear;                              /* ALL opacity tweens */
+  --e-settle: cubic-bezier(0.20, 0.80, 0.20, 1);   /* damped spring, zeta ~= 1 */
+
+  /* ---- Duration ---------------------------------------------------------
+     Hard cap: every keypress-triggered animation completes within 700ms.
+     Beyond that you outrun your own speech. */
+  --d-micro:  120ms;
+  --d-step:   260ms;   /* the default v-click step */
+  --d-entry:  420ms;   /* a hero element arriving */
+  --d-settle: 560ms;   /* when the settle IS the shot */
+  --d-exit:   300ms;   /* seam exit half */
+  --d-enter:  380ms;   /* seam entry half — ~127% of exit */
+
+  /* Slidev's own default is 0.5s; ours is the seam total */
+  --slidev-transition-duration: 0.38s;
+
+  /* ---- Stagger ----------------------------------------------------------
+     Governing constraint: total stagger <= 500ms. A cascade must read as ONE
+     beat, not a queue. Gaps SHRINK across a cascade (x0.84) so the wave
+     accelerates and the last element snaps. */
+  --s-tight: 22ms;   /* per-word inside one line */
+  --s-word:  34ms;   /* words in a headline cascade */
+  --s-item:  55ms;   /* list items, chips */
+  --s-card:  80ms;   /* cards, panels */
+  --s-decay: 0.84;
+}
