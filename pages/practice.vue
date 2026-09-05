@@ -33,7 +33,11 @@ const current = ref(1)
 
 /** routeAlias for each slide number, taken from the deck itself. */
 interface SlideMeta {
-  slide?: { frontmatter?: { routeAlias?: string } }
+  slide?: {
+    frontmatter?: { routeAlias?: string }
+    /** Rendered speaker notes — the short stage cues, not the full script. */
+    noteHTML?: string
+  }
 }
 
 const aliases = computed(() =>
@@ -41,6 +45,11 @@ const aliases = computed(() =>
 )
 
 const total = computed(() => slides.value.length)
+
+/** The deck's own speaker notes for the current slide: the on-stage cues. */
+const cueHtml = computed(
+  () => (slides.value[current.value - 1]?.meta as SlideMeta)?.slide?.noteHTML ?? '',
+)
 
 const sections = computed(() => monologues[scriptLang.value])
 const byAlias = computed(() => {
@@ -110,7 +119,11 @@ function onKey(e: KeyboardEvent) {
 }
 
 const base = import.meta.env.BASE_URL ?? '/'
-const slideSrc = computed(() => `${base}#/${current.value}?lang=${slideLang.value}`)
+/** `clicks=99` is clamped by Slidev to the slide's real maximum, so the preview
+ *  always shows the fully built slide rather than an empty first frame. */
+const slideSrc = computed(
+  () => `${base}#/${current.value}?clicks=99&lang=${slideLang.value}`,
+)
 
 /** Pace: how the timer is tracking against this section's estimate. */
 const pace = computed(() => {
@@ -210,6 +223,13 @@ const pace = computed(() => {
 
         <div class="pr__framewrap">
           <iframe :key="`${current}-${slideLang}`" :src="slideSrc" class="pr__frame" />
+        </div>
+
+        <!-- the deck's own speaker notes — what you glance at on stage -->
+        <div class="pr__cues">
+          <span class="pr__panetitle t-mono">notas del presentador</span>
+          <div v-if="cueHtml" class="pr__cuebody" v-html="cueHtml" />
+          <p v-else class="pr__cueempty t-mono">sin notas para esta diapositiva</p>
         </div>
 
         <!-- budget -->
@@ -331,13 +351,36 @@ const pace = computed(() => {
 }
 
 /* slide pane */
-.pr__framewrap { padding: 18px; flex: none; }
+.pr__framewrap { padding: 14px 18px 0; flex: none; }
 .pr__frame {
   width: 100%; aspect-ratio: 16 / 9; border: 1px solid var(--hairline);
   border-radius: var(--radius-md); background: var(--bg-base);
 }
 
-.pr__budget { padding: 0 18px 18px; margin-top: auto; }
+.pr__cues {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 18px 14px;
+  border-top: 1px solid var(--hairline);
+  margin-top: 4px;
+  padding-top: 12px;
+}
+.pr__cuebody {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin-top: 7px;
+}
+.pr__cuebody :deep(p) { margin: 0 0 0.7em; }
+.pr__cuebody :deep(strong) { color: var(--accent-action); font-variation-settings: 'wght' 600; }
+.pr__cuebody :deep(code) {
+  font-family: 'Geist Mono Variable', monospace;
+  color: var(--accent-lang);
+}
+.pr__cueempty { font-size: var(--fs-caption); color: var(--text-muted); margin: 7px 0 0; }
+
+.pr__budget { padding: 0 18px 18px; }
 .pr__bmeta { display: flex; justify-content: space-between; font-size: var(--fs-micro); color: var(--text-muted); margin-bottom: 5px; }
 .pr__bmeta .is-over { color: var(--signal-warn); }
 .pr__bmeta .is-under { color: var(--signal-ok); }

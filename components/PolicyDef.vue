@@ -40,8 +40,7 @@ const { t, md } = useTx()
     </div>
 
     <p class="pd__read" :class="{ 'is-on': on(3) }">
-      <span v-html="md('c.policy.read')" />
-      <span class="c-lang">{{ t('c.policy.readHi') }}</span>
+      <span v-html="md('c.policy.read')" />&#32;<span class="c-lang">{{ t('c.policy.readHi') }}</span>
     </p>
 
     <!-- what it is NOT -->

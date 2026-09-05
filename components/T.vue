@@ -23,7 +23,9 @@ const props = withDefaults(
   { block: false, values: () => ({}) },
 )
 
-const md = new MarkdownIt({ html: false, breaks: true, linkify: true })
+// breaks: false — a line wrapped at 80 columns in the YAML source is not a
+// line break in the prose. Blank lines still start a new paragraph.
+const md = new MarkdownIt({ html: false, breaks: false, linkify: true })
 
 const { t } = useI18n()
 

@@ -21,17 +21,18 @@
 .claim__body {
   max-width: 46ch;
 }
+.claim__body :deep(li) { margin-bottom: 5px; line-height: 1.42; }
 .claim__body :deep(h1) {
-  font-size: 46px;
-  line-height: 1.05;
+  font-size: 40px;
+  line-height: 1.08;
   letter-spacing: var(--tr-h1);
   max-width: 24ch;
-  margin-bottom: var(--sp-5);
+  margin-bottom: var(--sp-4);
 }
 .claim__body :deep(p) {
   font-size: var(--fs-body);
-  line-height: var(--lh-body);
-  max-width: 62ch;
+  line-height: 1.45;
+  max-width: 66ch;
   color: var(--text-secondary);
 }
 </style>

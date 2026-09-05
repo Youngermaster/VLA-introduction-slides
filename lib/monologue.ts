@@ -17,7 +17,9 @@
 import MarkdownIt from 'markdown-it'
 import type { Locale } from './locale'
 
-const md = new MarkdownIt({ html: false, breaks: true, linkify: true })
+// breaks:false — the script is wrapped at 80 columns for editing, and those
+// wraps are not pauses. Blank lines still start a new paragraph.
+const md = new MarkdownIt({ html: false, breaks: false, linkify: true })
 
 const files = import.meta.glob('../monologue/*.md', {
   query: '?raw',

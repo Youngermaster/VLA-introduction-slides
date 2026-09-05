@@ -1,6 +1,5 @@
 import { defineAppSetup } from '@slidev/types'
 import { createI18n } from 'vue-i18n'
-import gsap from 'gsap'
 import { messages } from '../lib/messages'
 import { slideLocale, DEFAULT_LOCALE } from '../lib/locale'
 import { watch } from 'vue'
@@ -25,8 +24,4 @@ export default defineAppSetup(({ app }) => {
     // types still widen it to string | Ref<string>.
     ;(i18n.global.locale as unknown as { value: string }).value = next
   })
-
-  // One global default so that "similar elements share one ease and duration
-  // intent" holds even in components that forget to specify.
-  gsap.defaults({ duration: 0.42, ease: 'power3.out' })
 })

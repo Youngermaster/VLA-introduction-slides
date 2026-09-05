@@ -106,7 +106,13 @@ for (const k of used) {
 }
 const prefixes = [...used].filter((k) => k.endsWith('*')).map((k) => k.slice(0, -1))
 const isUsed = (k: string) => used.has(k) || prefixes.some((p) => k.startsWith(p))
-const unused = base.filter((k) => !isUsed(k) && !k.startsWith('nav.') && !k.startsWith('deck.'))
+/** Keys kept deliberately, though no slide renders them. */
+const INTENTIONALLY_UNUSED = new Set([
+  'demo.body', // spoken during the live demo; the slide stays sparse on purpose
+])
+const unused = base.filter(
+  (k) => !isUsed(k) && !INTENTIONALLY_UNUSED.has(k) && !k.startsWith('nav.') && !k.startsWith('deck.'),
+)
 for (const k of unused) warn(`locale key "${k}" is defined but never used in slides.md`)
 if (used.size) console.log(`  ✓ ${used.size} keys referenced, all resolve`)
 

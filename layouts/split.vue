@@ -16,10 +16,13 @@ defineProps<{ ratio?: string }>()
 <style scoped>
 .split {
   display: grid;
-  gap: var(--sp-7);
+  gap: var(--sp-6);
   align-content: safe center;
   height: 100%;
 }
 .split__col { min-width: 0; }
-.split__col :deep(h1) { margin-bottom: var(--sp-5); }
+.split__col :deep(h1) { margin-bottom: var(--sp-4); font-size: 38px; line-height: 1.1; }
+.split__col :deep(li) { margin-bottom: 5px; font-size: var(--fs-small); line-height: 1.42; }
+.split__col :deep(p) { margin-bottom: 6px; line-height: 1.45; }
+.split__col :deep(pre) { margin: 0; }
 </style>

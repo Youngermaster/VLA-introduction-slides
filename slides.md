@@ -833,10 +833,6 @@ clicks: 3
   <span class="instr instr--b t-mono">«{{ $t('demo.instr2') }}»</span>
 </div>
 
-<div v-click="3">
-  <T k="demo.body" block />
-</div>
-
 <p v-click="3" class="t-lead c-action mt-4">{{ $t('demo.punch') }}</p>
 
 ::right::

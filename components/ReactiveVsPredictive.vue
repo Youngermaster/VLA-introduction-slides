@@ -96,7 +96,7 @@ const branches = computed(() =>
 .rp {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--sp-5) var(--sp-7);
+  gap: var(--sp-3) var(--sp-6);
 }
 .rp__side {
   display: flex; flex-direction: column; gap: var(--sp-2);
@@ -111,7 +111,7 @@ const branches = computed(() =>
   font-variation-settings: 'wght' 500;
   color: var(--text-primary);
 }
-.rp__svg { width: 100%; height: 140px; }
+.rp__svg { width: 100%; height: 126px; }
 
 .rp__ring { fill: none; stroke: var(--accent-action-dim); stroke-width: 1.5; stroke-dasharray: 4 4; }
 .rp__node { fill: var(--accent-action); }

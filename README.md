@@ -23,6 +23,7 @@ pnpm dev          # → http://localhost:3030
 | `pnpm export` / `pnpm export:en` | PDF into `export/` — the projector-fails fallback |
 | `pnpm verify` | TypeScript strict + the content drift guard |
 | `pnpm check:content` | Locale parity, key resolution, monologue coverage |
+| `pnpm check:fit` | Flags any slide whose content overflows the canvas, in **both** languages (dev server must be running) |
 | `node scripts/shots.mjs --lang es [--clicks]` | Screenshot every slide (dev server must be running) |
 
 > **Do not add `--per-slide` to the export.** It renders each slide in its own
@@ -63,6 +64,11 @@ locales/es.yml     every word on every slide, as editable markdown prose
 locales/en.yml
 ```
 
+**The visualizations are localized too.** Diagram labels live under the `c.*`
+namespace and are read with `useTx()` from `lib/tx.ts` — `t()` for plain strings,
+`md()` for copy that needs **bold**. Hardcoding a label in a `.vue` file is the
+easy way to end up with an "English" deck full of Spanish diagrams.
+
 In a slide, text comes through one of two forms:
 
 ```md
@@ -77,6 +83,10 @@ impossible.
 
 **To edit a sentence, open `locales/<lang>.yml`, not `slides.md`.** YAML block
 scalars (`key: |`) keep it real markdown, so prose stays comfortable to write.
+
+Two YAML traps worth knowing, because both fail loudly and confusingly:
+a plain scalar containing `": "` is a syntax error (use `>-`), and a literal
+`{brace}` in a message is a vue-i18n compile error (keep braces in the template).
 
 Language resolution order: `?lang=` → `localStorage` → `VITE_DECK_LOCALE` env →
 `es`. The env var is what makes per-language PDF export work, since
@@ -94,6 +104,10 @@ The spoken script on the left, the live slide on the right, **each with its own
 language selector** — so you can rehearse the Spanish delivery while reading the
 English slides, or the reverse. Nothing off-the-shelf does this; teleprompters
 are deck-agnostic and don't know which slide you're on.
+
+Below the slide it shows the deck's own **speaker notes** — the short stage cues
+— so the right-hand pane is what you actually stand behind: the slide, plus what
+you glance at. The full script stays on the left.
 
 It also gives you:
 
@@ -157,13 +171,13 @@ In DevTools → Network, confirm **zero requests to `fonts.googleapis.com`**.
 slides.md                deck structure
 locales/{es,en}.yml      all slide prose
 monologue/{es,en}.md     the spoken script
-components/              25 custom visualizations
+components/              25 custom visualizations, all localized via lib/tx.ts
 layouts/                 claim · act · viz · split
 scripts/reorder.mjs      reorder slides by routeAlias (narrative order changes often)
 pages/practice.vue       rehearsal route
 setup/                   main (i18n) · routes · shortcuts · unocss
 styles/                  tokens · base · slides · motion
-scripts/                 check-content · shots
+scripts/                 check-content · check-fit · check-types · shots · reorder
 docs/                    PRESENTING · ASSETS
 public/                  images, video, fonts — your assets go here
 ```
@@ -180,6 +194,19 @@ Everything visual is currently a placeholder. **[docs/ASSETS.md](docs/ASSETS.md)
 lists exactly what to drop where.
 
 ---
+
+## Why there is no animation library
+
+GSAP was in here for a while, on the theory that the trajectory and chunking
+visualizations would need timeline scrubbing. They didn't: every animation in the
+deck is a CSS transition on `transform`/`opacity` driven by `$clicks`, which is
+seek-safe by construction — the state at click *n* is a pure function of *n*, so
+stepping backwards works with no extra machinery. The library ended up importing
+~100 KB to set a default ease nothing used, so it came back out.
+
+If a future slide genuinely needs a scrubbed timeline or 2D grid stagger, `gsap`
+is the right addition (it is free including all plugins, has zero runtime
+dependencies, and vendors fully offline). Until then it would be weight.
 
 ## Design notes
 

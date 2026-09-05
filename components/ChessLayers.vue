@@ -60,15 +60,15 @@ const active = computed(() => LAYERS.value.find((l) => l.at === props.stage))
 </template>
 
 <style scoped>
-.cl { display: flex; flex-direction: column; gap: var(--sp-4); }
-.cl__stack { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.cl { display: flex; flex-direction: column; gap: var(--sp-3); }
+.cl__stack { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
 
 .cl__layer {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: baseline;
   gap: var(--sp-5);
-  padding: 7px 0 7px 14px;
+  padding: 3px 0 3px 12px;
   border-left: 2px solid var(--hairline);
   opacity: 0;
   translate: 0 14px;
@@ -84,10 +84,10 @@ const active = computed(() => LAYERS.value.find((l) => l.at === props.stage))
 .cl__layer--action.is-active { border-left-color: var(--accent-action); }
 
 .cl__meta { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-.cl__name { font-size: var(--fs-lead); color: var(--text-primary); font-variation-settings: 'wght' 500; }
-.cl__role { font-size: var(--fs-caption); color: var(--text-muted); }
+.cl__name { font-size: var(--fs-body); color: var(--text-primary); font-variation-settings: 'wght' 500; }
+.cl__role { font-size: var(--fs-micro); color: var(--text-muted); }
 
-.cl__payload { font-size: var(--fs-body); white-space: nowrap; }
+.cl__payload { font-size: var(--fs-small); white-space: nowrap; }
 .cl__payload--lang { color: var(--accent-lang); }
 .cl__payload--bridge { color: var(--text-secondary); }
 .cl__payload--action { color: var(--accent-action); }
@@ -97,7 +97,7 @@ const active = computed(() => LAYERS.value.find((l) => l.at === props.stage))
   display: flex;
   align-items: center;
   gap: var(--sp-3);
-  margin: 10px 0 2px;
+  margin: 6px 0 1px;
   opacity: 0;
   transition: opacity var(--d-entry) var(--e-linear);
 }
@@ -114,9 +114,9 @@ const active = computed(() => LAYERS.value.find((l) => l.at === props.stage))
 .cl__note {
   margin: 0;
   max-width: 84ch;
-  min-height: 2.7em;
-  font-size: var(--fs-lead);
-  line-height: 1.4;
+  min-height: 2.6em;
+  font-size: var(--fs-body);
+  line-height: 1.45;
   color: var(--text-primary);
   opacity: 0;
   translate: 0 10px;

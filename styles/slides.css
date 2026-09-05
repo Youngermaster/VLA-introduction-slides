@@ -21,7 +21,7 @@
   font-size: var(--fs-caption);
   min-height: 130px;
 }
-.ph--tall { min-height: 300px; }
+.ph--tall { min-height: 268px; }
 .ph--video { min-height: 240px; aspect-ratio: 16 / 9; }
 .ph--wide { width: 100%; min-height: 300px; }
 
@@ -53,7 +53,7 @@
 .growth__l { font-size: var(--fs-small); color: var(--text-muted); }
 
 /* Limitations list needs the full width, not the 26ch statement measure */
-.limits-wide :deep(li) { max-width: 88ch; }
+.limits-wide :deep(li) { max-width: 92ch; font-size: var(--fs-small); margin-bottom: var(--sp-2); }
 .limits-wide :deep(ul) { margin-top: 0; }
 
 /* --- The three-way open question ------------------------------------------ */
@@ -116,4 +116,26 @@
   border-radius: var(--radius-md);
   border: 1px solid var(--hairline);
   display: block;
+}
+
+/* ==========================================================================
+   Compact-element line-height
+   --------------------------------------------------------------------------
+   `.slidev-layout` sets line-height 1.55, which is right for prose and far too
+   loose for the dense labels inside diagrams — a two-line label was rendering
+   at roughly twice its needed height, which is what pushed several slides past
+   the canvas. Reading measures keep 1.55; UI-scale text gets a tight default.
+   ========================================================================== */
+.slidev-layout.slidev-layout :is(
+  .t-mono, .t-caption, .t-micro,
+  [class*='__label'], [class*='__tag'], [class*='__sub'],
+  [class*='__name'], [class*='__role'], [class*='__title'],
+  [class*='__k'], [class*='__v'], [class*='__unit'],
+  [class*='__who'], [class*='__year'], [class*='__yr'],
+  [class*='__payload'], [class*='__chip'], [class*='__tok'],
+  [class*='__params'], [class*='__vram'], [class*='__open'],
+  [class*='__bname'], [class*='__bsub'], [class*='__bt'], [class*='__bs'],
+  [class*='__ntitle'], [class*='__nsub'], [class*='__cv'], [class*='__ck']
+) {
+  line-height: 1.3;
 }

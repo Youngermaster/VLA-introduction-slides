@@ -17,14 +17,14 @@
     "export:en": "VITE_DECK_LOCALE=en slidev export --format pdf --with-clicks --output export/from-tokens-to-torque.en.pdf",
     "check:content": "tsx scripts/check-content.ts",
     "check:types": "node scripts/check-types.mjs",
-    "verify": "pnpm check:types && pnpm check:content"
+    "verify": "pnpm check:types && pnpm check:content",
+    "check:fit": "node scripts/check-fit.mjs"
   },
   "dependencies": {
     "@slidev/cli": "^52.19.1",
     "@slidev/client": "^52.19.1",
     "@slidev/theme-default": "^0.25.0",
     "@slidev/types": "^52.19.1",
-    "gsap": "^3.15.0",
     "markdown-it": "^14.1.0",
     "qrcode": "^1.5.4",
     "vue": "^3.5.42",

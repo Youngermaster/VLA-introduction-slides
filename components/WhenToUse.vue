@@ -51,11 +51,11 @@ const COLS = computed(() =>
 </template>
 
 <style scoped>
-.wu { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-6); align-items: start; }
+.wu { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-5); align-items: start; }
 
 .wu__col {
-  display: flex; flex-direction: column; gap: 7px;
-  padding-left: 12px;
+  display: flex; flex-direction: column; gap: 4px;
+  padding-left: 11px;
   border-left: 2px solid var(--hairline);
   opacity: 0; translate: 0 16px;
   transition: opacity var(--d-step) var(--e-linear), translate var(--d-entry) var(--e-out-quart);
@@ -65,11 +65,11 @@ const COLS = computed(() =>
 .wu__col--lang { border-left-color: var(--accent-lang); }
 .wu__col--muted { border-left-color: var(--hairline-strong); }
 
-.wu__h { margin: 0; font-size: var(--fs-h3); font-variation-settings: 'wght' 500; color: var(--text-primary); }
-.wu__when { margin: 0 0 4px; font-size: var(--fs-small); color: var(--text-muted); }
+.wu__h { margin: 0; font-size: var(--fs-lead); line-height: 1.2; font-variation-settings: 'wght' 500; color: var(--text-primary); }
+.wu__when { margin: 0 0 2px; font-size: var(--fs-caption); line-height: 1.4; color: var(--text-muted); }
 
-.wu__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
-.wu__list li { margin: 0; padding-left: 15px; position: relative; font-size: var(--fs-small); max-width: none; }
+.wu__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.wu__list li { margin: 0; padding-left: 14px; position: relative; font-size: var(--fs-caption); line-height: 1.4; max-width: none; }
 .wu__list li::before { content: ''; position: absolute; left: 0; top: 0.56em; width: 7px; height: 2px; border-radius: 1px; }
 .wu__pro { color: var(--text-secondary); }
 .wu__pro::before { background: var(--signal-ok); }
@@ -78,9 +78,9 @@ const COLS = computed(() =>
 
 .wu__punch {
   grid-column: 1 / -1;
-  margin: var(--sp-4) 0 0;
-  max-width: 88ch;
-  font-size: var(--fs-lead); line-height: 1.4; color: var(--text-secondary);
+  margin: var(--sp-2) 0 0;
+  max-width: 100ch;
+  font-size: var(--fs-small); line-height: 1.45; color: var(--text-secondary);
   opacity: 0; translate: 0 10px;
   transition: opacity var(--d-step) var(--e-linear), translate var(--d-entry) var(--e-out-quart);
 }

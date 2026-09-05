@@ -51,7 +51,7 @@ const MODELS = computed(() => [
   grid-template-columns: 190px 128px 84px 1fr;
   gap: var(--sp-4);
   align-items: baseline;
-  padding: 5px 0 5px 12px;
+  padding: 2px 0 2px 11px;
   border-left: 2px solid transparent;
 }
 .ml__head {
@@ -75,15 +75,15 @@ const MODELS = computed(() => [
 .ml__row.is-star.is-active { opacity: 1; }
 
 .ml__name { display: flex; flex-direction: column; gap: 0; }
-.ml__nm { font-size: var(--fs-lead); color: var(--text-primary); font-variation-settings: 'wght' 500; }
+.ml__nm { font-size: var(--fs-body); color: var(--text-primary); font-variation-settings: 'wght' 500; }
 .ml__yr { font-size: var(--fs-micro); color: var(--text-muted); }
-.ml__params, .ml__vram { font-size: var(--fs-small); color: var(--text-secondary); }
+.ml__params, .ml__vram { font-size: var(--fs-caption); color: var(--text-secondary); }
 .ml__open { font-size: var(--fs-small); }
 
 .ml__note {
   grid-column: 1 / -1;
-  margin: 3px 0 0;
-  font-size: var(--fs-small);
+  margin: 2px 0 0;
+  font-size: var(--fs-caption);
   color: var(--text-secondary);
   max-width: 88ch;
   max-height: 0;
@@ -91,5 +91,5 @@ const MODELS = computed(() => [
   opacity: 0;
   transition: max-height var(--d-step) var(--e-out-quart), opacity var(--d-step) var(--e-linear);
 }
-.ml__note.is-on { max-height: 3.2em; opacity: 1; }
+.ml__note.is-on { max-height: 2.6em; opacity: 1; }
 </style>

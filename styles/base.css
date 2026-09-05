@@ -57,7 +57,7 @@ html body {
      vertical room, which is not enough for a diagram plus a title. These values
      keep the generous side margins while respecting the one hard rule: nothing
      critical in the bottom ~12% (projector overscan, and the front row's heads). */
-  padding: 46px 64px 62px;
+  padding: 40px 64px 52px;
   overflow: hidden;
   font-size: var(--fs-body);
   line-height: var(--lh-body);
@@ -163,9 +163,9 @@ html body {
 .slidev-layout.slidev-layout pre {
   background: var(--surface-1) !important;
   border-radius: var(--radius-md);
-  padding: var(--sp-4) !important;
-  font-size: var(--fs-small);
-  line-height: 1.6;
+  padding: var(--sp-3) !important;
+  font-size: var(--fs-caption);
+  line-height: 1.5;
 }
 
 /* Tabular numerals everywhere numbers are compared */
@@ -202,7 +202,7 @@ html body {
 .cite {
   position: absolute;
   left: 64px;
-  bottom: 24px;
+  bottom: 18px;
   font-size: var(--fs-micro);
   letter-spacing: var(--tr-micro);
   color: var(--text-muted);
