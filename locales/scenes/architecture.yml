@@ -1,0 +1,38 @@
+es:
+  title: La máquina *completa*
+  top: arriba
+  wrist: muñeca
+  base: base
+  instr: '"agarra el magnesio"'
+  state: estado · 6 articulaciones
+  layers32: 32 capas
+  sequence: una sola secuencia de tokens
+  cut: Se queda con las primeras 16 de 32 capas.
+  punch: Las últimas capas sirven para *hablar.* Un robot no necesita hablar.
+  expert: Action expert
+  xattn: cross-attention
+  step: paso
+  chunk: chunk de 50
+  loop: y el bucle vuelve a las cámaras
+  cmp_open: 7B · tokens discretos · ~6 Hz en una RTX 4090
+  cmp_smol: 450M · flow matching · corre en un portátil
+  cite: 'SmolVLA arXiv:2506.01844 · OpenVLA arXiv:2406.09246'
+en:
+  title: The *whole* machine
+  top: top
+  wrist: wrist
+  base: base
+  instr: '"pick up the magnesium"'
+  state: state · 6 joints
+  layers32: 32 layers
+  sequence: one single sequence of tokens
+  cut: It keeps the first 16 of 32 layers.
+  punch: The last layers are for *talking.* A robot doesn't need to talk.
+  expert: Action expert
+  xattn: cross-attention
+  step: step
+  chunk: chunk of 50
+  loop: and the loop goes back to the cameras
+  cmp_open: 7B · discrete tokens · ~6 Hz on an RTX 4090
+  cmp_smol: 450M · flow matching · runs on a laptop
+  cite: 'SmolVLA arXiv:2506.01844 · OpenVLA arXiv:2406.09246'

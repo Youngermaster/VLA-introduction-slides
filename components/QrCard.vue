@@ -5,9 +5,9 @@
   service, no network: a QR slide that needs the internet to render is exactly
   the slide that fails at a venue with bad WiFi.
 
-  Sizing note: error-correction level M with a generous quiet zone and pure
-  white modules. A QR rendered in an accent colour on near-black is a QR that
-  half the room's phones will refuse to read.
+  Dark modules on a white card with a two-module quiet zone: the polarity every
+  phone camera reads. Inverted (light-on-dark) or accent-coloured codes are the
+  ones half the room's phones refuse to scan.
 -->
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
@@ -25,8 +25,8 @@ watchEffect(async () => {
     svg.value = await QRCode.toString(props.url, {
       type: 'svg',
       errorCorrectionLevel: 'M',
-      margin: 1,
-      color: { dark: '#FFFFFF', light: '#0A0B0D' },
+      margin: 2,
+      color: { dark: '#0A0B0D', light: '#FFFFFF' },
     })
   } catch {
     svg.value = ''

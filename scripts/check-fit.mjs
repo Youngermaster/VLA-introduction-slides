@@ -17,7 +17,7 @@ let failed = false
 for (const lang of ['es', 'en']) {
   const bad = []
   for (let n = 1; n <= 47; n++) {
-    await p.goto(`http://localhost:3131/#/${n}?clicks=9&lang=${lang}`, { waitUntil: 'networkidle' })
+    await p.goto(`http://localhost:3131/#/${n}?clicks=9&lang=${lang}&scene_snap`, { waitUntil: 'networkidle' })
     await p.waitForTimeout(500)
     const r = await p.evaluate(() => {
       const pages = [...document.querySelectorAll('.slidev-page')]

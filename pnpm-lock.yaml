@@ -42,6 +42,9 @@ importers:
       '@fontsource-variable/instrument-sans':
         specifier: ^5.3.0
         version: 5.3.0
+      '@fontsource-variable/unbounded':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.2.0
@@ -448,6 +451,9 @@ packages:
 
   '@fontsource-variable/instrument-sans@5.3.0':
     resolution: {integrity: sha512-u4gKbDBTNFGkg997tfQn3eHOhHuquWUFTRT/rwzuKtrxX5P2ekfs2x+LgBPP4P32+cC+vUwF1Cr+IdRoPQbrGw==}
+
+  '@fontsource-variable/unbounded@5.3.0':
+    resolution: {integrity: sha512-ea565Ncn4r7gPdBEHcmaF31V11hDfkL7b/JCklLobQbMfbu2ZZQrVWNgdeEFWFLqNh36yhieZWOgxdAnMTzrLg==}
 
   '@hono/node-server@1.19.17':
     resolution: {integrity: sha512-dSneS5qhiauZWGDCeK4o695Xd9nUNjviSZCMQrj10eetr8Uln1ucn6bbphOM6UynAMMtNIzZNSpL9vnASJwrPQ==}
@@ -3753,6 +3759,8 @@ snapshots:
   '@fontsource-variable/geist-mono@5.3.0': {}
 
   '@fontsource-variable/instrument-sans@5.3.0': {}
+
+  '@fontsource-variable/unbounded@5.3.0': {}
 
   '@hono/node-server@1.19.17(hono@4.13.7)':
     dependencies:

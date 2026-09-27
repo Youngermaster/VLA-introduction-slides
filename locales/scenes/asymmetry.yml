@@ -1,0 +1,18 @@
+es:
+  title: La asimetría que *lo explica todo*
+  textLabel: texto · se recolecta
+  textSub: tokens · el corpus de Llama 3
+  robotLabel: acción · hay que vivirla
+  episode: episodio
+  robotSub: episodios · Open X-Embodiment · 60 datasets · 34 labs
+  punch: El texto *ya estaba escrito.* Cada episodio de robot *hay que vivirlo en tiempo real.*
+  cite: 'Llama 3: arXiv:2407.21783 · Open X-Embodiment: arXiv:2310.08864'
+en:
+  title: The asymmetry that *explains everything*
+  textLabel: text · is collected
+  textSub: tokens · the Llama 3 corpus
+  robotLabel: action · has to be lived
+  episode: episode
+  robotSub: episodes · Open X-Embodiment · 60 datasets · 34 labs
+  punch: Text *was already written.* Every robot episode *has to be lived in real time.*
+  cite: 'Llama 3: arXiv:2407.21783 · Open X-Embodiment: arXiv:2310.08864'

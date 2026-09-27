@@ -1,0 +1,36 @@
+es:
+  title: Del movimiento *continuo* a tokens
+  axis_t: tiempo (1 s)
+  axis_a: ángulo
+  joint: una articulación
+  bins: 256 cajones (se ven 24)
+  p1: Un movimiento es una *señal continua.*
+  p2: Lo muestreamos a 30 Hz. *Treinta números por segundo.*
+  p3: Cada número cae en un cajón, y cada cajón es un *token.* OpenVLA usa los IDs 31744 a 31999.
+  fast_sub: la DCT, como en JPEG
+  fast_freq: frecuencias, se guardan las bajas
+  fast_note: tokens por chunk (tarea a 50 Hz, 13× menos)
+  flow: Flow matching
+  flow_sub: sin tokens, ruido que se limpia
+  step: paso
+  flow_big: 0 tokens
+  cite1: RT-2 arXiv:2307.15818 · OpenVLA arXiv:2406.09246
+  cite2: FAST arXiv:2501.09747 · π0 arXiv:2410.24164 · SmolVLA arXiv:2506.01844
+en:
+  title: From *continuous* motion to tokens
+  axis_t: time (1 s)
+  axis_a: angle
+  joint: one joint
+  bins: 256 bins (24 shown)
+  p1: A movement is a *continuous signal.*
+  p2: We sample it at 30 Hz. *Thirty numbers a second.*
+  p3: Each number lands in a bin, and each bin is a *token.* OpenVLA uses IDs 31744 to 31999.
+  fast_sub: the DCT, like JPEG
+  fast_freq: frequencies, keep the low ones
+  fast_note: tokens per chunk (50 Hz task, 13× fewer)
+  flow: Flow matching
+  flow_sub: no tokens, noise that gets cleaned
+  step: step
+  flow_big: 0 tokens
+  cite1: RT-2 arXiv:2307.15818 · OpenVLA arXiv:2406.09246
+  cite2: FAST arXiv:2501.09747 · π0 arXiv:2410.24164 · SmolVLA arXiv:2506.01844

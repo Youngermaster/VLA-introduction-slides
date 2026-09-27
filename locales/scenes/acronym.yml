@@ -1,0 +1,20 @@
+es:
+  v: Vision
+  l: Language
+  a: Action
+  vdesc: Ve el mundo. Píxeles de cámara que se vuelven tokens.
+  ldesc: Entiende lo que le pides. Palabras que se vuelven tokens.
+  adesc: Mueve el cuerpo. Tokens que se vuelven comandos de motor.
+  lsent: agarra el magnesio
+  ltoks: agarra| el| magn|esio
+  ltokhint: el mismo tokenizador de un LLM
+en:
+  v: Vision
+  l: Language
+  a: Action
+  vdesc: Sees the world. Camera pixels that become tokens.
+  ldesc: Understands what you ask. Words that become tokens.
+  adesc: Moves the body. Tokens that become motor commands.
+  lsent: pick up the magnesium
+  ltoks: pick| up| the| magn|esium
+  ltokhint: the same tokenizer as an LLM

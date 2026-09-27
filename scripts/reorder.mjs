@@ -12,31 +12,21 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 
 const ORDER = [
-  // Act 1 — the hook
-  'title', 'hook-provocation', 'data-asymmetry',
-  // Act 2 — how we got here
-  'act2-open', 'timeline', 'act-reflex', 'my-build', 'act-limitation',
-  // Act 3 — the forward pass
-  'act3-open', 'what-is-a-policy', 'vla-architecture',
-  'language-in', 'attention',
-  'action-tokenization', 'detokenizer',
-  'action-chunking', 'closed-loop',
-  // Act 4 — how it's trained
-  'train-open', 'data-pipeline', 'recording', 'pretrain-finetune',
-  'act-inside-vla', 'rt2-insight',
-  // Act 5 — the landscape
-  'act4-open', 'openvla-anatomy', 'smolvla-anatomy',
-  'model-landscape', 'accessibility', 'when-to-use',
-  // Act 6 — live demo
-  'act5-open', 'demo-rig', 'demo-vla', 'demo-act-video', 'backup-demo',
-  // Act 7 — reality
-  'act6-open', 'adoption', 'limitations', 'data-economics',
-  // Act 8 — architecture lesson
-  'act7-open', 'chess-layers', 'chess-lesson',
-  // Act 9 — the future
-  'act8-open', 'world-models', 'generalist-models', 'open-question',
+  // Opening
+  'title', 'hook', 'data-asymmetry',
+  // 01 · What is a VLA
+  'ch-vla', 'vla-acronym', 'vla-hero', 'what-is-a-policy', 'act-vs-vla',
+  // 02 · Inside
+  'ch-inside', 'language-in', 'vision-in', 'attention',
+  'action-tokens', 'detokenizer', 'action-chunking', 'architecture',
+  // 03 · How it learns
+  'ch-train', 'recording', 'training', 'pretrain-finetune',
+  // 04 · Demo
+  'ch-demo', 'my-build', 'demo-video', 'demo-live', 'demo-act-video', 'backup-demo',
+  // 05 · What comes next
+  'ch-future', 'field-growth', 'limitations', 'world-models', 'generalist-models', 'when-to-use',
   // Closing
-  'resources', 'thanks',
+  'thanks', 'references',
 ]
 
 const src = readFileSync('slides.md', 'utf8')

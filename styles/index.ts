@@ -6,6 +6,7 @@
 // woff2 files that ship inside these packages instead.
 import '@fontsource-variable/instrument-sans'
 import '@fontsource-variable/geist-mono'
+import '@fontsource-variable/unbounded'
 
 import './tokens.css'
 import './base.css'

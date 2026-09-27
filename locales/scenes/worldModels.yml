@@ -1,0 +1,36 @@
+es:
+  title: VLA + *modelos del mundo*
+  see: ver
+  act: actuar
+  imagine: Antes de moverse, imagina tres futuros y elige el mejor.
+  planF: 'V-JEPA 2-AC planea así: agarrar y colocar *sin entrenar en la tarea*, 65–80 %. Puntajes ilustrativos.'
+  l1: Genera datos
+  l1f: DreamGen inventa videos del robot. De *1 tarea* grabada a *22 comportamientos* nuevos.
+  l2: Señal de entrenamiento
+  l2f: VLA-JEPA, ya en LeRobot. El modelo del mundo *solo se usa al entrenar* y desaparece en inferencia.
+  future: futuro
+  trainOnly: solo al entrenar
+  l3: Planea
+  l3f: Imagina futuros y elige uno. Cuesta latencia.
+  l4: Evalúa
+  l4f: Un simulador hecho con Veo predice si una política va a funcionar. Validado con *1.600+ pruebas reales*.
+  punch: 'Hoy, casi toda la ganancia viene de la *señal de entrenamiento* (Fast-WAM, 2026).'
+  cite: 'V-JEPA 2 arXiv:2506.09985 · DreamGen 2505.12705 · VLA-JEPA 2602.10098 · Veo 2512.10675 · Fast-WAM 2603.16666'
+en:
+  title: VLA + *world models*
+  see: see
+  act: act
+  imagine: Before moving, it imagines three futures and picks the best.
+  planF: 'V-JEPA 2-AC plans this way: pick-and-place *zero-shot*, 65–80 %. Scores are illustrative.'
+  l1: Generates data
+  l1f: DreamGen invents robot videos. From *1 recorded task* to *22 new behaviours*.
+  l2: Training signal
+  l2f: VLA-JEPA, already in LeRobot. The world model is *only used in training* and is gone at inference.
+  future: future
+  trainOnly: training only
+  l3: Plans
+  l3f: Imagines futures and picks one. Costs latency.
+  l4: Evaluates
+  l4f: A simulator built on Veo predicts whether a policy will work. Validated on *1,600+ real trials*.
+  punch: 'Today, most of the gain comes from the *training signal* (Fast-WAM, 2026).'
+  cite: 'V-JEPA 2 arXiv:2506.09985 · DreamGen 2505.12705 · VLA-JEPA 2602.10098 · Veo 2512.10675 · Fast-WAM 2603.16666'

@@ -68,7 +68,8 @@ const missing = computed(() =>
 )
 
 /* --- timing budget -------------------------------------------------------- */
-const TALK_BUDGET = 50 * 60
+// The talk slot is 30-40 min before questions.
+const TALK_BUDGET = 40 * 60
 const estimated = computed(() => sections.value.reduce((n, s) => n + s.estimate, 0))
 const budgetPct = computed(() => Math.min(100, (estimated.value / TALK_BUDGET) * 100))
 const overBudget = computed(() => estimated.value > TALK_BUDGET)
@@ -146,7 +147,7 @@ const pace = computed(() => {
         <button class="pr__btn" :disabled="current <= 1" @click="go(current - 1)">←</button>
         <span class="pr__pos t-mono">{{ current }} / {{ total }}</span>
         <button class="pr__btn" :disabled="current >= total" @click="go(current + 1)">→</button>
-        <span class="pr__alias t-mono">{{ currentAlias || '—' }}</span>
+        <span class="pr__alias t-mono">{{ currentAlias || '·' }}</span>
       </div>
 
       <div class="pr__timer" :class="`is-${pace}`">

@@ -1,0 +1,20 @@
+es:
+  title: Cómo aprende, *copiando*
+  dataset: tus episodios
+  policy: la política
+  chunk: 'un chunk de acciones, una articulación'
+  human: lo que hizo el humano
+  predicted: lo que predice
+  steps: pasos de entrenamiento
+  punch: Sin recompensa. Sin prueba y error. *Copia.*
+  cite: 'Fine-tune de SmolVLA: ~50 episodios, 20k pasos ≈ 4 h en una A100 (docs de LeRobot)'
+en:
+  title: How it learns, *by copying*
+  dataset: your episodes
+  policy: the policy
+  chunk: 'one action chunk, one joint'
+  human: what the human did
+  predicted: what it predicts
+  steps: training steps
+  punch: No reward. No trial and error. *It copies.*
+  cite: 'SmolVLA fine-tune: ~50 episodes, 20k steps ≈ 4 h on one A100 (LeRobot docs)'

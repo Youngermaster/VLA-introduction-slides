@@ -1,0 +1,24 @@
+es:
+  title: ¿Qué es una *política?*
+  o_label: o · observación
+  l_label: ℓ · instrucción
+  a_label: a · acciones
+  cam1: arriba
+  cam2: muñeca
+  cam3: base
+  joints: 6 articulaciones
+  instr: agarra el frasco de magnesio
+  instr_note: texto, igual que en un chat
+  punch: No es aprendizaje por refuerzo. Es *behaviour cloning:* la etiqueta es lo que hizo el humano.
+en:
+  title: What is a *policy?*
+  o_label: o · observation
+  l_label: ℓ · instruction
+  a_label: a · actions
+  cam1: top
+  cam2: wrist
+  cam3: base
+  joints: 6 joints
+  instr: pick up the magnesium bottle
+  instr_note: text, same as in a chat
+  punch: Not reinforcement learning. It's *behaviour cloning:* the label is what the human did.

@@ -1,0 +1,22 @@
+es:
+  title: ¿Cómo entra *el lenguaje?*
+  sentence: agarra el frasco de magnesio
+  tpl_note: No aprende una tarea nueva. Sigue prediciendo el siguiente token.
+  tokens: agarra| el| frasco| de| magn|esio
+  ids: 26973 560 3515 311 20176 22362
+  split_note: una palabra, dos tokens
+  same_tok: El mismo tokenizador que un LLM de texto
+  vec_label: un vector por token
+  punch: Las palabras se vuelven *números.* De aquí en adelante, el modelo sólo ve vectores.
+  cite: 'Plantilla: OpenVLA (arXiv:2406.09246) · IDs de token ilustrativos'
+en:
+  title: How does *language* get in?
+  sentence: pick up the magnesium bottle
+  tpl_note: It isn't learning a new task. It's still predicting the next token.
+  tokens: pick| up| the| magn|esium| bottle
+  ids: 5839 701 278 9119 29563 18046
+  split_note: one word, two tokens
+  same_tok: The same tokenizer a text LLM uses
+  vec_label: one vector per token
+  punch: Words become *numbers.* From here on, the model only sees vectors.
+  cite: 'Template: OpenVLA (arXiv:2406.09246) · token IDs illustrative'

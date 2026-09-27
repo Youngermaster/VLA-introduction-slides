@@ -1,4 +1,4 @@
-# Presenting — the day-of checklist
+# Presenting: the day-of checklist
 
 Read this one on the day. Everything else can wait.
 
@@ -8,7 +8,7 @@ Read this one on the day. Everything else can wait.
 
 | Key | Action |
 |---|---|
-| **B** | **PANIC MODE** — jump straight to the backup demo video, from any slide |
+| **B** | **PANIC MODE**: jump straight to the backup demo video, from any slide |
 | **V** | Return to the slide you jumped from |
 | **L** | Switch the deck's language live (ES ⇄ EN) |
 | → / ← | Next / previous step |
@@ -24,12 +24,12 @@ number, so it keeps working if you reorder or insert slides.
 
 ## The night before
 
-- [ ] `pnpm export` — put the PDF on the laptop **and** on a USB stick. If the
+- [ ] `pnpm export` and put the PDF on the laptop **and** on a USB stick. If the
       laptop dies you can present from someone else's machine.
 - [ ] Record the backup demo video and drop it in `public/video/`
       (see [ASSETS.md](ASSETS.md)). **Do this even if the live demo is working.**
 - [ ] Full run-through in `/practice` with the timer. If you're over 38 minutes
-      of speaking, cut from Act 4 — never from `data-asymmetry` or the demo.
+      of speaking, cut from Act 4, never from `data-asymmetry` or the demo.
 - [ ] Charge everything. Bring your own power strip; do not assume there's an
       outlet where the robot needs to be.
 - [ ] `pnpm build && npx serve dist` with **WiFi off**, click through the whole
@@ -46,7 +46,7 @@ number, so it keeps working if you reorder or insert slides.
       If the projector is washing everything out, raise the room's contrast by
       killing the lights nearest the screen rather than fiddling with the deck.
 - [ ] Run the demo end to end **twice**. If it fails twice, present from video
-      and say so — that's a normal outcome, not a defeat.
+      and say so. That's a normal outcome, not a defeat.
 - [ ] Place the props: Complejo B pack, magnesium bottle. Mark their positions
       with tape so you can reset them fast between runs.
 - [ ] Bring your own lamp if the room's light differs from where you trained.
@@ -56,50 +56,52 @@ number, so it keeps working if you reorder or insert slides.
 
 ## Timing
 
-Total slot ~50 min. The script is ~26 minutes of speaking; the rest is the demo,
-transitions and Q&A.
+Budget **30–40 min** plus questions. The script is **~17 min of speech**; with
+each click's animation, pauses and ~5 min of demo it lands at **~30–35 min**.
+`/practice` measures the speech from the actual text.
 
-| Act | Slides | Target |
+| Part | Slides | Target |
 |---|---|---|
-| 1 · Hook | title → data-asymmetry | 4 min |
-| 2 · How we got here | act2-open → act-limitation | 6 min |
-| 3 · **The forward pass** | act3-open → closed-loop | 12 min |
-| 4 · How it's trained | train-open → rt2-insight | 6 min |
-| 5 · Landscape | act4-open → when-to-use | 8 min |
-| 6 · **Live demo** | act5-open → backup-demo | 9 min |
-| 7 · Reality | act6-open → data-economics | 5 min |
-| 8 · Architecture lesson | act7-open → chess-lesson | 4 min |
-| 9 · Future | act8-open → open-question | 5 min |
-| Closing | resources → thanks | 2 min |
+| Opening | title → data-asymmetry | 3 min |
+| 01 · What is a VLA | ch-vla → act-vs-vla | 6.5 min |
+| 02 · **Inside** | ch-inside → architecture | 10 min |
+| 03 · How it learns | ch-train → pretrain-finetune | 4 min |
+| 04 · **Demo** | ch-demo → backup-demo | 7 min |
+| 05 · What comes next | ch-future → when-to-use | 6.5 min |
+| Closing | thanks → references | 0.5 min + Q&A |
 
-47 slides. The script is **~34 minutes of speaking** — check the live number in
-`/practice`, which measures it from the actual text.
+34 slides; 25 of them are canvas scenes, so almost every click *shows*
+something happening. Let each click's animation finish before you talk over it.
 
-**If you're running late**, cut in this order. The deck is built so each of
-these can go without breaking the argument:
+**If you're running late**, cut in this order. Each can go without breaking the
+argument:
 
-1. `demo-act-video` (the ACT comparison) — down to 30 s, or skip
-2. `openvla-anatomy` — SmolVLA alone carries the point
-3. `generalist-models`
-4. `data-pipeline` — `recording` covers the same ground more concretely
-5. `model-landscape` — do two rows instead of five
-6. `adoption`
-7. `detokenizer` — only if desperate; it's the half nobody else explains
+1. `demo-act-video`: skip it if the live demo worked
+2. `field-growth`
+3. `detokenizer`, only if desperate. It's the half nobody else explains
+4. `vision-in`: say one sentence over `language-in` instead
+5. `limitations`: keep only its last click (diversity beats volume)
 
-**Never cut** `data-asymmetry`, `vla-architecture`, `action-chunking`, the demo,
-or `chess-lesson`. Those five are the talk.
+**Never cut** `data-asymmetry`, `vla-hero`, `action-tokens`, `architecture` or
+the demo. Those are the talk.
 
-### The deep-mechanism run (Act 3)
+### The mechanism run (02 · Inside)
 
-This is the densest stretch and the one most likely to lose people. Pacing that
-works: define the policy fast, spend real time on `vla-architecture`, then treat
-`language-in` → `attention` → `action-tokenization` → `detokenizer` as one
-continuous story about *getting in and getting back out*. `closed-loop` is the
-payoff — it's the slide where the parts become a mechanism. Don't rush it.
+The densest stretch. Treat `language-in` → `vision-in` → `attention` as *how
+things get in*, and `action-tokens` → `detokenizer` → `action-chunking` as *how
+things get back out*. `architecture` is the payoff, the slide where the parts
+become one machine. Don't rush it.
 
 If the room looks lost during tokenization, the rescue line is:
 *"discrete to reuse the language model's machinery; continuous to be fast and
 precise."* Then move on.
+
+### Scenes, practically
+
+- Each click plays a short animation and stops. Nothing moves between clicks.
+- **←** rewinds the scene to the previous step, so you can re-show a moment.
+- Arriving at a scene from the next slide shows its finished state.
+- The overview (**O**) and the PDF show every step's finished frame.
 
 ---
 
@@ -110,8 +112,8 @@ thing the room remembers.
 
 1. Try **once** more. Not three times.
 2. Press **B**. Play the backup video, narrate over it.
-3. Say the line: *"this happens, and it's actually a perfect transition, because
-   the next act is called 'the honest part'."* Then move on.
+3. Say the line: *"this happens, and it's exactly what the limitations slide is
+   about."* Then move on.
 4. Do not apologise more than once. The room is on your side.
 
 A failed live demo that you handle calmly is more credible than a demo that
@@ -122,10 +124,12 @@ works. It proves the limitations slide is honest.
 ## Questions you should expect
 
 **"How much did the arm cost?"**
-~150 USD in parts plus filament. The servos are most of it.
+The official SO-101 bill of materials is USD 229.88 for leader + follower
+(USD 121.94 for the follower alone), not counting the printed parts. The twelve
+STS3215 servos are most of it.
 
 **"Can it do X?"**
-Be honest about the generalization gap — that's slide `limitations`. It handles
+Be honest about the generalization gap (that's slide `limitations`). It handles
 objects near what it saw. It does not handle a new task.
 
 **"How long did training take?"**
@@ -133,19 +137,19 @@ SmolVLA fine-tune, ~20k steps: a few hours on the 5060 Ti. The dataset recording
 was the slow part.
 
 **"Is the attention the same as in an LLM?"**
-Yes for the operator — same scaled dot-product, same RoPE, same GQA. The
+Yes for the operator: same scaled dot-product, same RoPE, same GQA. The
 difference is the *mask*: images and text form one bidirectionally-attending
 prefix block rather than a causal triangle, and the action tokens are their own
 block (causal in SmolVLA, bidirectional in π₀). Slide `attention` covers it.
 
 **"Why not just use an LLM with a robot API?"**
-Good question, and it's the `chess-lesson` answer: you can, and for structured
-tasks you *should*. The VLA earns its place where the motion itself has to
-generalize, not just the plan.
+Good question. You can, and for structured tasks you *should*: let the LLM plan
+and hand the arm something narrow, like coordinates. The VLA earns its place
+where the motion itself has to generalize, not just the plan.
 
 **"What about safety?"**
-Not solved. Current VLAs have no notion of consequence — that's the
-`world-models` slide. On real deployments this is handled outside the policy,
+Not solved. Current VLAs have no notion of consequence (that's the
+`world-models` slide). On real deployments this is handled outside the policy,
 with force limits and workspace constraints.
 
 **"Does it work in Spanish?"**

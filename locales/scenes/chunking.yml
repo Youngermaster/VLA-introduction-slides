@@ -1,0 +1,22 @@
+es:
+  title: Predecir un *bloque,* no un paso
+  lane1: Un paso por inferencia
+  lane2: Un chunk de 50 acciones
+  think: cian = el modelo pensando, el brazo quieto
+  chunk50: 50 acciones futuras
+  pause: pausa
+  overlap: se solapan y se mezclan
+  facts: 'ACT: unos 100 pasos a 50 Hz · SmolVLA y π0: chunks de 50'
+  punch: RTC calcula el siguiente chunk *mientras* ejecuta este.
+  cite: 'ACT arXiv:2304.13705 · π0 arXiv:2410.24164 · Real-Time Chunking arXiv:2506.07339'
+en:
+  title: Predict a *block,* not a step
+  lane1: One step per inference
+  lane2: One chunk of 50 actions
+  think: cyan = the model thinking, the arm waiting
+  chunk50: 50 future actions
+  pause: pause
+  overlap: overlap, blended
+  facts: 'ACT: about 100 steps at 50 Hz · SmolVLA and π0: chunks of 50'
+  punch: RTC computes the next chunk *while* executing this one.
+  cite: 'ACT arXiv:2304.13705 · π0 arXiv:2410.24164 · Real-Time Chunking arXiv:2506.07339'

@@ -17,9 +17,8 @@
   height: 100%;
 }
 .viz :deep(h1) {
-  font-size: var(--fs-h2);
-  line-height: var(--lh-h2);
-  letter-spacing: var(--tr-h2);
+  font-size: 30px;
+  line-height: 1.15;
   margin-bottom: var(--sp-4);
   max-width: 34ch;
   flex: none;

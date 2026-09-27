@@ -1,0 +1,22 @@
+es:
+  title: Lo que todavía *no funciona*
+  c1: Benchmarks saturados
+  c1f: Todo paper nuevo cae entre 95 y 98 % en LIBERO. Ya *no se sabe* quién es mejor.
+  c2: La prueba de verdad es un robot real
+  c2f: RoboArena compara políticas a ciegas, A contra B, en robots reales de 7 laboratorios.
+  c2g: 'DROID: *76k* trayectorias, *350 h*, *50* personas, *12* meses.'
+  c3: Frágil fuera de sus datos
+  c3f: Cambia la luz o mueve una cámara y puede fallar. Y tiene que pensar rápido, OpenVLA va a *~6 Hz*.
+  punch: 'La *diversidad* gana al volumen: escenas y objetos nuevos enseñan más que repetir la misma demo.'
+  cite: 'LIBERO: OpenVLA-OFT, Cosmos Policy, LaWAM · RoboArena arXiv:2506.18123 · DROID arXiv:2403.12945 · Lin et al. arXiv:2410.18647'
+en:
+  title: What still *doesn't work*
+  c1: Saturated benchmarks
+  c1f: Every new paper lands between 95 and 98 % on LIBERO. You *can't tell* who is better.
+  c2: The real test is a real robot
+  c2f: RoboArena compares policies blind, A against B, on real robots across 7 labs.
+  c2g: 'DROID: *76k* trajectories, *350 h*, *50* people, *12* months.'
+  c3: Fragile outside its data
+  c3f: Change the light or nudge a camera and it can fail. And it has to think fast, OpenVLA runs at *~6 Hz*.
+  punch: '*Diversity* beats volume: new scenes and objects teach more than repeating the same demo.'
+  cite: 'LIBERO: OpenVLA-OFT, Cosmos Policy, LaWAM · RoboArena arXiv:2506.18123 · DROID arXiv:2403.12945 · Lin et al. arXiv:2410.18647'

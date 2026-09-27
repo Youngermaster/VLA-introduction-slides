@@ -1,0 +1,26 @@
+es:
+  title: Cuándo usar *cuál*
+  start: tu tarea
+  q1: ¿Una sola tarea fija y poco presupuesto?
+  q2: ¿El lenguaje elige el objeto, en hardware casero?
+  q3: ¿Largo plazo, abierto, necesita saber del mundo?
+  a1: ACT · Diffusion Policy
+  f1: Unas *50 demos*. Entrena en horas en *una GPU*.
+  a2: Afinar SmolVLA · π0
+  f2: SmolVLA con unos *50 episodios*, ~4 h en una A100. π0 con LoRA pide *más de 22,5 GB*.
+  a3: Planificador + VLA
+  f3: Un modelo que razona reparte subtareas y llama al VLA *como herramienta*.
+  foot: 'En SO-101, agarrar y colocar: SmolVLA 90 % vs ACT 70 %. ACT es la base barata, no siempre la mejor. (SmolVLA, arXiv:2506.01844 · openpi)'
+en:
+  title: When to use *which*
+  start: your task
+  q1: One fixed task, tight budget?
+  q2: Language picks the object, on hobby hardware?
+  q3: Long horizon, open-ended, needs world knowledge?
+  a1: ACT · Diffusion Policy
+  f1: About *50 demos*. Trains in hours on *one GPU*.
+  a2: Fine-tune SmolVLA · π0
+  f2: SmolVLA with about *50 episodes*, ~4 h on one A100. π0 with LoRA needs *over 22.5 GB*.
+  a3: Planner + VLA
+  f3: A reasoning model splits the job into subtasks and calls the VLA *as a tool*.
+  foot: 'On SO-101 pick-and-place: SmolVLA 90 % vs ACT 70 %. ACT is the cheap baseline, not always the best. (SmolVLA, arXiv:2506.01844 · openpi)'

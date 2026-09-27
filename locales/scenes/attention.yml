@@ -1,0 +1,36 @@
+es:
+  title: ¿Es la misma atención *que ChatGPT?*
+  cam: cámara de arriba
+  words: agarra|el|frasco|de|magnesio
+  q: '4'
+  self_label: 'self-attention: «magnesio» pregunta a todos los tokens'
+  math_punch: 'Sí. *La misma operación,* la misma matemática, las mismas librerías.'
+  cross_a: las acciones preguntan
+  cross_b: el VLM responde (K, V)
+  m_img: imagen
+  m_txt: texto
+  m_state: estado
+  m_act: acciones
+  m_rows: 'fila = quien pregunta · columna = a quien mira'
+  m_prefix: el prefijo se ve completo
+  m_causal: cada acción sólo ve su pasado
+  punch: La atención es la misma. Lo nuevo es *la máscara* y *las últimas capas.*
+  cite: 'SmolVLA: el action expert alterna cross y self-attention (arXiv:2506.01844)'
+en:
+  title: Is this the same attention *as ChatGPT?*
+  cam: top camera
+  words: pick|up|the|magnesium|bottle
+  q: '3'
+  self_label: 'self-attention: “magnesium” asks every token'
+  math_punch: 'Yes. *Same operation,* same math, same libraries.'
+  cross_a: the actions ask
+  cross_b: the VLM answers (K, V)
+  m_img: image
+  m_txt: text
+  m_state: state
+  m_act: actions
+  m_rows: 'row = who asks · column = who it can see'
+  m_prefix: the prefix sees all of itself
+  m_causal: each action sees only its past
+  punch: The attention is the same. What's new is *the mask* and *the last layers.*
+  cite: 'SmolVLA: the action expert alternates cross- and self-attention (arXiv:2506.01844)'

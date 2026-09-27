@@ -1,0 +1,16 @@
+es:
+  title: El campo está *explotando*
+  axis: papers VLA enviados a ICLR
+  rejected: y fue rechazado
+  jump: 18×
+  wall: los últimos 18 meses
+  lerobot: '*LeRobot* ya trae 10 VLAs y 4 políticas con modelo del mundo.'
+  cite: 'Conteo ICLR: búsqueda por palabra clave en OpenReview, M. Reuss (2025). No es un censo.'
+en:
+  title: The field is *exploding*
+  axis: VLA papers submitted to ICLR
+  rejected: and it was rejected
+  jump: 18×
+  wall: the last 18 months
+  lerobot: '*LeRobot* now ships 10 VLAs and 4 world-model policies.'
+  cite: 'ICLR counts: OpenReview keyword search, M. Reuss (2025). Not a census.'

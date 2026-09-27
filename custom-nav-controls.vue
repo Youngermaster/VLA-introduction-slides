@@ -5,7 +5,7 @@ import { slideLocale, toggleSlideLocale } from './lib/locale'
 <template>
   <button
     class="slidev-icon-btn locale-btn"
-    :title="`Idioma / Language: ${slideLocale.toUpperCase()} — press L`"
+    :title="`Idioma / Language: ${slideLocale.toUpperCase()} (press L)`"
     @click="toggleSlideLocale()"
   >
     <span class="locale-code">{{ slideLocale.toUpperCase() }}</span>

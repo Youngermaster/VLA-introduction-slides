@@ -13,6 +13,8 @@
  *   3. every locale key is actually used somewhere (dead-content warning)
  *   4. every slide routeAlias has a monologue section in every language
  *   5. every monologue section maps to a real slide
+ *   6. canvas scenes: strings in es/en, L() keys exist, clicks match cues
+ *   7. no em dashes in slide text, scene strings or the spoken script
  *
  * Run: pnpm check:content   (part of `pnpm verify`)
  */
@@ -107,9 +109,7 @@ for (const k of used) {
 const prefixes = [...used].filter((k) => k.endsWith('*')).map((k) => k.slice(0, -1))
 const isUsed = (k: string) => used.has(k) || prefixes.some((p) => k.startsWith(p))
 /** Keys kept deliberately, though no slide renders them. */
-const INTENTIONALLY_UNUSED = new Set([
-  'demo.body', // spoken during the live demo; the slide stays sparse on purpose
-])
+const INTENTIONALLY_UNUSED = new Set<string>([])
 const unused = base.filter(
   (k) => !isUsed(k) && !INTENTIONALLY_UNUSED.has(k) && !k.startsWith('nav.') && !k.startsWith('deck.'),
 )
@@ -130,6 +130,69 @@ for (const l of LOCALES) {
   }
 }
 if (!errors) console.log(`  ✓ ${slideAliases.length} slides covered in ${LOCALES.join(', ')}`)
+
+// ── 6. canvas scenes: strings, parity, click budgets ─────────────────────────
+// A scene's strings live in locales/scenes/<name>.yml with es and en side by
+// side. Every L('key') the scene draws must exist in both, both languages must
+// carry the same keys, and a slide's `clicks:` must match the scene's cues:
+// otherwise the last click does nothing, or the scene never reaches its end.
+console.log('\ncanvas scenes')
+const sceneDir = join(ROOT, 'scenes')
+const sceneNames = readdirSync(sceneDir).filter((f) => f.endsWith('.ts') && f !== 'index.ts').map((f) => f.slice(0, -3))
+const sceneCues = new Map<string, number>()
+for (const name of sceneNames) {
+  const src = stripComments(readFileSync(join(sceneDir, `${name}.ts`), 'utf8'))
+  const cues = src.match(/cues:\s*\[([^\]]*)\]/)
+  if (!cues) fail(`scenes/${name}.ts has no cues array`)
+  else sceneCues.set(name, cues[1].split(',').filter((x) => x.trim()).length)
+  let strings: Record<string, Record<string, unknown>> = {}
+  try {
+    strings = parse(readFileSync(join(ROOT, 'locales', 'scenes', `${name}.yml`), 'utf8')) ?? {}
+  }
+  catch {
+    fail(`locales/scenes/${name}.yml is missing or invalid`)
+    continue
+  }
+  const keysOf = (l: Locale) => Object.keys(strings[l] ?? {})
+  for (const l of LOCALES) {
+    if (!strings[l]) fail(`locales/scenes/${name}.yml has no "${l}" block`)
+  }
+  for (const k of keysOf('es')) if (!keysOf('en').includes(k)) fail(`scene ${name}: "en" is missing "${k}"`)
+  for (const k of keysOf('en')) if (!keysOf('es').includes(k)) fail(`scene ${name}: "es" is missing "${k}"`)
+  for (const m of src.matchAll(/\bL\(\s*['"]([^'"]+)['"]\s*\)/g)) {
+    if (!keysOf('es').includes(m[1])) fail(`scene ${name} draws L('${m[1]}') but locales/scenes/${name}.yml has no such key`)
+  }
+}
+const slideBlocks = slidesMd.split(/^---$/m)
+for (let i = 0; i < slideBlocks.length - 1; i++) {
+  const use = slideBlocks[i + 1].match(/<Scene\s+name="(\w+)"/)
+  if (!use) continue
+  const fm = slideBlocks[i]
+  if (!/routeAlias:/.test(fm)) continue
+  const alias = fm.match(/routeAlias:\s*(\S+)/)?.[1]
+  const clicks = Number(fm.match(/^clicks:\s*(\d+)/m)?.[1] ?? 0)
+  const n = sceneCues.get(use[1])
+  if (n === undefined) fail(`slide "${alias}" uses <Scene name="${use[1]}"> but scenes/${use[1]}.ts does not exist`)
+  else if (clicks !== n - 1) fail(`slide "${alias}": clicks is ${clicks} but scene "${use[1]}" has ${n - 1} (cues.length - 1)`)
+}
+if (!errors) console.log(`  ✓ ${sceneNames.length} scenes, strings in es/en, click budgets match`)
+
+// ── 7. no em dashes in anything the room reads or hears ──────────────────────
+console.log('\nwriting')
+const prose = [
+  'slides.md', 'locales/es.yml', 'locales/en.yml', 'monologue/es.md', 'monologue/en.md',
+  ...readdirSync(join(ROOT, 'locales', 'scenes')).map((f) => `locales/scenes/${f}`),
+]
+let dashes = 0
+for (const f of prose) {
+  readFileSync(join(ROOT, f), 'utf8').split('\n').forEach((line, i) => {
+    if (line.includes('—')) {
+      fail(`${f}:${i + 1} has an em dash (use a comma, period, colon or a connector)`)
+      dashes++
+    }
+  })
+}
+if (!dashes) console.log(`  ✓ no em dashes in ${prose.length} prose files`)
 
 // ── duplicate aliases would silently break panic mode and the practice join ──
 const dupes = slideAliases.filter((a, i) => slideAliases.indexOf(a) !== i)

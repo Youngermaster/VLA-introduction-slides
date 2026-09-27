@@ -1,0 +1,24 @@
+es:
+  title: De vuelta, de *tokens a torque*
+  h_id: token
+  h_bin: cajón
+  h_real: unidad real
+  open: 1.00 abierta
+  delta: delta
+  abs: absoluta
+  hist: Δx en todas las demos del dataset
+  hist_note: Una demo mala no estira la escala.
+  punch: Las seis primeras son *deltas.* La pinza es *absoluta.*
+  cite: 'OpenVLA arXiv:2406.09246 · normalización por percentiles del dataset (q01, q99) · valores ilustrativos'
+en:
+  title: Back out, from *tokens to torque*
+  h_id: token
+  h_bin: bin
+  h_real: real units
+  open: 1.00 open
+  delta: delta
+  abs: absolute
+  hist: Δx across every demo in the dataset
+  hist_note: One bad demo can't stretch the scale.
+  punch: The first six are *deltas.* The gripper is *absolute.*
+  cite: 'OpenVLA arXiv:2406.09246 · percentile normalisation from the dataset (q01, q99) · illustrative values'

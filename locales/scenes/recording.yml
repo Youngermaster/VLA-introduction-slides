@@ -1,0 +1,32 @@
+es:
+  title: Qué pasa *cuando grabas*
+  leader: LÍDER
+  leaderSub: lo mueve una mano
+  follower: SEGUIDOR
+  followerSub: copia, un pelín tarde
+  hand: mano
+  camTop: arriba
+  camWrist: muñeca
+  camBase: base
+  task: agarra el cubo
+  paused: pausa en un fotograma
+  stateIs: dónde ESTÁ el robot
+  actionIs: dónde lo MANDÓ el humano
+  punch: Entrenar es aprender a predecir *la acción* a partir de lo que ve y *dónde está.*
+  cite: 'LeRobotDataset v3 · lerobot-record · una fila por tick, 30 Hz'
+en:
+  title: What happens *when you record*
+  leader: LEADER
+  leaderSub: moved by a hand
+  follower: FOLLOWER
+  followerSub: copies, a touch late
+  hand: hand
+  camTop: top
+  camWrist: wrist
+  camBase: base
+  task: pick up the cube
+  paused: paused on one frame
+  stateIs: where the robot IS
+  actionIs: where the human SENT it
+  punch: Training is learning to predict *the action* from what it sees and *where it is.*
+  cite: 'LeRobotDataset v3 · lerobot-record · one row per tick, 30 Hz'

@@ -1,0 +1,30 @@
+es:
+  title: ¿Cómo entra *la imagen?*
+  cam: cámara de arriba
+  count: '64'
+  count_sub: parches → 64 tokens
+  count_note: 'SmolVLA: 64 tokens visuales por cuadro'
+  row: una fila de tokens, como si fueran palabras
+  tokens: agarra|el|frasco|de|magn|esio
+  state_tok: estado
+  g_img: imagen · 64
+  g_txt: texto
+  g_state: brazo
+  one_seq: una sola secuencia
+  punch: El transformer no sabe cuáles eran *píxeles* y cuáles eran *palabras.*
+  cite: 'SmolVLA, Shukor et al. 2025 (arXiv:2506.01844)'
+en:
+  title: How does *the image* get in?
+  cam: top camera
+  count: '64'
+  count_sub: patches → 64 tokens
+  count_note: 'SmolVLA: 64 visual tokens per frame'
+  row: one row of tokens, as if they were words
+  tokens: pick|up|the|magn|esium|bottle
+  state_tok: state
+  g_img: image · 64
+  g_txt: text
+  g_state: arm
+  one_seq: one single sequence
+  punch: The transformer doesn't know which were *pixels* and which were *words.*
+  cite: 'SmolVLA, Shukor et al. 2025 (arXiv:2506.01844)'

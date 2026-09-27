@@ -76,9 +76,13 @@ html body {
 }
 
 .slidev-layout.slidev-layout h1 {
-  font-size: var(--fs-h1);
-  line-height: var(--lh-h1);
-  letter-spacing: var(--tr-h1);
+  /* Unbounded, the same display face the canvas scenes use, so HTML slides
+     and motion scenes read as one deck. It runs wide: sizes sit a step lower. */
+  font-family: 'Unbounded Variable', 'Instrument Sans Variable', sans-serif;
+  font-variation-settings: 'wght' 700;
+  font-size: 36px;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
   max-width: 22ch;          /* the 2-line rule: widen and shrink, never wrap to 4 */
   margin-bottom: var(--sp-6);
 }

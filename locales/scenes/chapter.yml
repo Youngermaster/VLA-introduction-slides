@@ -1,0 +1,50 @@
+es:
+  n: '01'
+  accent: action
+  title: Capítulo
+  sub: ''
+  vla_n: '01'
+  vla_title: ¿Qué es un VLA?
+  vla_sub: Un modelo que ve, entiende lo que le pides y mueve un cuerpo.
+  vla_accent: action
+  inside_n: '02'
+  inside_title: Por dentro
+  inside_sub: Tokens de imagen, tokens de texto y tokens de acción. Todo en una sola secuencia.
+  inside_accent: lang
+  train_n: '03'
+  train_title: Cómo aprende
+  train_sub: De una persona moviendo un brazo a unos pesos en el Hub.
+  train_accent: action
+  demo_n: '04'
+  demo_title: Demo
+  demo_sub: A mitad de la charla, a propósito. Si falla, todavía tengo media charla para recuperarme.
+  demo_accent: action
+  future_n: '05'
+  future_title: Lo que viene
+  future_sub: Modelos del mundo, modelos generalistas y cuándo usar cada cosa.
+  future_accent: lang
+en:
+  n: '01'
+  accent: action
+  title: Chapter
+  sub: ''
+  vla_n: '01'
+  vla_title: What is a VLA?
+  vla_sub: A model that sees, understands what you ask and moves a body.
+  vla_accent: action
+  inside_n: '02'
+  inside_title: Inside
+  inside_sub: Image tokens, text tokens and action tokens. All in one sequence.
+  inside_accent: lang
+  train_n: '03'
+  train_title: How it learns
+  train_sub: From a person moving an arm to a set of weights on the Hub.
+  train_accent: action
+  demo_n: '04'
+  demo_title: Demo
+  demo_sub: Mid-talk on purpose. If it fails, I still have half a talk to recover.
+  demo_accent: action
+  future_n: '05'
+  future_title: What comes next
+  future_sub: World models, generalist models and when to use what.
+  future_accent: lang

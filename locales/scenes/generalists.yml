@@ -1,0 +1,44 @@
+es:
+  title: VLA vs *modelos generalistas*
+  sec: un segundo →
+  s2: Planificador
+  s2sub: lento, razona, usa herramientas
+  s2ex: Gemini Robotics-ER · Cosmos-Reason · Helix S2 (7B)
+  s2hz: 7–9 Hz
+  s1: VLA
+  s1sub: rápido, ejecuta una instrucción
+  s1ex: π0 · SmolVLA · GR00T · Helix S1
+  s1hz: 50–200 Hz
+  s0: Reflejo
+  s0sub: equilibrio y contacto
+  s0ex: Helix 02 S0
+  s0hz: 1 kHz
+  goal: limpia la mesa
+  sub1: agarra el frasco de magnesio
+  sub2: ponlo en la bandeja
+  sub3: pasa el trapo por la mesa
+  punch: El generalista decide *qué*. El VLA decide *cómo*.
+  tools: Con Gemini Robotics-ER 2 puedes declarar *un VLA como herramienta*, igual que una API.
+  cite: 'Helix S2 7–9 Hz, S1 200 Hz · Helix 02 S0 1 kHz (Figure) · π0 hasta 50 Hz (arXiv:2410.24164) · Gemini Robotics-ER 2 (DeepMind, 2026)'
+en:
+  title: VLAs vs *generalist models*
+  sec: one second →
+  s2: Planner
+  s2sub: slow, reasons, calls tools
+  s2ex: Gemini Robotics-ER · Cosmos-Reason · Helix S2 (7B)
+  s2hz: 7–9 Hz
+  s1: VLA
+  s1sub: fast, carries out one instruction
+  s1ex: π0 · SmolVLA · GR00T · Helix S1
+  s1hz: 50–200 Hz
+  s0: Reflex
+  s0sub: balance and contact
+  s0ex: Helix 02 S0
+  s0hz: 1 kHz
+  goal: clean the table
+  sub1: pick up the magnesium bottle
+  sub2: put it in the tray
+  sub3: wipe the table
+  punch: The generalist decides *what*. The VLA decides *how*.
+  tools: With Gemini Robotics-ER 2 you can declare *a VLA as a tool*, just like an API.
+  cite: 'Helix S2 7–9 Hz, S1 200 Hz · Helix 02 S0 1 kHz (Figure) · π0 up to 50 Hz (arXiv:2410.24164) · Gemini Robotics-ER 2 (DeepMind, 2026)'

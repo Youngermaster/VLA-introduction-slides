@@ -1,0 +1,38 @@
+es:
+  title: Lo que *compra* el preentrenamiento
+  phase1: FASE 1
+  phase1Sub: alguien más lo hizo, con datos de la comunidad
+  datasets: datasets
+  episodes: episodios
+  frames: fotogramas
+  gpu: Meses de GPU que pagó otro.
+  phase2: FASE 2
+  phase2Sub: 'tú: ~50 episodios, 5 posiciones × 10'
+  download: descargas los pesos
+  hours: Unas horas, en tu mesa.
+  without: Sin fase 1
+  with: Con fase 1
+  random: pesos al azar
+  fails: 50 episodios no alcanzan
+  works: 50 episodios alcanzan
+  punch: Eso es *todo* lo que significa «modelo fundacional» en robótica.
+  cite: 'SmolVLA: Shukor et al. 2025, arXiv:2506.01844 · 481 datasets, 22.9K episodios, 10.6M fotogramas'
+en:
+  title: What pre-training *buys you*
+  phase1: PHASE 1
+  phase1Sub: someone else did it, with community data
+  datasets: datasets
+  episodes: episodes
+  frames: frames
+  gpu: Months of GPU someone else paid for.
+  phase2: PHASE 2
+  phase2Sub: 'you: ~50 episodes, 5 positions × 10'
+  download: you download the weights
+  hours: A few hours, on your table.
+  without: Without phase 1
+  with: With phase 1
+  random: random weights
+  fails: 50 episodes are not enough
+  works: 50 episodes are enough
+  punch: That is *all* "foundation model" means in robotics.
+  cite: 'SmolVLA: Shukor et al. 2025, arXiv:2506.01844 · 481 datasets, 22.9K episodes, 10.6M frames'

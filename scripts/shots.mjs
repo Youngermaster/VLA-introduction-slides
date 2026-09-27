@@ -48,7 +48,7 @@ for (let n = 1; n <= slides.length; n++) {
   const s = slides[n - 1]
   const steps = withClicks ? [...Array(s.clicks + 1).keys()] : [s.clicks]
   for (const c of steps) {
-    await page.goto(`http://localhost:${port}/#/${n}?clicks=${c}&lang=${lang}`, { waitUntil: 'networkidle' })
+    await page.goto(`http://localhost:${port}/#/${n}?clicks=${c}&lang=${lang}&scene_snap`, { waitUntil: 'networkidle' })
     // let entrance transitions and staggers settle before capturing
     await page.waitForTimeout(900)
     const name = `${String(n).padStart(2, '0')}-${s.alias}${withClicks ? `-c${c}` : ''}.png`

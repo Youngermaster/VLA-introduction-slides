@@ -1,0 +1,22 @@
+es:
+  title: ACT contra un VLA
+  actSub: 'entrenado en: agarra el cubo rojo'
+  vlaSub: condicionado por lenguaje
+  instr: agarra el cubo azul
+  instr2: ahora el rojo, encima
+  noInput: sin entrada para lenguaje
+  miss: cerró sobre el aire
+  punchAct: 'ACT: un reflejo. *Excelente, y sordo.*'
+  punchVla: 'Un VLA: un reflejo *que escucha.*'
+  cite: 'ACT: Zhao et al. 2023, arXiv:2304.13705 · ~80M parámetros · ~50 demos por tarea'
+en:
+  title: ACT versus a VLA
+  actSub: 'trained on: pick up the red cube'
+  vlaSub: language-conditioned
+  instr: pick up the blue cube
+  instr2: now the red one, on top
+  noInput: no input for language
+  miss: closed on thin air
+  punchAct: 'ACT: a reflex. *Excellent, and deaf.*'
+  punchVla: 'A VLA: a reflex *that listens.*'
+  cite: 'ACT: Zhao et al. 2023, arXiv:2304.13705 · ~80M parameters · ~50 demos per task'

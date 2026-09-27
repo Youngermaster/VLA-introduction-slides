@@ -19,4 +19,10 @@ export default defineRoutesSetup((routes) => [
     name: 'practice',
     component: () => import('../pages/practice.vue'),
   },
+  {
+    // Scene workbench: scrub any canvas scene, or render a contact sheet.
+    path: '/lab',
+    name: 'lab',
+    component: () => import('../pages/lab.vue'),
+  },
 ])
