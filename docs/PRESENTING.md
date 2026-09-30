@@ -8,7 +8,7 @@ Read this one on the day. Everything else can wait.
 
 | Key | Action |
 |---|---|
-| **B** | **PANIC MODE**: jump straight to the backup demo video, from any slide |
+| **B** | **PANIC MODE**: jump back to the first recorded demo (`demo-video`), from any slide |
 | **V** | Return to the slide you jumped from |
 | **L** | Switch the deck's language live (ES ⇄ EN) |
 | → / ← | Next / previous step |
@@ -17,7 +17,7 @@ Read this one on the day. Everything else can wait.
 | **D** | Drawing mode (annotate live) |
 | **G** | Go to slide by number |
 
-Panic mode resolves the backup slide **by route alias**, not by a hard-coded
+Panic mode resolves the demo slide **by route alias**, not by a hard-coded
 number, so it keeps working if you reorder or insert slides.
 
 ---
@@ -26,8 +26,8 @@ number, so it keeps working if you reorder or insert slides.
 
 - [ ] `pnpm export` and put the PDF on the laptop **and** on a USB stick. If the
       laptop dies you can present from someone else's machine.
-- [ ] Record the backup demo video and drop it in `public/video/`
-      (see [ASSETS.md](ASSETS.md)). **Do this even if the live demo is working.**
+- [ ] Play both recorded demos once (`demo-video`, `demo-zinc`) on the laptop
+      you present from. They are your fallback if the live run fails.
 - [ ] Full run-through in `/practice` with the timer. If you're over 38 minutes
       of speaking, cut from Act 4, never from `data-asymmetry` or the demo.
 - [ ] Charge everything. Bring your own power strip; do not assume there's an
@@ -66,7 +66,7 @@ each click's animation, pauses and ~5 min of demo it lands at **~35 min**.
 | 01 · What is a VLA | ch-vla → act-vs-vla | 6.5 min |
 | 02 · **Inside** | ch-inside → architecture | 12.5 min |
 | 03 · How it learns | ch-train → pretrain-finetune | 4.5 min |
-| 04 · **Demo** | ch-demo → backup-demo | 7 min |
+| 04 · **Demo** | ch-demo → demo-zinc, then live | 6.5 min |
 | 05 · What comes next | ch-future → when-to-use | 6.5 min |
 | Closing | thanks → references | 0.5 min + Q&A |
 
@@ -106,8 +106,10 @@ precise."* Then move on.
 
 ## The live demo
 
-There is no slide for it: after the recorded video (`demo-video`), switch to the
-terminal and the rerun window. The stage directions are in that slide's notes.
+The two recorded clips come first: `demo-video` ("agarra la caja de Complejo
+B") and `demo-zinc` ("agarra el frasco de zinc"), same weights, only the
+sentence changes. Then switch to the terminal and the rerun window and do it
+live. The stage directions are in `demo-zinc`'s notes.
 
 ```bash
 lerobot-rollout \
@@ -123,7 +125,6 @@ lerobot-rollout \
 `--device` on rollout, `--policy.device` on train: don't mix them up live. The
 second brain's `tools/demo.sh "<instruction>"` wraps this for the MacBook.
 
-When you come back to the slides, skip `backup-demo` unless you needed it.
 
 ---
 
@@ -133,7 +134,8 @@ You planned for this. The demo is mid-talk precisely so a failure isn't the last
 thing the room remembers.
 
 1. Try **once** more. Not three times.
-2. Press **B**. Play the backup video, narrate over it.
+2. Press **B**. You're back on the recorded demos they already saw work;
+   replay them and narrate over it.
 3. Say the line: *"this happens, and it's exactly what the limitations slide is
    about."* Then move on.
 4. Do not apologise more than once. The room is on your side.

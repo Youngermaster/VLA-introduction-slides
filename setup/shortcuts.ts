@@ -61,9 +61,12 @@ export default defineShortcutsSetup((nav: NavOperations, base: ShortcutOptions[]
 })
 
 function getCurrentSlideNo(): number | undefined {
-  const raw = window.location.hash.replace(/^#\/?/, '').split('?')[0]
+  // The hash holds either a number (#/12) or, for slides with a routeAlias,
+  // the alias itself (#/limitations). Both have to resolve, or V can't return.
+  const raw = decodeURIComponent(window.location.hash.replace(/^#\/?/, '').split('?')[0])
   const parsed = Number.parseInt(raw, 10)
-  if (Number.isFinite(parsed)) return parsed
+  if (Number.isFinite(parsed) && String(parsed) === raw) return parsed
+  if (raw) return slideNoByAlias(raw)
   const path = Number.parseInt(window.location.pathname.split('/').pop() ?? '', 10)
   return Number.isFinite(path) ? path : undefined
 }

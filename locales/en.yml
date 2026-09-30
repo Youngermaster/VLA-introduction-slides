@@ -24,15 +24,15 @@ build:
   cite: 'Official SO-100 bill of materials (TheRobotStudio/SO-ARM100, SO100.md): USD 232'
 
 demo1:
-  title: On my table, with the model I trained
+  title: I ask for the Complejo B box
   instr: agarra la caja de Complejo B
   lead: '"Pick up the Complejo B box." Recorded at home, in one take, with the policy I trained.'
   placeholder: 'VIDEO: demo with the Complejo B box'
 
 demo2:
-  title: Same weights. Another sentence.
+  title: I change only the sentence
   instr: agarra el frasco de zinc
-  lead: '"Pick up the zinc bottle." The only thing that changed is the instruction. There is no if anywhere.'
+  lead: '"Pick up the zinc bottle." Same arm, same weights, same table. The sentence changed, and so did what it does. There is no if anywhere.'
   placeholder: 'VIDEO: demo with the zinc bottle'
 
 thanks:

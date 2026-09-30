@@ -461,6 +461,7 @@ ratio: 1.15fr 1fr
 # {{ $t('demo2.title') }}
 
 <div class="instrs">
+  <span class="instr instr--was t-mono">«{{ $t('demo1.instr') }}»</span>
   <span class="instr instr--b t-mono">«{{ $t('demo2.instr') }}»</span>
 </div>
 

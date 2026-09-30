@@ -37,6 +37,9 @@
 }
 .instr--a { background: var(--accent-action-tint); color: var(--accent-action); border-left-color: var(--accent-action); }
 .instr--b { background: var(--accent-lang-tint); color: var(--accent-lang); border-left-color: var(--accent-lang); }
+/* The sentence it replaced: still readable, clearly struck, so the room sees
+   that the instruction is the ONLY thing that changed between the two clips. */
+.instr--was { color: var(--text-muted); border-left-color: var(--hairline-strong); text-decoration: line-through; text-decoration-color: var(--signal-warn); }
 
 /* --- My build: big numbers, one line each ---------------------------------- */
 .stats { display: flex; flex-direction: column; gap: 14px; margin-top: var(--sp-5); }
@@ -53,8 +56,10 @@
 .stat--hero .stat__n { color: var(--accent-action); font-size: 40px; }
 
 /* --- Recorded demos: vertical phone clips beside the instruction ----------- */
-.demo-clip.demo-clip { height: 452px; }
-.demo-clip :deep(video), .demo-clip video { height: 100%; width: auto; max-width: 100%; }
+/* Doubled layout class: must outrank VideoSlot's scoped `.vslot { height: 100% }`,
+   which would otherwise let a 9:16 clip grow past the bottom of the slide. */
+.slidev-layout.slidev-layout .demo-clip { height: 456px; }
+.slidev-layout.slidev-layout .demo-clip video { height: 100%; width: auto; max-width: 100%; }
 
 /* --- Closing: Gracias · Thank you, questions, one QR ------------------------ */
 .thanks {

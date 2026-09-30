@@ -83,7 +83,7 @@ Now let's watch all three happen at once.
 ## vla-hero
 <!-- target: 150 -->
 
-This is the demo table: a vitamin B pack, a mug, the zinc bottle and a tray.
+This is the demo table: a Complejo B box, a mug, the zinc bottle and a tray.
 
 First, **see**. The camera captures the scene and the image is split into
 patches. The model recognises what's on the table.
@@ -442,36 +442,40 @@ before I could build anything.
 The pair, leader and follower, is about 230 dollars in parts.
 
 ## demo-video
-<!-- target: 270 -->
+<!-- target: 50 -->
 
-This is on my table, at home, with the model I trained. Same arm, same
-objects.
+This is on my table, at home, with the policy I trained.
+
+I type one sentence: "agarra la caja de Complejo B", pick up the Complejo B box.
+
+(Let the video play. When the arm takes the box, pause.)
+
+And it goes for the box. Now watch what changes in the next video.
+
+## demo-zinc
+<!-- target: 250 -->
+
+Same arm. Same weights. Same table. The only thing I change is the sentence:
+"agarra el frasco de zinc", pick up the zinc bottle.
 
 (Let the video play.)
+
+And now it goes for the bottle. The sentence changed, and so did what it does.
+There is no if anywhere.
 
 Now we're going to do it here, live, under this room's lights.
 
 (Switch to the terminal for the live demo.)
 
-Same robot. Same model. Same weights. The only thing that will change is the
-sentence.
-
-First: "pick up the vitamin B pack".
+First: "agarra la caja de Complejo B".
 
 (Run it. Silence. Let the room watch.)
 
-Now I change only the sentence: "pick up the zinc bottle".
+Now I change only the sentence: "agarra el frasco de zinc".
 
 (Run it. When it goes for the other object, stop talking.)
 
-There's no if anywhere. That is a VLA. Everything else in this talk explains
-how it gets there.
-
-## backup-demo
-<!-- target: 5 -->
-
-(Only if the demo failed.) This happens, and it's exactly what we're about to
-talk about. This is what it looks like when it works.
+That is a VLA. Everything else in this talk explains how it gets there.
 
 ## ch-future
 <!-- target: 10 -->

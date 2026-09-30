@@ -1,9 +1,9 @@
-# Assets: what to supply, and where
+# Assets: what's in the deck, and where
 
 Photos and videos live in `public/`. The slots in the deck **find them by
-path**: drop the file with the right name and it appears. Until then the slot
-shows a dashed placeholder with the exact path it expects, so a missing asset
-is obvious in rehearsal and never a black rectangle on stage.
+path**: replace the file with the same name and the slide picks it up. A missing
+file shows a dashed placeholder with the exact path it expects, so it's obvious
+in rehearsal and never a black rectangle on stage.
 
 You don't need to edit `slides.md` for any of these.
 
@@ -11,14 +11,26 @@ You don't need to edit `slides.md` for any of these.
 
 ## The three files
 
-| File | Slide | What |
-|---|---|---|
-| `public/images/so100-build.jpg` | `my-build` | Your assembled SO-100, leader and follower, all three cameras in frame. Landscape, ~4:3. |
-| `public/video/demo-real.mp4` | `demo-video` | **Your best take of the real demo**, at home, good light: "agarra el Complejo B", then the sentence changes, then "agarra el frasco de zinc". 45–75 s. This is the one you show off before going live. |
-| `public/video/backup-demo.mp4` | `backup-demo` (key **B**) | The full VLA demo working, both instructions, with the exact instruction text visible when it changes. 60–90 s. **Record it even if the live demo works**: it is why panic mode exists. It can be the same footage as `demo-real.mp4`. |
+| File | Slide | What | Source |
+|---|---|---|---|
+| `public/images/so100-build.jpg` | `my-build` | The SO-100 pair on the desk, top camera on its mast. Portrait, 1200×1600. | `IMG_4818.jpeg`, rotation baked in |
+| `public/video/demo-complejo-b.mp4` | `demo-video` (key **B**) | "agarra la caja de Complejo B". 720×1280, 27 s. | `IMG_5425.MOV` |
+| `public/video/demo-zinc.mp4` | `demo-zinc` | "agarra el frasco de zinc": same weights, only the sentence changes. 720×1280, 25 s. | `IMG_5424.MOV` |
 
 Videos autoplay muted when you enter the slide and pause when you leave. They
 have controls, so you can scrub while you talk.
+
+To replace a clip, re-encode it with the same settings (vertical phone clips
+work as they are):
+
+```bash
+ffmpeg -i IMG_xxxx.MOV -vf "scale=720:-2,fps=30" -c:v libx264 -crf 24 -preset slow \
+       -pix_fmt yuv420p -an -movflags +faststart public/video/demo-zinc.mp4
+```
+
+`-an` drops audio, since you will be talking over it. For photos, bake the
+phone's rotation in (`ffmpeg -i IMG.jpeg -vf "scale=-2:1600" -q:v 3 out.jpg`):
+the PDF exporter and some browsers ignore EXIF orientation.
 
 ---
 
@@ -33,19 +45,6 @@ have controls, so you can scrub while you talk.
 On the last one: **there is no published SmolVLA benchmark for Apple Silicon.**
 Measure it yourself the night before and say "measured on my M3, PyTorch MPS".
 Don't cite a number you can't source.
-
----
-
-## Encoding
-
-Keep files small; they are bundled into the build.
-
-```bash
-ffmpeg -i raw.mov -vf "scale=1280:-2" -c:v libx264 -crf 24 -preset slow \
-       -an -movflags +faststart public/video/demo-real.mp4
-```
-
-`-an` drops audio, since you will be talking over it.
 
 ---
 

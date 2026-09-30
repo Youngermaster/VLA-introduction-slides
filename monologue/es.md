@@ -445,21 +445,32 @@ impresora antes de poder armar nada.
 El par, líder y seguidor, sale en unos 230 dólares en piezas.
 
 ## demo-video
-<!-- target: 270 -->
+<!-- target: 50 -->
 
-Esto es en mi mesa, en mi casa, con el modelo que entrené. Mismo brazo, mismos
-objetos.
+Esto es en mi mesa, en mi casa, con la política que entrené.
+
+Le escribo una frase: "agarra la caja de Complejo B".
+
+(Deja correr el vídeo. Cuando el brazo tome la caja, una pausa.)
+
+Y va por la caja. Ahora fíjense en lo que cambia en el siguiente vídeo.
+
+## demo-zinc
+<!-- target: 250 -->
+
+Mismo brazo. Mismos pesos. Misma mesa. Lo único que cambio es la frase:
+"agarra el frasco de zinc".
 
 (Deja correr el vídeo.)
+
+Y ahora va por el frasco. Cambió la frase, y cambió lo que hace. No hay un if
+en ninguna parte.
 
 Ahora lo vamos a hacer aquí, en vivo, con la luz de esta sala.
 
 (Cambia a la terminal para el demo en vivo.)
 
-Mismo robot. Mismo modelo. Mismos pesos. Lo único que va a cambiar es la
-frase.
-
-Primero: "agarra el Complejo B".
+Primero: "agarra la caja de Complejo B".
 
 (Ejecuta. Silencio. Deja que la sala lo mire.)
 
@@ -467,14 +478,7 @@ Ahora cambio sólo la frase: "agarra el frasco de zinc".
 
 (Ejecuta. Cuando vaya al otro objeto, calla.)
 
-No hay un if en ninguna parte. Eso es un VLA. Todo lo demás en esta charla
-explica cómo llega ahí.
-
-## backup-demo
-<!-- target: 5 -->
-
-(Sólo si el demo falló.) Esto pasa, y es justo de lo que vamos a hablar en un
-momento. Así se ve cuando sale bien.
+Eso es un VLA. Todo lo demás en esta charla explica cómo llega ahí.
 
 ## ch-future
 <!-- target: 10 -->

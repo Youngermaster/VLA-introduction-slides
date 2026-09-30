@@ -49,7 +49,7 @@ one on the day. The two keys that matter:
 
 | Key | Action |
 |---|---|
-| **B** | **Panic mode.** Jump to the backup demo video from anywhere. |
+| **B** | **Panic mode.** Jump back to the recorded demo videos from anywhere. |
 | **V** | Return to the slide you jumped from. |
 | **L** | Switch the deck's language live. |
 
