@@ -1,35 +1,37 @@
 es:
-  hud: so-101 · smolvla
+  hud: so-100 · smolvla
   s1: ver
   s2: leer
   s3: ubicar
   s4: actuar
   obj_vit: complejo b
   obj_mug: taza
-  obj_bot: magnesio
+  obj_bot: zinc
   obj_tray: bandeja
   done: listo
-  tokens: pon| el| magn|esio| en| la| bandeja
-  ids: 6553 560 20176 22362 427 425 19218
+  tokens: pon| el| zinc| en| la| bandeja
+  ids: 6553 560 23110 427 425 19218
   gA: '2'
+  gAn: '1'
   gB: '6'
   actions: 7 tokens de acción, 30 veces por segundo
   outro: Un modelo. *Ningún if.*
   note: 'Ilustrativo: un VLA no dibuja cajas; ese “ubicar” ocurre dentro de su atención. IDs de token ilustrativos.'
 en:
-  hud: so-101 · smolvla
+  hud: so-100 · smolvla
   s1: see
   s2: read
   s3: ground
   s4: act
   obj_vit: vitamin b
   obj_mug: mug
-  obj_bot: magnesium
+  obj_bot: zinc
   obj_tray: tray
   done: done
-  tokens: put| the| magn|esium| in| the| tray
-  ids: 1925 278 9119 29563 297 278 272
+  tokens: put| the| zinc| in| the| tray
+  ids: 1925 278 23110 297 278 272
   gA: '2'
+  gAn: '1'
   gB: '6'
   actions: 7 action tokens, 30 times a second
   outro: One model. *No if statements.*

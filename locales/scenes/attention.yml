@@ -1,9 +1,9 @@
 es:
   title: ¿Es la misma atención *que ChatGPT?*
   cam: cámara de arriba
-  words: agarra|el|frasco|de|magnesio
+  words: agarra|el|frasco|de|zinc
   q: '4'
-  self_label: 'self-attention: «magnesio» pregunta a todos los tokens'
+  self_label: 'self-attention: «zinc» pregunta a todos los tokens'
   math_punch: 'Sí. *La misma operación,* la misma matemática, las mismas librerías.'
   cross_a: las acciones preguntan
   cross_b: el VLM responde (K, V)
@@ -19,9 +19,9 @@ es:
 en:
   title: Is this the same attention *as ChatGPT?*
   cam: top camera
-  words: pick|up|the|magnesium|bottle
+  words: pick|up|the|zinc|bottle
   q: '3'
-  self_label: 'self-attention: “magnesium” asks every token'
+  self_label: 'self-attention: “zinc” asks every token'
   math_punch: 'Yes. *Same operation,* same math, same libraries.'
   cross_a: the actions ask
   cross_b: the VLM answers (K, V)

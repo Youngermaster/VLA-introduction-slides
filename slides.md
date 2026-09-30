@@ -2,6 +2,9 @@
 theme: default
 title: Del Token al Torque
 titleTemplate: '%s'
+# Local and relative: the default is fetched from a CDN (breaks offline), and a
+# relative path keeps working if the deck is served from a subpath.
+favicon: 'favicon.svg'
 author: Juan Manuel Younes
 info: |
   Del Token al Torque: cómo la IA aprendió a mover cosas en el mundo físico.
@@ -118,10 +121,10 @@ transition: arrive
 UN PASO DE UN VLA (2 min 30 s). LA diapositiva de la charla. Ve lento.
 
 Click 1 (ver): "La cámara ve la mesa. La imagen se parte en parches, y el
-modelo reconoce qué hay: el Complejo B, la taza, el magnesio, la bandeja."
+modelo reconoce qué hay: el Complejo B, la taza, el zinc, la bandeja."
 Click 2 (leer): "Le escribo la instrucción. Se parte en tokens, igual que en
-ChatGPT. Fíjense que 'magnesio' se parte en dos pedazos."
-Click 3 (ubicar): "Y aquí pasa la magia: las palabras 'magnesio' y 'bandeja'
+ChatGPT. Cada pedazo se vuelve un número."
+Click 3 (ubicar): "Y aquí pasa la magia: las palabras 'zinc' y 'bandeja'
 jalan la atención hacia esos dos objetos."
   HONESTIDAD: "las cajas son para que lo veamos nosotros. El modelo no dibuja
   cajas; esto pasa implícitamente dentro de su atención."
@@ -190,7 +193,7 @@ CÓMO ENTRA EL LENGUAJE (1 min 15 s).
 Click 1: la plantilla. "No le pasas la frase suelta: la envuelves en una
 pregunta fija. El modelo no aprende una tarea nueva, sigue prediciendo el
 siguiente token."
-Click 2: "El tokenizador es el MISMO de texto. 'Magnesio' se parte en dos y no
+Click 2: "El tokenizador es el MISMO de texto. 'Frasco' se parte en dos y no
 pasa nada."
 Click 3: "Cada token se vuelve un vector. Desde aquí, son sólo números."
 -->
@@ -223,7 +226,7 @@ clicks: 4
 <!--
 ATENCIÓN (1 min 45 s). La pregunta que SIEMPRE sale en el Q&A. Adelántate.
 
-Click 1: "La palabra 'magnesio' mira a toda la imagen, y pesa más los parches
+Click 1: "La palabra 'zinc' mira a toda la imagen, y pesa más los parches
 donde está el frasco. Así es como 'ubica' sin dibujar cajas."
 Click 2: "¿Es la misma atención de ChatGPT? Sí. Misma operación, misma
 matemática, mismas librerías."
@@ -400,12 +403,12 @@ clicks: 2
   <div v-click="1" class="stat"><span class="stat__n">6</span><span class="stat__l">{{ $t('build.servos') }}</span></div>
   <div v-click="1" class="stat"><span class="stat__n">3</span><span class="stat__l">{{ $t('build.cams') }}</span></div>
   <div v-click="1" class="stat"><span class="stat__n">1</span><span class="stat__l">{{ $t('build.printer') }}</span></div>
-  <div v-click="2" class="stat stat--hero"><span class="stat__n">$230</span><span class="stat__l">{{ $t('build.cost') }}</span></div>
+  <div v-click="2" class="stat stat--hero"><span class="stat__n">$232</span><span class="stat__l">{{ $t('build.cost') }}</span></div>
 </div>
 
 ::right::
 
-<PhotoSlot src="/images/so101-build.jpg" :label="$t('build.placeholder')" />
+<PhotoSlot src="/images/so100-build.jpg" :label="$t('build.placeholder')" />
 
 <div class="cite">{{ $t('build.cite') }}</div>
 
@@ -430,51 +433,17 @@ routeAlias: demo-video
 </div>
 
 <!--
-EL DEMO GRABADO (1 min). Tu mejor toma, en casa, con buena luz.
+EL DEMO GRABADO (1 min) Y LUEGO EN VIVO (4 min).
 
-Déjalo correr y narra poco: "esto es en mi mesa, con el modelo que entrené.
-Ahora lo vamos a hacer aquí, en vivo, con la luz de esta sala."
--->
+El vídeo: tu mejor toma, en casa, con buena luz. Déjalo correr y narra poco:
+"esto es en mi mesa, con el modelo que entrené. Ahora lo vamos a hacer aquí,
+en vivo, con la luz de esta sala."
 
----
-layout: split
-routeAlias: demo-live
-ratio: 1fr 1.15fr
-clicks: 2
----
-
-::left::
-
-# {{ $t('demo.title') }}
-
-<p class="t-lead">{{ $t('demo.lead') }}</p>
-
-<div v-click="1" class="instrs">
-  <span class="instr instr--a t-mono">«{{ $t('demo.instr1') }}»</span>
-  <span class="instr instr--b t-mono">«{{ $t('demo.instr2') }}»</span>
-</div>
-
-<p v-click="2" class="t-lead c-action mt-4">{{ $t('demo.punch') }}</p>
-
-::right::
-
-```bash
-lerobot-rollout \
-  --strategy.type=base \
-  --inference.type=rtc \
-  --policy.path=$HF_USER/smolvla-medicamentos \
-  --robot.type=so101_follower \
-  --robot.port=/dev/tty.usbmodem58FA0929601 \
-  --task="agarra el frasco de magnesio" \
-  --device=mps
-```
-
-<!--
-EL DEMO EN VIVO (4 min). ES EL MOMENTO. No hables encima del robot.
+EN VIVO: cambia a la terminal / ventana de rerun. No hables encima del robot.
 
 1. Ejecuta con "agarra el Complejo B". DÉJALO CORRER EN SILENCIO.
 2. Recoloca los objetos.
-3. Cambia SÓLO la frase a "agarra el frasco de magnesio". Dilo en voz alta
+3. Cambia SÓLO la frase a "agarra el frasco de zinc". Dilo en voz alta
    mientras lo escribes.
 4. Ejecuta. Cuando el brazo vaya al otro objeto: CÁLLATE Y DEJA QUE APLAUDAN.
 
@@ -483,32 +452,10 @@ Después: "No hay un if en ninguna parte."
 SI FALLA: no lo repitas más de dos veces. Tecla B, vídeo de respaldo, sigue
 sin dramatismo. "Esto pasa, y por eso existe la sección de límites."
 
-OJO con las banderas: --device en rollout, --policy.device en train.
--->
+El comando está en docs/PRESENTING.md. OJO: --device en rollout,
+--policy.device en train.
 
----
-layout: split
-routeAlias: demo-act-video
-clicks: 1
----
-
-::left::
-
-# {{ $t('demoact.title') }}
-
-<div v-click="1">
-  <T k="demoact.body" block />
-</div>
-
-::right::
-
-<VideoSlot src="/video/act-baseline.mp4" :label="$t('demoact.placeholder')" loop />
-
-<!--
-CONTRASTE ACT (30 s). Vídeo corto en bucle.
-
-"ACT hace su tarea muy bien. Pero la hace igual sin importar lo que yo diga."
-Si el demo en vivo salió bien, sáltate esta diapositiva.
+Si no hubo pánico, al volver a las diapositivas salta el demo de respaldo.
 -->
 
 ---
@@ -565,10 +512,13 @@ clicks: 3
 <Scene name="limits" />
 
 <!--
-LO QUE TODAVÍA NO FUNCIONA (1 min). Aquí salen las mejores preguntas.
+LO QUE TODAVÍA NO FUNCIONA (1 min 30 s). Aquí salen las mejores preguntas.
 
-Click 1: "En LIBERO todos sacan entre 95 y 98. Ya no separa a nadie."
-Click 2: "En el mundo real, evaluado a ciegas en robots físicos, la foto es otra."
+Click 1: "Un benchmark es un examen estándar: las mismas tareas, en simulación,
+para todos. En 2024 OpenVLA sacaba 76. Hoy todos sacan 97 o 98. El examen se
+volvió fácil y ya no separa a nadie. Por eso, si alguien les muestra un 98 %
+en LIBERO, eso no les dice cómo le va a ir en su mesa."
+Click 2: "La prueba de verdad es un robot real, evaluado a ciegas."
 Click 3: "Y lo que escala no es el número de demos: es la DIVERSIDAD."
 -->
 
@@ -600,12 +550,16 @@ clicks: 3
 <Scene name="generalists" />
 
 <!--
-VS. GENERALISTAS (1 min 30 s). Responde la pregunta que la sala ya tiene.
+VS. GENERALISTAS (1 min 30 s). Primero la comparación, al final la combinación.
 
-Click 1: "Arriba, un modelo generalista razona: 'limpia la mesa' se vuelve pasos."
-Click 2: "Abajo, el VLA ejecuta cada paso, rápido."
-Click 3: "El generalista decide QUÉ. El VLA decide CÓMO. Y un LLM se equivoca y
-reescribes el prompt; un VLA se equivoca y tira un frasco al suelo."
+Click 1: entra, sale, velocidad. "El generalista recibe texto e imágenes y
+devuelve texto. El VLA recibe cámaras y el estado del brazo, y devuelve
+movimiento. Uno piensa unas pocas veces por segundo; el otro actúa de 30 a
+200 veces por segundo."
+Click 2: "Uno aprendió de internet, lo que ya existía. El otro, de
+demostraciones grabadas. Y cuando se equivocan: uno te hace reescribir el
+prompt, el otro tira un frasco al suelo."
+Click 3: "No compiten, se combinan. El generalista decide QUÉ; el VLA decide CÓMO."
 -->
 
 ---

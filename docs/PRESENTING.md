@@ -47,7 +47,7 @@ number, so it keeps working if you reorder or insert slides.
       killing the lights nearest the screen rather than fiddling with the deck.
 - [ ] Run the demo end to end **twice**. If it fails twice, present from video
       and say so. That's a normal outcome, not a defeat.
-- [ ] Place the props: Complejo B pack, magnesium bottle. Mark their positions
+- [ ] Place the props: Complejo B pack, zinc bottle. Mark their positions
       with tape so you can reset them fast between runs.
 - [ ] Bring your own lamp if the room's light differs from where you trained.
       Imitation policies are very sensitive to lighting.
@@ -56,31 +56,30 @@ number, so it keeps working if you reorder or insert slides.
 
 ## Timing
 
-Budget **30–40 min** plus questions. The script is **~17 min of speech**; with
-each click's animation, pauses and ~5 min of demo it lands at **~30–35 min**.
+Budget **30–40 min** plus questions. The script is **~25 min of speech** (Spanish); with
+each click's animation, pauses and ~5 min of demo it lands at **~35 min**.
 `/practice` measures the speech from the actual text.
 
 | Part | Slides | Target |
 |---|---|---|
 | Opening | title → data-asymmetry | 3 min |
 | 01 · What is a VLA | ch-vla → act-vs-vla | 6.5 min |
-| 02 · **Inside** | ch-inside → architecture | 10 min |
-| 03 · How it learns | ch-train → pretrain-finetune | 4 min |
+| 02 · **Inside** | ch-inside → architecture | 12.5 min |
+| 03 · How it learns | ch-train → pretrain-finetune | 4.5 min |
 | 04 · **Demo** | ch-demo → backup-demo | 7 min |
 | 05 · What comes next | ch-future → when-to-use | 6.5 min |
 | Closing | thanks → references | 0.5 min + Q&A |
 
-34 slides; 25 of them are canvas scenes, so almost every click *shows*
+32 slides; 25 of them are canvas scenes, so almost every click *shows*
 something happening. Let each click's animation finish before you talk over it.
 
 **If you're running late**, cut in this order. Each can go without breaking the
 argument:
 
-1. `demo-act-video`: skip it if the live demo worked
-2. `field-growth`
-3. `detokenizer`, only if desperate. It's the half nobody else explains
-4. `vision-in`: say one sentence over `language-in` instead
-5. `limitations`: keep only its last click (diversity beats volume)
+1. `field-growth`
+2. `detokenizer`, only if desperate. It's the half nobody else explains
+3. `vision-in`: say one sentence over `language-in` instead
+4. `limitations`: keep only its first click (the saturated benchmark)
 
 **Never cut** `data-asymmetry`, `vla-hero`, `action-tokens`, `architecture` or
 the demo. Those are the talk.
@@ -105,6 +104,29 @@ precise."* Then move on.
 
 ---
 
+## The live demo
+
+There is no slide for it: after the recorded video (`demo-video`), switch to the
+terminal and the rerun window. The stage directions are in that slide's notes.
+
+```bash
+lerobot-rollout \
+  --strategy.type=base \
+  --inference.type=rtc \
+  --policy.path=$HF_USER/smolvla-medicamentos \
+  --robot.type=so100_follower \
+  --robot.port=/dev/tty.usbmodem58FA0929601 \
+  --task="agarra el frasco de zinc" \
+  --device=mps
+```
+
+`--device` on rollout, `--policy.device` on train: don't mix them up live. The
+second brain's `tools/demo.sh "<instruction>"` wraps this for the MacBook.
+
+When you come back to the slides, skip `backup-demo` unless you needed it.
+
+---
+
 ## If the demo fails
 
 You planned for this. The demo is mid-talk precisely so a failure isn't the last
@@ -124,8 +146,8 @@ works. It proves the limitations slide is honest.
 ## Questions you should expect
 
 **"How much did the arm cost?"**
-The official SO-101 bill of materials is USD 229.88 for leader + follower
-(USD 121.94 for the follower alone), not counting the printed parts. The twelve
+The official SO-100 bill of materials is USD 232 for leader + follower
+(USD 123 for the follower alone), not counting the printed parts. The twelve
 STS3215 servos are most of it.
 
 **"Can it do X?"**

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- A robot arm: the deck's icon. Paper links, amber joints (the actuators are the "action"). -->
+  <rect width="64" height="64" rx="14" fill="#0A0B0D"/>
+  <rect x="9" y="51" width="26" height="6" rx="3" fill="#F4F6F8"/>
+  <g fill="none" stroke="#F4F6F8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 48 L24 23 L45 16" stroke-width="7"/>
+    <path d="M45 16 V26" stroke-width="5"/>
+    <path d="M39 27 H51 M39.5 27 V37 M50.5 27 V37" stroke-width="4"/>
+  </g>
+  <g fill="#FFB65C">
+    <circle cx="22" cy="48" r="5"/>
+    <circle cx="24" cy="23" r="4.5"/>
+    <circle cx="45" cy="16" r="4"/>
+  </g>
+</svg>

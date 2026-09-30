@@ -1,6 +1,6 @@
 /**
  * The robot and its world, drawn side-on. Stylised, but the proportions and
- * the gripper follow the SO-101 (a static jaw plus one moving jaw), because the
+ * the gripper follow the SO-100 (a static jaw plus one moving jaw), because the
  * real one sits on the table next to the projector.
  *
  * Every object is placed by its bottom-centre on the table line and returns
@@ -138,7 +138,7 @@ export function vitaminBox(K: Kit, x: number, y: number, s = 1): Box {
   return { x: bx, y: by, w, h }
 }
 
-/** Magnesium pill bottle — cylinder, cap, mint label "Mg". */
+/** Zinc pill bottle: cylinder, cap, mint label "Zn". */
 export function bottle(K: Kit, x: number, y: number, s = 1): Box {
   const w = 104 * s
   const h = 170 * s
@@ -148,7 +148,7 @@ export function bottle(K: Kit, x: number, y: number, s = 1): Box {
   K.fillRR(bx, by + 30 * s, w, h - 30 * s, 16 * s, '#E9ECF1')
   K.ctx.fillStyle = '#6FDCA8'
   K.ctx.fillRect(bx, by + 70 * s, w, 62 * s)
-  K.text('Mg', x, by + 114 * s, { size: 36 * s, weight: 800, fam: 'display', color: '#0A0B0D', align: 'center' })
+  K.text('Zn', x, by + 114 * s, { size: 36 * s, weight: 800, fam: 'display', color: '#0A0B0D', align: 'center' })
   return { x: bx, y: by, w, h }
 }
 

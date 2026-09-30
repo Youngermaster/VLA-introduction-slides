@@ -3,7 +3,7 @@ es:
   top: arriba
   wrist: muñeca
   base: base
-  instr: '"agarra el magnesio"'
+  instr: '"agarra el zinc"'
   state: estado · 6 articulaciones
   layers32: 32 capas
   sequence: una sola secuencia de tokens
@@ -22,7 +22,7 @@ en:
   top: top
   wrist: wrist
   base: base
-  instr: '"pick up the magnesium"'
+  instr: '"pick up the zinc"'
   state: state · 6 joints
   layers32: 32 layers
   sequence: one single sequence of tokens

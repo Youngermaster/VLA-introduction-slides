@@ -5,8 +5,8 @@ es:
   vdesc: Ve el mundo. Píxeles de cámara que se vuelven tokens.
   ldesc: Entiende lo que le pides. Palabras que se vuelven tokens.
   adesc: Mueve el cuerpo. Tokens que se vuelven comandos de motor.
-  lsent: agarra el magnesio
-  ltoks: agarra| el| magn|esio
+  lsent: agarra el frasco de zinc
+  ltoks: agarra| el| fras|co| de| zinc
   ltokhint: el mismo tokenizador de un LLM
 en:
   v: Vision
@@ -15,6 +15,6 @@ en:
   vdesc: Sees the world. Camera pixels that become tokens.
   ldesc: Understands what you ask. Words that become tokens.
   adesc: Moves the body. Tokens that become motor commands.
-  lsent: pick up the magnesium
-  ltoks: pick| up| the| magn|esium
+  lsent: pick up the zinc bottle
+  ltoks: pick| up| the| zinc| bott|le
   ltokhint: the same tokenizer as an LLM

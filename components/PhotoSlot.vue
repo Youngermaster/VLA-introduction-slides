@@ -1,5 +1,5 @@
 <!--
-  <PhotoSlot src="/images/so101-build.jpg" label="…" />
+  <PhotoSlot src="/images/so100-build.jpg" label="…" />
   Shows the photo once it exists in public/; a labelled placeholder until then.
 -->
 <script setup lang="ts">

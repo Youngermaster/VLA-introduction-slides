@@ -6,8 +6,8 @@ Full spoken script. Each `##` is a slide's `routeAlias`, so reordering
 The `<!-- target: Ns -->` comment is how long the section should take. The
 `/practice` route compares that target with a word-count estimate.
 
-Budget: 30-40 min. The script is ~16 min of speech; with each click's
-animation, the pauses and ~5 min of demo, the talk lands at ~30-35 min. The
+Budget: 30-40 min. The script is ~23 min of speech; with each click's
+animation, the pauses and ~5 min of demo, the talk lands at ~35 min. The
 `target` values include animation time, so the word-count estimate sitting
 below them is expected. Then Q&A.
 
@@ -83,46 +83,49 @@ Now let's watch all three happen at once.
 ## vla-hero
 <!-- target: 150 -->
 
-This is the demo table: a vitamin B pack, a mug, the magnesium bottle and a
-tray.
+This is the demo table: a vitamin B pack, a mug, the zinc bottle and a tray.
 
 First, **see**. The camera captures the scene and the image is split into
 patches. The model recognises what's on the table.
 
-Second, **read**. I type: "put the magnesium in the tray". The sentence is split
-into tokens, exactly like in ChatGPT. Notice "magnesium" is split into two
-pieces, and nothing bad happens.
+Second, **read**. I type: "put the zinc in the tray". The sentence is split into
+little pieces called tokens, exactly like in ChatGPT, and each piece becomes a
+number.
 
-Third, **ground**. The words "magnesium" and "tray" pull the model's attention
-onto those two objects, and everything else fades.
+Third, **ground**. The words "zinc" and "tray" pull the model's attention onto
+those two objects, and everything else fades.
 
 An honest note: the boxes and the mask are for us to see. A VLA doesn't draw
-boxes. This grounding happens implicitly inside its attention, and I'll show
-you how in a minute.
+boxes. This grounding happens implicitly inside its attention, and in a minute
+I'll explain what that is.
 
-Fourth, **act**. The only thing that comes out of the model is these seven
-numbers: three for position, three for rotation and one for the gripper.
-Thirty times a second.
+Fourth, **act**. The only thing that comes out of the model is these numbers:
+how much to move each joint and what to do with the gripper. Thirty times a
+second.
 
 (Let the pick run in silence.)
 
-One model. No if statements. Nobody wrote "if it says magnesium, go left".
+One model. No if statements. Nobody wrote "if it says zinc, go left".
 
 ## what-is-a-policy
-<!-- target: 60 -->
+<!-- target: 65 -->
 
 I'm going to use one word a lot, so let me define it: **policy**.
 
-A policy is a function. It takes **o**, the observation: what the cameras see
-and where the joints are. It takes **ℓ**, the instruction. And it returns
-**a**: not one action, a block of future actions.
+In robotics, the policy is the control brain. It's a function, like the ones
+from school: something goes in, something comes out.
+
+In goes **o**, the observation: what the cameras see and where the joints are
+right now. In goes **ℓ**, the instruction, what you asked for. And out comes
+**a**, the action: not a single move, but a block of moves into the future,
+about a second and a half of plan.
 
 ACT, the model I started with, doesn't have that ℓ term. A VLA does. The whole
 talk fits in that difference.
 
-And one detail people often get wrong: this is not reinforcement learning.
-There's no reward, no trial and error. It's supervised learning, and the label
-is what the human did.
+And one detail people often get wrong: this is not reinforcement learning, not
+a robot learning by trial and error with rewards. It's learning by imitation:
+we show it how a person does it, and it copies.
 
 ## act-vs-vla
 <!-- target: 90 -->
@@ -145,126 +148,216 @@ ACT is a reflex: excellent, and deaf. A VLA is a reflex that listens.
 ## ch-inside
 <!-- target: 10 -->
 
-This is the technical part. Bear with me for about ten minutes.
+This is the technical part. Bear with me for about twelve minutes; I'll take
+it one step at a time.
 
 ## language-in
-<!-- target: 70 -->
+<!-- target: 100 -->
 
-Let's start with how language gets in.
+Let's start with how language gets in. And for that you need to know what a
+token is.
 
-You don't pass the sentence on its own. You wrap it in a fixed template. In
-OpenVLA it's literally: "In: What action should the robot take to... your
-sentence? Out:".
+A language model doesn't read letters or whole words. It has a fixed
+dictionary of tens of thousands of text pieces, and it chops any sentence into
+those pieces. Each piece is a **token**. Common words are a single token; rare
+ones get split into two or three. Here "bottle" is split in two, and nothing
+bad happens.
 
-That's clever, because the model isn't learning a new task. It keeps doing
-what it always did: predicting the next token after "Out".
+Each token has a number in that dictionary, its ID. But a bare number says
+nothing about meaning. So the model keeps a huge table where each ID points to
+a list of numbers, a **vector**. In SmolVLA that's 960 numbers per token. That
+list is like a fingerprint of the meaning: similar words get similar lists.
+"Bottle" and "jar" end up close; "bottle" and "walking", far apart.
 
-The sentence goes through the usual tokenizer, the same one a text model
-uses. And each token becomes a vector, a list of numbers. From here on, to the
-model, everything is numbers.
+And one clever trick: we don't pass the sentence on its own. In OpenVLA it's
+wrapped in a fixed template: "In: What action should the robot take to... your
+sentence? Out:". So the model isn't learning some strange new task. It keeps
+doing what it always does, the same as ChatGPT: completing what comes after
+"Out".
+
+From here on, to the model, the sentence is no longer text. It's a row of
+vectors.
 
 ## vision-in
-<!-- target: 60 -->
+<!-- target: 75 -->
 
 The image comes in in a very similar way.
 
-It's cut into a grid of patches. SmolVLA, the model in the demo, uses 64
-tokens per image. Each patch becomes a token, just like a word.
+To a computer, a photo is a grid of pixels, and each pixel is three numbers:
+how much red, how much green, how much blue. That's all.
 
-And here's the important part: the image tokens, the sentence tokens and one
-more with the arm's state are glued into a single sequence. To the
-transformer it's one row of numbers. It doesn't know which were pixels and
-which were words.
+What we do is cut the photo into little squares, patches, like a jigsaw. Each
+patch goes through a vision encoder, a network that was already trained on
+millions of images with their captions. That network turns each patch into a
+vector the same size as the word vectors. A patch that contains the bottle ends
+up with a list of numbers that "looks like" the idea of a bottle.
+
+SmolVLA summarises each image into 64 tokens, and since I have three cameras,
+that's about two hundred image tokens at every moment.
+
+And there's one more ingredient: where the arm is. Each motor reports its
+angle, and those six numbers also become a vector, a state token.
+
+Now the important part: the image tokens, the sentence tokens and the state
+token are glued into a single row. To the transformer it's a sequence of
+vectors. It doesn't know which were pixels and which were words, and it
+doesn't need to.
 
 ## attention
-<!-- target: 100 -->
+<!-- target: 145 -->
 
-And here comes the question that always shows up: is this the same attention
-as ChatGPT?
+So now: what is **attention**? The word gets used a lot and almost nobody
+explains it.
 
-Look at what happens with the word "magnesium". It looks at the whole image,
-and gives more weight to the patches where the bottle is. That's how the model
-"grounds" the object without drawing any box.
+Picture a meeting where every token can ask a question to all the others. To
+do that, each token prepares three things. A **question**: what am I looking
+for. A **label**: what do I have to offer. And a **content**: the information I
+hand over if someone picks me. In the papers they're called Q, K and V: query,
+key and value.
 
-And yes: it's exactly the same operation. Softmax of Q times K transposed,
-times V. Same maths, same libraries, the same transformer.
+Take the word "zinc". Its question is something like "where is a small
+bottle with a label?". That question is compared with every other token's
+label, and each comparison gives a score: how well it matches. The patches
+with the bottle match strongly; the mug, weakly; the empty table, almost not
+at all.
 
-What changes is at the end. The action expert uses cross-attention: the
-actions ask the questions, and the vision-language model answers.
+Those scores are turned into percentages that add up to a hundred. That's the
+softmax. And the "zinc" token takes a blend of everyone's content in those
+proportions: most of what the bottle offers, a little of the rest. So after
+attention, the "zinc" vector knows where the zinc is in the image. That's
+grounding without drawing any box.
 
-And the mask: who can look at whom. Image and text see each other; actions
-only look backwards. In practice, almost all of the difference from an LLM is
-in the mask and the last layers.
+And it doesn't happen once. It happens in parallel, with several different
+questions at the same time, and it repeats layer after layer, sixteen times in
+SmolVLA.
+
+Is this the same attention as ChatGPT? Yes, exactly the same operation: the
+formula on the screen. ChatGPT uses it to decide which earlier words matter for
+writing the next one. Here we use it to mix words with pieces of image.
+
+What's new is at the end. The action tokens only ask, and the vision-language
+model answers. That's cross-attention: the actions ask "what do I do?", and the
+answer comes from what the model saw and read.
+
+And the mask decides who can look at whom. In ChatGPT each word only looks
+backwards, so it can't cheat by peeking at the future. Here the image and the
+sentence see each other completely, and each action only looks at the earlier
+actions. Almost all of the difference from an LLM is in that mask and the last
+layers.
 
 ## action-tokens
-<!-- target: 110 -->
+<!-- target: 130 -->
 
-Now the most interesting part: how does a transformer, which predicts
-symbols, turn into motion?
+Now the most interesting part: how does motion come out of a model that was
+built to write?
 
-A motion is a continuous signal. This curve is one joint over one second.
+Let's start with what's really in the arm. Each motor has a sensor that says
+where it is: a number from 0 to 4095 per turn. When you calibrate, LeRobot
+converts that number into degrees. Thirty times a second we read six numbers:
+the base, the shoulder, the elbow, the wrist, its roll and the gripper.
 
-You sample it thirty times a second.
+So a motion, as the computer sees it, is just a table of numbers over time.
+This curve is one joint over one second.
 
-And you cut the range into 256 bins. Each bin is a token. RT-2 and OpenVLA do
-exactly this: they reuse the 256 least-used tokens in the vocabulary and give
-them a new meaning. It works, but look at the staircase: that precision is
-gone.
+We sample it thirty times a second: thirty points.
 
-Today there are two better ways. **FAST** treats the trajectory as a signal, the
-way JPEG treats an image: it moves to frequencies and compresses. On a
-T-shirt-folding task, 700 tokens become 53.
+And here's the problem. A transformer doesn't write numbers with decimals. It
+picks pieces from a dictionary. So every number has to become a piece.
 
-And **flow matching** skips tokens entirely: it starts from noise and cleans it
-up until it's a trajectory. That's what π0, SmolVLA and GR00T use.
+The simplest way: take the range that joint moves through and cut it into 256
+equal bins, like a ruler with 256 marks. Each value falls into a bin, and the
+bin's number is the token. It's like rounding a price to the nearest dollar.
+RT-2 and OpenVLA do exactly this: they take the 256 least-used tokens in the
+dictionary and give them a new meaning, "bin 0" to "bin 255". It works, but
+look at the staircase: rounding loses precision.
+
+Today there are two better ways. **FAST** doesn't round point by point: it
+describes the whole curve as a sum of waves, the way JPEG does with a photo. A
+smooth motion needs only a few waves, so you keep those few and compress a
+lot. On a T-shirt-folding task, 700 tokens become 53.
+
+And **flow matching**, which is what the demo model uses, skips tokens
+entirely. It doesn't pick pieces: it outputs the numbers directly. It starts
+from a block of random numbers, pure noise, and in ten steps it polishes it,
+like developing a photo, until it's a trajectory. That's what π0, SmolVLA and
+GR00T use.
 
 ## detokenizer
-<!-- target: 60 -->
+<!-- target: 85 -->
 
-And the way back, which almost nobody explains.
+And the way back, which almost nobody explains. From token to torque.
 
-The model outputs seven token IDs. Subtract the offset and you get the bin,
-from 0 to 255. Map it to minus one to one.
+In OpenVLA, the model outputs seven tokens: three to move the hand in space,
+three to rotate it and one for the gripper. Each token is a dictionary entry,
+so you subtract where those entries start and you're left with the bin number,
+from 0 to 255.
 
-Then de-normalise with the dataset's 1st and 99th percentiles. Not the min and
-max, so that one bad demonstration doesn't stretch the whole scale.
+That bin is mapped to a scale from minus one to one. Then it's
+"de-normalised": back to real units, millimetres and degrees, using how the
+arm moved in the training data. A fine detail: it uses the 1st and 99th
+percentiles, not the min and max, so one bad demonstration doesn't stretch the
+whole ruler.
 
-Now they're millimetres and degrees, and that moves the servo. Six of them are
-deltas, "move a little that way". The gripper is the exception: it's absolute.
+In SmolVLA it's more direct, because there are no bins: the numbers already
+come out of the model, and you just turn them back into degrees with the mean
+and spread measured in the dataset.
+
+So where is the torque? That final number is sent to each motor as "I want you
+at this position". The motor has its own controller inside: it measures where
+it is, sees how far it has to go, and applies the force needed to get there.
+That's the torque in the title. The model decides where; the motor takes care
+of the push.
 
 ## action-chunking
-<!-- target: 80 -->
+<!-- target: 85 -->
 
 Another key trick: predict blocks, not steps.
 
-If you predict one action per inference, the arm stops to think on every tick,
-and since each prediction ignores the previous one, it shakes.
+Think of driving. If you could only look at the road once a second and decide
+one single turn of the wheel each time, you'd drive in jerks. That's what
+happens to a robot that predicts one action per inference: it stops to think
+at every step, and since each decision ignores the last one, it shakes.
 
-With chunking, one inference returns fifty future actions, and the motion is
-continuous. ACT uses about a hundred; SmolVLA and π0, fifty.
+With chunking, one inference returns a block of fifty future actions, and the
+arm executes them back to back. Fifty actions at thirty per second is almost
+two seconds of motion. On my 5060 Ti, computing one block takes about 150
+milliseconds. Think a little, move a lot.
 
-And the fine detail from 2025: while it executes one block, it's already
-computing the next, and it stitches them so you can't see the seam. It's
-called real-time chunking, and in LeRobot today it's one command-line flag.
+ACT uses blocks of about a hundred actions; SmolVLA and π0, fifty.
+
+But there's still a seam: when one block hands over to the next, the arm can
+hiccup. The 2025 fix is to compute the next block while the current one is
+still running, and blend the part where they overlap so you can't see the
+switch. It's called real-time chunking, and in LeRobot today it's one
+command-line flag.
 
 ## architecture
-<!-- target: 110 -->
+<!-- target: 115 -->
 
-Let's put it all together. This is the whole machine, SmolVLA style.
+Let's put it all together. This is the whole machine, SmolVLA style, and we'll
+follow one cycle from start to finish.
 
-Three cameras, the sentence and the arm's state go into the vision-language
-model.
+In come three photos, one per camera, each summarised into 64 tokens. In comes
+the sentence, a handful of tokens. And in comes the state token, where the arm
+is. About two hundred tokens in a single row.
 
-And here's my favourite idea in the paper. SmolVLA only uses the first half of
-the layers: 16 of 32. The last layers of a language model specialise in
-producing language, and a robot doesn't need to talk. So they cut them.
+That row goes through the vision-language model, layer by layer, and in each
+layer attention mixes the information: the word zinc finds the bottle, the
+bottle gets related to where the gripper is.
 
-The action expert starts from noise and cleans it in ten steps into fifty
-actions. The arm moves, the camera sees the result, and the loop starts again.
+And here's my favourite idea in the paper. The original model has 32 layers,
+and SmolVLA only uses the first 16. The last layers of a language model
+specialise in producing nice text, and a robot doesn't need to talk. So they
+cut them, and the model is half as heavy.
+
+Then comes the action expert, a small model of about a hundred million
+parameters. It starts from noise, asks the big model through cross-attention,
+and in ten steps cleans that noise into fifty actions. The arm executes them,
+the camera sees the result, and the cycle starts again.
 
 For perspective: OpenVLA has 7 billion parameters, uses discrete tokens and
-runs at about 6 Hz on a 4090. SmolVLA has 450 million and runs on a laptop.
-It's the one you're about to see.
+runs at about 6 cycles a second on a 4090. SmolVLA has 450 million and runs on
+a laptop. It's the one you're about to see.
 
 ## ch-train
 <!-- target: 10 -->
@@ -272,28 +365,35 @@ It's the one you're about to see.
 Now we know how it thinks. Next, how it learns.
 
 ## recording
-<!-- target: 75 -->
+<!-- target: 80 -->
 
-It all starts with recording data. And the setup has two arms.
+It all starts with recording data. And the setup has two identical arms.
 
-I move the **leader** arm by hand. The **follower** copies the motion, a tiny
-bit late.
+I move the **leader** arm by hand, like a puppeteer. The **follower** copies the
+motion, a tiny bit late. Meanwhile, the three cameras record.
 
-Thirty times a second a row is written: the images from the three cameras, the
-arm's state, and the action.
+Thirty times a second a row is written, like in a spreadsheet: the three images
+of that instant, the follower's six angles, the leader's six angles and the
+task sentence. Each time I do the whole task, that's one episode.
 
-And look at these two rows, because they are not the same. The state is where
-the robot **is**, the follower. The action is where the human **sent** it, the
-leader. Training a policy is learning to predict the second from the first.
-That's all behaviour cloning is.
+And look at these two rows, because they are not the same. The **state** is
+where the robot is, what the follower reads. The **action** is where the human
+sent it, what the leader says. Training a policy is learning to guess the
+second from the first and the images. That's all behaviour cloning is.
 
 ## training
-<!-- target: 70 -->
+<!-- target: 85 -->
 
-Training is that, repeated millions of times.
+And what does training actually mean?
 
-The model looks at a sample and predicts a block of actions. You compare it
-with what the human did, and the difference is the error.
+The model has millions of knobs, its parameters. At first it guesses badly. We
+show it one instant from the dataset, the images, the sentence and the state,
+and ask it for the block of actions that comes next. We compare that with what
+the human really did. The gap between the two curves is the **error**.
+
+Then every knob is turned a tiny bit, exactly in the direction that makes that
+error smaller. That's one training step. And it repeats with another instant,
+and another, thousands of times.
 
 Twenty thousand steps later, the prediction lands on top of what the human
 did.
@@ -304,13 +404,17 @@ episodes, that's around four hours on an A100.
 ## pretrain-finetune
 <!-- target: 70 -->
 
-So where does "fifty episodes is enough" come from?
+So how are fifty episodes enough, if we said data is the problem?
 
-From pre-training. SmolVLA was first trained on 481 community datasets: over
-ten million frames. Months of GPU time you didn't pay for.
+Pre-training. Before I ever touched it, SmolVLA had already been trained on 481
+community datasets: over ten million frames of robots doing things. And before
+that, its vision-and-language part had already seen millions of images with
+text. It already knows what a bottle is and how an arm moves in general.
+Months of GPU time you didn't pay for.
 
 You bring your part: fifty episodes, for example five positions with ten
-repetitions each. A few hours.
+repetitions each. A few hours. That only teaches it the details of your table,
+your arm and your objects.
 
 Without the first phase, fifty episodes are nowhere near enough. With it, they
 are. That is all "foundation model" means in robotics.
@@ -326,7 +430,7 @@ half a talk to recover.
 ## my-build
 <!-- target: 60 -->
 
-First, the arm. It's an SO-101, an open design, and I printed it on an Ender 3.
+First, the arm. It's an SO-100, an open design, and I printed it on an Ender 3.
 
 Six servos per arm, all on one serial bus, and three USB cameras: overhead, on
 the wrist and at the base.
@@ -338,7 +442,7 @@ before I could build anything.
 The pair, leader and follower, is about 230 dollars in parts.
 
 ## demo-video
-<!-- target: 60 -->
+<!-- target: 270 -->
 
 This is on my table, at home, with the model I trained. Same arm, same
 objects.
@@ -347,8 +451,7 @@ objects.
 
 Now we're going to do it here, live, under this room's lights.
 
-## demo-live
-<!-- target: 240 -->
+(Switch to the terminal for the live demo.)
 
 Same robot. Same model. Same weights. The only thing that will change is the
 sentence.
@@ -357,18 +460,12 @@ First: "pick up the vitamin B pack".
 
 (Run it. Silence. Let the room watch.)
 
-Now I change only the sentence: "pick up the magnesium bottle".
+Now I change only the sentence: "pick up the zinc bottle".
 
 (Run it. When it goes for the other object, stop talking.)
 
 There's no if anywhere. That is a VLA. Everything else in this talk explains
 how it gets there.
-
-## demo-act-video
-<!-- target: 30 -->
-
-And for comparison: this is the same task with ACT. It does it very well. But
-it does it the same way, whatever I say.
 
 ## backup-demo
 <!-- target: 5 -->
@@ -392,16 +489,26 @@ And in the last year we got π0.5, SmolVLA, GR00T, π0.7, Gemini Robotics 2...
 Half of them you can already use from LeRobot.
 
 ## limitations
-<!-- target: 60 -->
+<!-- target: 90 -->
 
 But let's be honest about what still doesn't work.
 
-Simulation benchmarks are saturated. On LIBERO everyone scores between 95 and
-98 percent. They no longer separate anyone.
+First, a word you'll see in every paper: benchmark. A benchmark is a standard
+exam: the same tasks, in a simulator, for every model. It's how papers compare
+themselves with each other.
 
-In the real world, with blind evaluations on physical robots like RoboArena,
-the picture is very different. And collecting real data is still expensive:
-DROID took fifty people a whole year.
+In 2024, OpenVLA scored 76 % on the most used one, LIBERO. Today everyone scores
+97 or 98. That's what we call a saturated benchmark: the exam got easy and no
+longer separates the good from the best.
+
+Why should you care? Because if someone shows you 98 % on LIBERO, it tells you
+almost nothing about how that model will do on your table, with your light and
+your objects.
+
+The real test is a real robot. RoboArena, for example, has two policies do the
+same task on physical robots, and people vote without knowing which is which.
+And collecting real data is still expensive: DROID took fifty people a whole
+year.
 
 And the most counter-intuitive part: what improves generalisation isn't the
 number of demonstrations, it's diversity. More scenes and more objects, not
@@ -433,22 +540,33 @@ Today, most of the gain comes from using it to train better. Planning in real
 time is still expensive.
 
 ## generalist-models
-<!-- target: 90 -->
+<!-- target: 100 -->
 
-And how does this fit with the generalist models everyone is talking about?
+And the question you probably have: what does this have to do with the
+generalist models everyone is talking about, like GPT, Gemini or Claude?
 
-Think in layers. On top, a generalist model reasons. You say "clean the table"
-and it turns that into steps. It's slow, but it knows about the world and can
-use tools.
+Let's compare them side by side.
 
-Below, the VLA executes each step: "pick up the magnesium bottle". Fast, tens
-or hundreds of times a second.
+What goes **in**: the generalist takes text and images. The VLA takes the
+cameras, the instruction and the arm's state.
 
-The generalist decides **what**. The VLA decides **how**. And there are already
-systems where the generalist calls the VLA as just another tool.
+What comes **out**: the generalist returns text, plans or tool calls. The VLA
+returns motor movements.
 
-And one deep difference: an LLM gets it wrong and you rewrite the prompt. A VLA
-gets it wrong and knocks a bottle onto the floor.
+**Speed**: the generalist thinks a few times a second, or less. The VLA has to
+act 30 to 200 times a second, because the world doesn't wait.
+
+What it **learns from**: the generalist learned from the internet, text and
+images that already existed. The VLA, from demonstrations someone had to
+record.
+
+And **when it's wrong**: with the generalist, you rewrite the prompt. With the
+VLA, a bottle hits the floor.
+
+So they don't compete: they combine. The generalist takes "clean the table"
+and turns it into steps. The VLA carries out each step. The generalist decides
+**what**; the VLA decides **how**. And there are already systems where the
+generalist calls the VLA as just another tool, the way it would call an API.
 
 ## when-to-use
 <!-- target: 75 -->

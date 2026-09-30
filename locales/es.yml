@@ -21,25 +21,12 @@ build:
   cams: cámaras USB (arriba, muñeca y base)
   printer: Creality Ender 3 V3 KE, con compensación X-Y para las tolerancias
   cost: en piezas por el par líder + seguidor, sin contar lo impreso
-  placeholder: 'FOTO: el SO-101 montado, con las tres cámaras visibles'
-  cite: 'Lista de materiales oficial del SO-101 (TheRobotStudio/SO-ARM100): USD 229.88'
+  placeholder: 'FOTO: el SO-100 montado, con las tres cámaras visibles'
+  cite: 'Lista de materiales oficial del SO-100 (TheRobotStudio/SO-ARM100, SO100.md): USD 232'
 
 demovideo:
   title: En mi mesa, con el modelo que entrené
   placeholder: 'VÍDEO: tu mejor toma del demo real, grabada en casa'
-
-demo:
-  title: El momento que importa
-  lead: Mismo robot. Mismo modelo. Mismos pesos. Lo único que cambia es la frase.
-  instr1: agarra el Complejo B
-  instr2: agarra el frasco de magnesio
-  punch: Eso es un VLA. Todo lo demás en esta charla explica cómo llega ahí.
-
-demoact:
-  title: La misma tarea, con ACT
-  body: |
-    ACT hace su tarea muy bien. Pero la hace **igual** sin importar lo que yo le diga.
-  placeholder: 'VÍDEO: política ACT ejecutando la tarea grabada'
 
 backup:
   title: Demo grabado

@@ -5,7 +5,7 @@ es:
   count_sub: parches → 64 tokens
   count_note: 'SmolVLA: 64 tokens visuales por cuadro'
   row: una fila de tokens, como si fueran palabras
-  tokens: agarra|el|frasco|de|magn|esio
+  tokens: agarra|el|fras|co|de|zinc
   state_tok: estado
   g_img: imagen · 64
   g_txt: texto
@@ -20,7 +20,7 @@ en:
   count_sub: patches → 64 tokens
   count_note: 'SmolVLA: 64 visual tokens per frame'
   row: one row of tokens, as if they were words
-  tokens: pick|up|the|magn|esium|bottle
+  tokens: pick|up|the|zinc|bott|le
   state_tok: state
   g_img: image · 64
   g_txt: text

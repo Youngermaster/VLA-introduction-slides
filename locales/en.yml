@@ -20,25 +20,12 @@ build:
   cams: USB cameras (overhead, wrist and base)
   printer: Creality Ender 3 V3 KE, with X-Y compensation for the tolerances
   cost: in parts for the leader + follower pair, printed parts not included
-  placeholder: 'PHOTO: the assembled SO-101, all three cameras visible'
-  cite: 'Official SO-101 bill of materials (TheRobotStudio/SO-ARM100): USD 229.88'
+  placeholder: 'PHOTO: the assembled SO-100, all three cameras visible'
+  cite: 'Official SO-100 bill of materials (TheRobotStudio/SO-ARM100, SO100.md): USD 232'
 
 demovideo:
   title: On my table, with the model I trained
   placeholder: 'VIDEO: your best take of the real demo, recorded at home'
-
-demo:
-  title: The moment that matters
-  lead: Same robot. Same model. Same weights. The only thing that changes is the sentence.
-  instr1: pick up the vitamin B pack
-  instr2: pick up the magnesium bottle
-  punch: That is a VLA. Everything else in this talk explains how it gets there.
-
-demoact:
-  title: The same task, with ACT
-  body: |
-    ACT does its task very well. But it does it **the same way** no matter what I say.
-  placeholder: 'VIDEO: ACT policy running the recorded task'
 
 backup:
   title: Recorded demo

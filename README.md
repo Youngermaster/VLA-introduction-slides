@@ -1,7 +1,7 @@
 # Del Token al Torque
 
 An interactive talk on **Vision-Language-Action (VLA) models**, built for the AI
-Medellín meetup, with a live SO-101 robot arm demo.
+Medellín meetup, with a live SO-100 robot arm demo.
 
 Most slides are **motion-graphics scenes drawn in code**: a camera splits the
 table into patches, words find their objects, tokens turn into servo angles, an
@@ -59,7 +59,7 @@ Presenter mode with speaker notes: `http://localhost:3030/#/presenter`.
 
 ## Scenes: the motion graphics
 
-25 of the 34 slides are canvas scenes (`scenes/*.ts`), in the spirit of the
+25 of the 32 slides are canvas scenes (`scenes/*.ts`), in the spirit of the
 LibreYOLO showreel in `motion-graphics-experiments/`. Each one is a pure
 function of time: every click plays the scene forward to its next cue and
 stops, ← rewinds, and the PDF export and overview show each step's finished
@@ -194,7 +194,7 @@ In DevTools → Network, confirm **zero requests to `fonts.googleapis.com`**.
 slides.md                deck structure
 scenes/                  23 canvas scenes (one reused for the 5 chapter openers)
 lib/scene/               the scene engine: math (springs, eases), kit (text, chips,
-                         boxes, traces), robot (SO-101 arm with IK, objects), render
+                         boxes, traces), robot (SO-100 arm with IK, objects), render
 components/              Scene · VideoSlot · PhotoSlot · QrCard · References · T
 locales/{es,en}.yml      HTML-slide text · locales/scenes/*.yml scene text
 monologue/{es,en}.md     the spoken script
@@ -216,7 +216,7 @@ because **those two names are taken by the default theme**, whose CSS forces
 ## Assets
 
 Photos and videos are drop-in: put the file at the path the placeholder shows
-and it appears. **[docs/ASSETS.md](docs/ASSETS.md)** lists the four files,
+and it appears. **[docs/ASSETS.md](docs/ASSETS.md)** lists the three files,
 including the recording of your real demo.
 
 ---

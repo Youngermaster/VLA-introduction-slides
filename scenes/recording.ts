@@ -69,7 +69,7 @@ function cubeAt(t: number) {
   return { x: SRC, y: 0 }
 }
 
-/** The six joint values a real SO-101 would log, from the drawn pose (degrees). */
+/** The six joint values a real SO-100 would log, from the drawn pose (degrees). */
 const norm = (a: number) => ((((a + 180) % 360) + 360) % 360) - 180
 function joints(w: { x: number; y: number }, grip: number) {
   const sh = { x: 0, y: -96 }

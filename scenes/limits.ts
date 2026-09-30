@@ -1,9 +1,12 @@
 /**
- * The honest part: three things that still don't work, one per click, each
- * a tiny animated glyph over a headline and one fact.
+ * The honest part: three things that still don't work.
  *
- *   1  benchmarks saturated: three LIBERO bars land at the same height
- *   2  the real test is a real robot: blind A/B arms, votes; DROID's scale
+ *   1  what "saturated benchmark" means, full width: a benchmark is a
+ *      standard exam; scores climb from 76.5 to 98.6 and pile up under the
+ *      ceiling; so the exam no longer tells models apart, and a 98 % says
+ *      little about your table
+ *   2  that explanation collapses into column 1; the real test is a real
+ *      robot: blind A/B arms, votes; DROID's scale
  *   3  fragile: the light changes, the same reach misses; diversity > volume
  */
 import { defineScene } from '../lib/scene/types'
@@ -24,12 +27,69 @@ function caption(K: Kit, t: number, t0: number, x: number, head: string, fact: s
 }
 
 export default defineScene({
-  cues: [1.4, 4.4, 7.9, 11.6],
-  draw({ t, L, K, ctx }) {
-    K.title(L('title'), t)
+  cues: [1.4, 6.0, 9.8, 13.5],
+  draw({ t: T, L, K, ctx }) {
+    K.title(L('title'), T)
 
-    // ── 1 · saturated benchmarks ────────────────────────────────────────
-    {
+    // ── 1 · the explanation, full width (click 1 only) ───────────────────
+    const big = presence(T, 1.5, 6.05, 0.3, 0.35)
+    if (big > 0) K.fade(big, () => {
+      const x0 = 110
+      const base = 880
+      const scale = 520 // 100 % = 520 px
+      const top = base - scale
+      // the ceiling: 100 % and the 95-100 band where everyone now sits
+      const ck = outCubic(seg(T, 1.6, 2.2))
+      K.line(x0, base, x0 + 820 * ck, base, C.faint, 3)
+      K.line(x0, top, x0 + 820 * ck, top, C.mute, 2, [6, 8])
+      K.text('100 %', x0 + 830, top + 8, { size: 24, weight: 600, fam: 'mono', color: C.mute, alpha: ck })
+      const bandK = outCubic(seg(T, 3.6, 4.1))
+      if (bandK > 0) {
+        ctx.save()
+        ctx.globalAlpha *= bandK * 0.16
+        ctx.fillStyle = C.action
+        ctx.fillRect(x0, top, 820, scale * 0.05)
+        ctx.restore()
+        K.text(L('band'), x0 + 830, top + scale * 0.05 + 30, { size: 22, weight: 500, fam: 'mono', color: C.action, alpha: bandK })
+      }
+      const bars = [
+        { v: 76.5, lab: 'OpenVLA', yr: '2024' },
+        { v: 97.1, lab: 'OpenVLA-OFT', yr: '2025' },
+        { v: 98.5, lab: 'Cosmos Policy', yr: '2026' },
+        { v: 98.6, lab: 'LaWAM', yr: '2026' },
+      ]
+      bars.forEach((b, i) => {
+        const k = outExpo(seg(T, 1.9 + i * 0.35, 2.9 + i * 0.35))
+        if (k <= 0) return
+        const bx = x0 + 30 + i * 200
+        const h = (b.v / 100) * scale * k
+        ctx.fillStyle = i === 0 ? '#3A4150' : C.paper
+        ctx.fillRect(bx, base - h, 130, h)
+        // value inside the bar's top, so it never collides with the ceiling
+        K.text((b.v * k).toFixed(1), bx + 65, base - h + 44, { size: 30, weight: 700, fam: 'mono', color: i === 0 ? C.paper : C.bg, align: 'center', alpha: Math.min(1, k * 3) })
+        K.text(b.lab, bx + 65, base + 36, { size: 22, weight: 500, fam: 'mono', color: C.dim, align: 'center', alpha: k })
+        K.text(b.yr, bx + 65, base + 64, { size: 20, weight: 500, fam: 'mono', color: C.mute, align: 'center', alpha: k })
+      })
+      K.label(L('axis'), x0, top - 30, { alpha: ck })
+
+      // the words: what it is, what saturated means, why it matters
+      const tx = 1110
+      const tw = 700
+      let y = 330
+      y += K.words(L('what'), tx, y, { t: T, t0: 1.9, size: 40, weight: 700, fam: 'display', maxW: tw, lh: 1.15 }) + 14
+      y += K.words(L('whatf'), tx, y, { t: T, t0: 2.2, size: 30, weight: 500, fam: 'sans', ls: 0, color: C.dim, maxW: tw, lh: 1.3, stagger: 0.015, accent: C.paper }) + 40
+      y += K.words(L('sat'), tx, y, { t: T, t0: 3.7, size: 30, weight: 600, fam: 'sans', ls: 0, maxW: tw, lh: 1.3, stagger: 0.015 }) + 40
+      K.text(L('why'), tx, y, { size: 22, weight: 600, fam: 'mono', color: C.action, alpha: outCubic(seg(T, 4.6, 5.0)) })
+      K.words(L('whyf'), tx, y + 46, { t: T, t0: 4.8, size: 30, weight: 500, fam: 'sans', ls: 0, maxW: tw, lh: 1.3, stagger: 0.015 })
+    })
+    // Everything below keeps the original 3-column timing, shifted so it
+    // starts once the explanation above has cleared.
+    const t = T - 1.9
+
+    // ── 1 · saturated benchmarks, compact (from click 2) ────────────────
+    if (T > 6.3) {
+      const t = T - 6.3 + 1.5 // replay the column's own entrance, fast
+
       const x0 = COL[0]
       const base = GY
       const scale = 300 // 100 % = 300 px
@@ -62,7 +122,7 @@ export default defineScene({
         K.line(x0 + 20, y95, x0 + 20 + (CW - 40) * bk, y95, C.action, 3, [6, 8])
         K.text('95 %', x0 + CW - 20, y95 + 34, { size: 24, weight: 600, fam: 'mono', color: C.action, align: 'right', alpha: bk })
       }
-      caption(K, t, 2.2, x0, L('c1'), L('c1f'))
+      caption(K, t, 1.8, x0, L('c1'), L('c1f'))
     }
 
     // ── 2 · real robots, blind A/B ──────────────────────────────────────
@@ -166,6 +226,6 @@ export default defineScene({
     }
 
     K.punch(L('punch'), t, 10.6, { y: 972, size: 38, maxW: 1760 })
-    K.fade(presence(t, 2.2) * (1 - seg(t, 10.4, 10.6)), () => K.cite(L('cite')))
+    K.fade(presence(T, 2.2) * (1 - seg(t, 10.4, 10.6)), () => K.cite(L('cite')))
   },
 })

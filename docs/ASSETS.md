@@ -9,13 +9,12 @@ You don't need to edit `slides.md` for any of these.
 
 ---
 
-## The four files
+## The three files
 
 | File | Slide | What |
 |---|---|---|
-| `public/images/so101-build.jpg` | `my-build` | Your assembled SO-101, leader and follower, all three cameras in frame. Landscape, ~4:3. |
-| `public/video/demo-real.mp4` | `demo-video` | **Your best take of the real demo**, at home, good light: "agarra el Complejo B", then the sentence changes, then "agarra el frasco de magnesio". 45–75 s. This is the one you show off before going live. |
-| `public/video/act-baseline.mp4` | `demo-act-video` | 20–30 s of the ACT policy doing its task, loopable. Ideally it ignores a spoken instruction. |
+| `public/images/so100-build.jpg` | `my-build` | Your assembled SO-100, leader and follower, all three cameras in frame. Landscape, ~4:3. |
+| `public/video/demo-real.mp4` | `demo-video` | **Your best take of the real demo**, at home, good light: "agarra el Complejo B", then the sentence changes, then "agarra el frasco de zinc". 45–75 s. This is the one you show off before going live. |
 | `public/video/backup-demo.mp4` | `backup-demo` (key **B**) | The full VLA demo working, both instructions, with the exact instruction text visible when it changes. 60–90 s. **Record it even if the live demo works**: it is why panic mode exists. It can be the same footage as `demo-real.mp4`. |
 
 Videos autoplay muted when you enter the slide and pause when you leave. They
@@ -27,8 +26,8 @@ have controls, so you can scrub while you talk.
 
 | What | Where | Currently |
 |---|---|---|
-| Hugging Face model repo | `demo-live` code block in `slides.md` | `$HF_USER/smolvla-medicamentos` |
-| Serial port | `demo-live` code block | `/dev/tty.usbmodem58FA0929601` |
+| Hugging Face model repo | live-demo command in `docs/PRESENTING.md` | `$HF_USER/smolvla-medicamentos` |
+| Serial port | live-demo command in `docs/PRESENTING.md` | `/dev/tty.usbmodem58FA0929601` |
 | Inference rate on the M3 | say it out loud during the demo | not on any slide |
 
 On the last one: **there is no published SmolVLA benchmark for Apple Silicon.**

@@ -10,7 +10,7 @@ es:
   f2: SmolVLA con unos *50 episodios*, ~4 h en una A100. π0 con LoRA pide *más de 22,5 GB*.
   a3: Planificador + VLA
   f3: Un modelo que razona reparte subtareas y llama al VLA *como herramienta*.
-  foot: 'En SO-101, agarrar y colocar: SmolVLA 90 % vs ACT 70 %. ACT es la base barata, no siempre la mejor. (SmolVLA, arXiv:2506.01844 · openpi)'
+  foot: 'Paper de SmolVLA, agarrar y colocar en un SO-101: SmolVLA 90 % vs ACT 70 %. ACT es la base barata, no siempre la mejor. (SmolVLA, arXiv:2506.01844 · openpi)'
 en:
   title: When to use *which*
   start: your task
@@ -23,4 +23,4 @@ en:
   f2: SmolVLA with about *50 episodes*, ~4 h on one A100. π0 with LoRA needs *over 22.5 GB*.
   a3: Planner + VLA
   f3: A reasoning model splits the job into subtasks and calls the VLA *as a tool*.
-  foot: 'On SO-101 pick-and-place: SmolVLA 90 % vs ACT 70 %. ACT is the cheap baseline, not always the best. (SmolVLA, arXiv:2506.01844 · openpi)'
+  foot: 'SmolVLA paper, pick-and-place on an SO-101: SmolVLA 90 % vs ACT 70 %. ACT is the cheap baseline, not always the best. (SmolVLA, arXiv:2506.01844 · openpi)'

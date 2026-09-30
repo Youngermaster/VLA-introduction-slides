@@ -250,7 +250,8 @@ export default defineScene({
         const tk = seg(t, 6.7 + i * 0.07, 6.95 + i * 0.07)
         if (tk <= 0) return
         const yb = y0 + 24
-        const grounded = i === Number(L('gA')) || i === Number(L('gA')) + 1 || i === Number(L('gB'))
+        const gA0 = Number(L('gA'))
+        const grounded = (i >= gA0 && i < gA0 + Number(L('gAn'))) || i === Number(L('gB'))
         const col = grounded && dim > 0.3 ? C.action : C.lang
         ctx.save()
         ctx.globalAlpha *= outExpo(tk)
@@ -278,7 +279,7 @@ export default defineScene({
       }
       const gA = Number(L('gA'))
       const gB = Number(L('gB'))
-      lineTo(gA, gA + 1, 'bot', 0)
+      lineTo(gA, gA + Number(L('gAn')) - 1, 'bot', 0)
       lineTo(gB, gB, 'tray', 0.18)
       ctx.restore()
     }

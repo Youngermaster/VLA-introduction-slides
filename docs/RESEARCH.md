@@ -42,7 +42,7 @@ repo). Where only a secondary source exists, it says so.
 **LeRobot** (github.com/huggingface/lerobot)
 - Policies: ACT, Diffusion, VQ-BeT; VLAs: π0, π0-FAST, π0.5, GR00T N1.7, SmolVLA, X-VLA, EO-1, MolmoAct2, WALL-OSS, EVO1; world models: VLA-JEPA, LingBot-VA, FastWAM, LaWAM.
 - LeRobotDataset v3.0: many episodes per Parquet/MP4 file, Hub streaming.
-- SO-101 bill of materials (github.com/TheRobotStudio/SO-ARM100): $229.88 for leader + follower, $121.94 follower only, excluding printed parts. 6 × STS3215 servos per arm.
+- **The arm on stage is an SO-100.** SO-100 bill of materials (github.com/TheRobotStudio/SO-ARM100, `SO100.md`, now marked deprecated in favour of SO-101): $232 for leader + follower, $123 follower only, excluding printed parts. 6 × STS3215 servos per arm. For reference, the SO-101 BOM is $229.88 / $121.94.
 
 **Real-Time Chunking** (Black, Galliker, Levine, Jun 2025, arXiv:2506.07339)
 - Computes the next action chunk while executing the current one and inpaints the overlap. In LeRobot: `lerobot-rollout --inference.type=rtc`.

@@ -22,7 +22,7 @@ const ORDER = [
   // 03 · How it learns
   'ch-train', 'recording', 'training', 'pretrain-finetune',
   // 04 · Demo
-  'ch-demo', 'my-build', 'demo-video', 'demo-live', 'demo-act-video', 'backup-demo',
+  'ch-demo', 'my-build', 'demo-video', 'backup-demo',
   // 05 · What comes next
   'ch-future', 'field-growth', 'limitations', 'world-models', 'generalist-models', 'when-to-use',
   // Closing

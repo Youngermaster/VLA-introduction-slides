@@ -7,7 +7,7 @@ es:
   cam2: muñeca
   cam3: base
   joints: 6 articulaciones
-  instr: agarra el frasco de magnesio
+  instr: agarra el frasco de zinc
   instr_note: texto, igual que en un chat
   punch: No es aprendizaje por refuerzo. Es *behaviour cloning:* la etiqueta es lo que hizo el humano.
 en:
@@ -19,6 +19,6 @@ en:
   cam2: wrist
   cam3: base
   joints: 6 joints
-  instr: pick up the magnesium bottle
+  instr: pick up the zinc bottle
   instr_note: text, same as in a chat
   punch: Not reinforcement learning. It's *behaviour cloning:* the label is what the human did.

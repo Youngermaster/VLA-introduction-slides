@@ -1,44 +1,58 @@
 es:
   title: VLA vs *modelos generalistas*
-  sec: un segundo →
-  s2: Planificador
-  s2sub: lento, razona, usa herramientas
-  s2ex: Gemini Robotics-ER · Cosmos-Reason · Helix S2 (7B)
-  s2hz: 7–9 Hz
-  s1: VLA
-  s1sub: rápido, ejecuta una instrucción
-  s1ex: π0 · SmolVLA · GR00T · Helix S1
-  s1hz: 50–200 Hz
-  s0: Reflejo
-  s0sub: equilibrio y contacto
-  s0ex: Helix 02 S0
-  s0hz: 1 kHz
+  g: Modelo generalista
+  gex: GPT · Gemini · Claude · Gemini Robotics-ER
+  v: VLA
+  vex: π0 · SmolVLA · GR00T
+  r1: entra
+  r1g: texto e imágenes
+  r1v: cámaras, la instrucción y el estado del brazo
+  r2: sale
+  r2g: '*texto:* respuestas, planes, llamadas a herramientas'
+  r2v: '*movimientos* de motor'
+  r3: velocidad
+  r3g: '*lento:* piensa unas pocas veces por segundo, o menos'
+  r3v: '*rápido:* de 30 a 200 acciones por segundo'
+  r4: aprende de
+  r4g: internet, texto e imágenes que *ya existían*
+  r4v: demostraciones *grabadas* en robots reales
+  r5: si se equivoca
+  r5g: reescribes el prompt
+  r5v: '*tira un frasco* al suelo'
+  combine: No compiten. *Se combinan.*
   goal: limpia la mesa
-  sub1: agarra el frasco de magnesio
+  sub1: agarra el frasco de zinc
   sub2: ponlo en la bandeja
   sub3: pasa el trapo por la mesa
   punch: El generalista decide *qué*. El VLA decide *cómo*.
   tools: Con Gemini Robotics-ER 2 puedes declarar *un VLA como herramienta*, igual que una API.
-  cite: 'Helix S2 7–9 Hz, S1 200 Hz · Helix 02 S0 1 kHz (Figure) · π0 hasta 50 Hz (arXiv:2410.24164) · Gemini Robotics-ER 2 (DeepMind, 2026)'
+  cite: 'Helix S2 7–9 Hz, S1 200 Hz (Figure) · π0 hasta 50 Hz (arXiv:2410.24164) · Gemini Robotics-ER 2 (DeepMind, 2026)'
 en:
   title: VLAs vs *generalist models*
-  sec: one second →
-  s2: Planner
-  s2sub: slow, reasons, calls tools
-  s2ex: Gemini Robotics-ER · Cosmos-Reason · Helix S2 (7B)
-  s2hz: 7–9 Hz
-  s1: VLA
-  s1sub: fast, carries out one instruction
-  s1ex: π0 · SmolVLA · GR00T · Helix S1
-  s1hz: 50–200 Hz
-  s0: Reflex
-  s0sub: balance and contact
-  s0ex: Helix 02 S0
-  s0hz: 1 kHz
+  g: Generalist model
+  gex: GPT · Gemini · Claude · Gemini Robotics-ER
+  v: VLA
+  vex: π0 · SmolVLA · GR00T
+  r1: in
+  r1g: text and images
+  r1v: cameras, the instruction and the arm's state
+  r2: out
+  r2g: '*text:* answers, plans, tool calls'
+  r2v: '*motor* movements'
+  r3: speed
+  r3g: '*slow:* thinks a few times a second, or less'
+  r3v: '*fast:* 30 to 200 actions a second'
+  r4: learns from
+  r4g: the internet, text and images that *already existed*
+  r4v: demonstrations *recorded* on real robots
+  r5: when it's wrong
+  r5g: you rewrite the prompt
+  r5v: it *knocks a bottle* onto the floor
+  combine: They don't compete. *They combine.*
   goal: clean the table
-  sub1: pick up the magnesium bottle
+  sub1: pick up the zinc bottle
   sub2: put it in the tray
   sub3: wipe the table
   punch: The generalist decides *what*. The VLA decides *how*.
   tools: With Gemini Robotics-ER 2 you can declare *a VLA as a tool*, just like an API.
-  cite: 'Helix S2 7–9 Hz, S1 200 Hz · Helix 02 S0 1 kHz (Figure) · π0 up to 50 Hz (arXiv:2410.24164) · Gemini Robotics-ER 2 (DeepMind, 2026)'
+  cite: 'Helix S2 7–9 Hz, S1 200 Hz (Figure) · π0 up to 50 Hz (arXiv:2410.24164) · Gemini Robotics-ER 2 (DeepMind, 2026)'

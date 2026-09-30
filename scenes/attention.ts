@@ -2,7 +2,7 @@
  * Is this the same attention as ChatGPT?
  *
  *   arrive  title, the camera frame, the token row (16 image patches + words)
- *   1 self  "magnesium" asks every token; the arcs' weight lands on the bottle
+ *   1 self  "zinc" asks every token; the arcs' weight lands on the bottle
  *   2 math  softmax(QKᵀ/√d)·V: yes, the same operation
  *   3 cross a row of action queries asks the VLM (Q from actions, K,V from the VLM)
  *   4 mask  the attention mask: prefix sees everything, actions only the past
@@ -47,7 +47,7 @@ function patch(K: Kit, i: number, j: number, x: number, y: number, w: number, h:
   ctx.restore()
 }
 
-/** How much "magnesium" attends to image patch (i, j): the bottle sits in column 2. */
+/** How much "zinc" attends to image patch (i, j): the bottle sits in column 2. */
 const W_IMG = (i: number, j: number) => {
   const table: Record<string, number> = { '2,1': 0.7, '2,2': 1, '2,3': 0.45, '3,2': 0.3, '3,3': 0.2 }
   return table[`${i},${j}`] ?? 0.04 + hash(i, j) * 0.06

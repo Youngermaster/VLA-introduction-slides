@@ -1,7 +1,14 @@
 es:
   title: Lo que todavía *no funciona*
   c1: Benchmarks saturados
-  c1f: Todo paper nuevo cae entre 95 y 98 % en LIBERO. Ya *no se sabe* quién es mejor.
+  c1f: Todos sacan 97 o 98 en el mismo examen. Ya *no dice* quién es mejor.
+  axis: 'LIBERO, % de tareas logradas'
+  band: todos aquí
+  what: Un benchmark es *un examen estándar.*
+  whatf: Las mismas tareas, en simulación, para todos los modelos. Así se comparan los papers.
+  sat: 'Saturado significa que todos ya sacan *97 o 98.* El examen se volvió fácil y dejó de separar a los buenos de los mejores.'
+  why: POR QUÉ IMPORTA
+  whyf: Un *98 % en LIBERO* no te dice cómo le va a ir en tu mesa, con tu luz y tus objetos.
   c2: La prueba de verdad es un robot real
   c2f: RoboArena compara políticas a ciegas, A contra B, en robots reales de 7 laboratorios.
   c2g: 'DROID: *76k* trayectorias, *350 h*, *50* personas, *12* meses.'
@@ -12,7 +19,14 @@ es:
 en:
   title: What still *doesn't work*
   c1: Saturated benchmarks
-  c1f: Every new paper lands between 95 and 98 % on LIBERO. You *can't tell* who is better.
+  c1f: Everyone scores 97 or 98 on the same exam. It *no longer tells* who is better.
+  axis: 'LIBERO, % of tasks completed'
+  band: everyone is here
+  what: A benchmark is *a standard exam.*
+  whatf: The same tasks, in simulation, for every model. It's how papers compare themselves.
+  sat: 'Saturated means everyone already scores *97 or 98.* The exam got easy and stopped separating the good from the best.'
+  why: WHY IT MATTERS
+  whyf: A *98 % on LIBERO* doesn't tell you how it will do on your table, with your light and your objects.
   c2: The real test is a real robot
   c2f: RoboArena compares policies blind, A against B, on real robots across 7 labs.
   c2g: 'DROID: *76k* trajectories, *350 h*, *50* people, *12* months.'
