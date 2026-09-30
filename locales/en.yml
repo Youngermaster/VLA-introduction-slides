@@ -8,7 +8,7 @@
 deck:
   title: From Tokens to Torque
   subtitle: How AI learned to move things in the physical world
-  author: Juan Manuel Younes
+  author: Juan Manuel Young Hoyos
   venue: AI Medellín
 
 nav:
@@ -23,14 +23,17 @@ build:
   placeholder: 'PHOTO: the assembled SO-100, all three cameras visible'
   cite: 'Official SO-100 bill of materials (TheRobotStudio/SO-ARM100, SO100.md): USD 232'
 
-demovideo:
+demo1:
   title: On my table, with the model I trained
-  placeholder: 'VIDEO: your best take of the real demo, recorded at home'
+  instr: agarra la caja de Complejo B
+  lead: '"Pick up the Complejo B box." Recorded at home, in one take, with the policy I trained.'
+  placeholder: 'VIDEO: demo with the Complejo B box'
 
-backup:
-  title: Recorded demo
-  placeholder: 'VIDEO: full demo, recorded in advance'
-  note: Press B to get here from any slide. Press V to go back.
+demo2:
+  title: Same weights. Another sentence.
+  instr: agarra el frasco de zinc
+  lead: '"Pick up the zinc bottle." The only thing that changed is the instruction. There is no if anywhere.'
+  placeholder: 'VIDEO: demo with the zinc bottle'
 
 thanks:
   questions: Questions?

@@ -5,7 +5,7 @@ titleTemplate: '%s'
 # Local and relative: the default is fetched from a CDN (breaks offline), and a
 # relative path keeps working if the deck is served from a subpath.
 favicon: 'favicon.svg'
-author: Juan Manuel Younes
+author: Juan Manuel Young Hoyos
 info: |
   Del Token al Torque: cómo la IA aprendió a mover cosas en el mundo físico.
   Charla sobre modelos Vision-Language-Action para AI Medellín.
@@ -422,58 +422,73 @@ Click 2: "Líder y seguidor, unos 230 dólares en piezas, sin contar el filament
 -->
 
 ---
-layout: viz
+layout: split
 routeAlias: demo-video
+ratio: 1.15fr 1fr
 ---
 
-# {{ $t('demovideo.title') }}
+::left::
 
-<div class="viz-fill video-fill">
-  <VideoSlot src="/video/demo-real.mp4" :label="$t('demovideo.placeholder')" />
+# {{ $t('demo1.title') }}
+
+<div class="instrs">
+  <span class="instr instr--a t-mono">«{{ $t('demo1.instr') }}»</span>
 </div>
 
-<!--
-EL DEMO GRABADO (1 min) Y LUEGO EN VIVO (4 min).
+<p class="t-lead">{{ $t('demo1.lead') }}</p>
 
-El vídeo: tu mejor toma, en casa, con buena luz. Déjalo correr y narra poco:
-"esto es en mi mesa, con el modelo que entrené. Ahora lo vamos a hacer aquí,
-en vivo, con la luz de esta sala."
+::right::
+
+<VideoSlot src="/video/demo-complejo-b.mp4" :label="$t('demo1.placeholder')" class="demo-clip" />
+
+<!--
+DEMO 1, GRABADO (45 s). En casa, con la política que entrené.
+
+Déjalo correr y narra poco: "esto es en mi mesa. Le escribo 'agarra la caja
+de Complejo B'... y va por la caja." No hables encima del agarre.
+
+Si el demo en vivo falla más tarde, la tecla B te trae de vuelta aquí.
+-->
+
+---
+layout: split
+routeAlias: demo-zinc
+ratio: 1.15fr 1fr
+---
+
+::left::
+
+# {{ $t('demo2.title') }}
+
+<div class="instrs">
+  <span class="instr instr--b t-mono">«{{ $t('demo2.instr') }}»</span>
+</div>
+
+<p class="t-lead">{{ $t('demo2.lead') }}</p>
+
+::right::
+
+<VideoSlot src="/video/demo-zinc.mp4" :label="$t('demo2.placeholder')" class="demo-clip" />
+
+<!--
+DEMO 2, GRABADO (45 s) Y LUEGO EN VIVO (4 min).
+
+El vídeo: "mismos pesos, mismo brazo. Sólo cambio la frase: 'agarra el frasco
+de zinc'." Cuando el brazo vaya al frasco: "no hay un if en ninguna parte."
 
 EN VIVO: cambia a la terminal / ventana de rerun. No hables encima del robot.
 
-1. Ejecuta con "agarra el Complejo B". DÉJALO CORRER EN SILENCIO.
+1. Ejecuta con "agarra la caja de Complejo B". DÉJALO CORRER EN SILENCIO.
 2. Recoloca los objetos.
 3. Cambia SÓLO la frase a "agarra el frasco de zinc". Dilo en voz alta
    mientras lo escribes.
 4. Ejecuta. Cuando el brazo vaya al otro objeto: CÁLLATE Y DEJA QUE APLAUDAN.
 
-Después: "No hay un if en ninguna parte."
-
-SI FALLA: no lo repitas más de dos veces. Tecla B, vídeo de respaldo, sigue
-sin dramatismo. "Esto pasa, y por eso existe la sección de límites."
+SI FALLA: no lo repitas más de dos veces. Tecla B: vuelves al demo 1 grabado,
+y ya lo vieron funcionar. "Esto pasa, y por eso existe la sección de límites."
 
 El comando está en docs/PRESENTING.md. OJO: --device en rollout,
 --policy.device en train.
-
-Si no hubo pánico, al volver a las diapositivas salta el demo de respaldo.
--->
-
----
-layout: viz
-routeAlias: backup-demo
----
-
-# {{ $t('backup.title') }}
-
-<div class="viz-fill video-fill">
-  <VideoSlot src="/video/backup-demo.mp4" :label="$t('backup.placeholder')" />
-</div>
-
-<div class="cite">{{ $t('backup.note') }}</div>
-
-<!--
-MODO PÁNICO. Llegas aquí con la tecla B desde cualquier diapositiva; la V te
-devuelve. Reproduce, comenta por encima y sigue. No pidas disculpas más de una vez.
 -->
 
 ---

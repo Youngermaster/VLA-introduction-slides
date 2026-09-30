@@ -6,8 +6,8 @@ import { toggleSlideLocale } from '../lib/locale'
 /**
  * PANIC MODE.
  *
- * If the live robot demo fails, `B` jumps straight to the pre-recorded backup
- * video and `V` returns to wherever you jumped from. Two keys, no fumbling with
+ * If the live robot demo fails, `B` jumps back to the first recorded demo
+ * video (`demo-video`) and `V` returns to wherever you jumped from. Two keys, no fumbling with
  * the slide-picker in front of a room.
  *
  * The target is resolved by ROUTE ALIAS, not a hardcoded slide number, so
@@ -33,7 +33,7 @@ export default defineShortcutsSetup((nav: NavOperations, base: ShortcutOptions[]
       key: 'b',
       name: 'panic.backup',
       fn: () => {
-        const target = slideNoByAlias('backup-demo')
+        const target = slideNoByAlias('demo-video')
         if (target === undefined) return
         const current = getCurrentSlideNo()
         if (current !== target) returnTo = current

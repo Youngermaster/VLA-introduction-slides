@@ -52,8 +52,9 @@
 .stat__l { font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.35; }
 .stat--hero .stat__n { color: var(--accent-action); font-size: 40px; }
 
-/* --- Videos fill what the title leaves ------------------------------------- */
-.video-fill { align-items: center; justify-content: center; }
+/* --- Recorded demos: vertical phone clips beside the instruction ----------- */
+.demo-clip.demo-clip { height: 452px; }
+.demo-clip :deep(video), .demo-clip video { height: 100%; width: auto; max-width: 100%; }
 
 /* --- Closing: Gracias · Thank you, questions, one QR ------------------------ */
 .thanks {

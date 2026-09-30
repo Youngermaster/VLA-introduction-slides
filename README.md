@@ -255,4 +255,4 @@ Motion is punctuation tied to a key.
 
 ## License
 
-Apache-2.0. Slides and script by Juan Manuel Younes.
+Apache-2.0. Slides and script by Juan Manuel Young Hoyos.

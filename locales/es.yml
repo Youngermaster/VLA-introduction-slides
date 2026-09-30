@@ -9,7 +9,7 @@
 deck:
   title: Del Token al Torque
   subtitle: Cómo la IA aprendió a mover cosas en el mundo físico
-  author: Juan Manuel Younes
+  author: Juan Manuel Young Hoyos
   venue: AI Medellín
 
 nav:
@@ -24,14 +24,17 @@ build:
   placeholder: 'FOTO: el SO-100 montado, con las tres cámaras visibles'
   cite: 'Lista de materiales oficial del SO-100 (TheRobotStudio/SO-ARM100, SO100.md): USD 232'
 
-demovideo:
+demo1:
   title: En mi mesa, con el modelo que entrené
-  placeholder: 'VÍDEO: tu mejor toma del demo real, grabada en casa'
+  instr: agarra la caja de Complejo B
+  lead: Grabado en casa, en una sola toma, con la política que entrené.
+  placeholder: 'VÍDEO: demo con la caja de Complejo B'
 
-backup:
-  title: Demo grabado
-  placeholder: 'VÍDEO: demo completo, grabado con anticipación'
-  note: Tecla B para llegar aquí desde cualquier diapositiva. Tecla V para volver.
+demo2:
+  title: Mismos pesos. Otra frase.
+  instr: agarra el frasco de zinc
+  lead: Lo único que cambió es la instrucción. No hay un if en ninguna parte.
+  placeholder: 'VÍDEO: demo con el frasco de zinc'
 
 thanks:
   questions: ¿Preguntas?
